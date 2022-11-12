@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../Utilities/utils.dart';
+import '../main.dart';
 import 'auth_page.dart';
 
 class SignUpWidget extends StatefulWidget {
@@ -68,6 +69,20 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     ? 'Enter at least 6 characters'
                     : null,
               ),
+              TextFormField(
+                  cursorColor: Colors.white,
+                  textInputAction: TextInputAction.done,
+                  decoration:
+                      const InputDecoration(labelText: "Repeat password"),
+                  obscureText: true,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (value != passwordController.text) {
+                      return 'Passwords must match';
+                    } else {
+                      return null;
+                    }
+                  }),
               const SizedBox(
                 height: 20,
               ),
@@ -111,13 +126,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
 
-    /*showDialog(
+    showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => Center(
-        child: CircularProgressIndicator(),
+        child: const CircularProgressIndicator(),
       ),
-    );*/
+    );
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text.trim(),
@@ -127,29 +142,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
       Utils.showSnackBar(e.message);
     }
-    //navigatorKey.currentState!.popUntil((route) => route.isFirst);
-  }
-}
-
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return const Center(
-              child: Text('Something went wrong!'),
-            );
-          } else if (snapshot.hasData) {
-            return RootScreen();
-          } else {
-            return const AuthPage();
-          }
-        });
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }

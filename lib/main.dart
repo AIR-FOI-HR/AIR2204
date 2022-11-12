@@ -1,5 +1,6 @@
 import 'dart:html';
 
+import 'package:expandable_attempt/screens/auth_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,11 +49,13 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Schedule test',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.deepPurple,
         ),
         routes: {
-          '/': (context) => const RootScreen(),
-          '/login': (context) => const LoginScreen(),
+          '/': (context) => const RootScreen(
+                guestLogin: false,
+              ),
+          '/login': (context) => const AuthPage(),
           '/schedule': (context) => const HomeScreen(
               title: 'Schedule Home Screen', color: Colors.purpleAccent),
           '/mySchedule': (context) => const MySchedule(

@@ -1,6 +1,9 @@
+import 'package:expandable_attempt/screens/root_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubits/cubit/saved_cubit.dart';
+import 'appbar_items.dart';
 import 'item_detail.dart';
 
 class MySchedule extends StatefulWidget {
@@ -25,15 +28,33 @@ class _MyScheduleState extends State<MySchedule> {
         backgroundColor: widget.color,
         title: const Text('Personal Schedule'),
         centerTitle: true,
+        actions: [
+          AppBarActions(),
+        ],
       ),
-      body: BlocBuilder<SavedCubit, SavedState>(
-        builder: (context, state) {
-          return ListView.builder(
-            itemCount: state.savedItems.length,
-            itemBuilder: (context, index) {
-              return _buildList(index, state);
-            },
-          );
+      body: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return BlocBuilder<SavedCubit, SavedState>(
+              builder: (context, state) {
+                return ListView.builder(
+                  itemCount: state.savedItems.length,
+                  itemBuilder: (context, index) {
+                    return _buildList(index, state);
+                  },
+                );
+              },
+            );
+          } else {
+            return SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: const Text(
+                'Please log in to view personal schedule',
+                textAlign: TextAlign.center,
+              ),
+            );
+          }
         },
       ),
     );

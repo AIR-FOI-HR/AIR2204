@@ -1,8 +1,9 @@
+import 'package:expandable_attempt/screens/home_screen.dart';
 import 'package:expandable_attempt/screens/root_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
+import 'package:expandable_attempt/main.dart';
 import '../Utilities/utils.dart';
 import 'auth_page.dart';
 import 'forgot_password_page.dart';
@@ -105,18 +106,35 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ],
               ),
             ),
+            //GUEST LOGIN BUTTON
+            GestureDetector(
+              child: Text(
+                'Guest login',
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  color: Theme.of(context).primaryColor,
+                  fontSize: 20,
+                ),
+              ),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => const RootScreen(
+                          guestLogin: true,
+                        )),
+              ),
+            ),
           ],
         ),
       );
 
   Future signIn() async {
-    /*showDialog(
+    showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => Center(
         child: CircularProgressIndicator(),
       ),
-    );*/
+    );
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
@@ -124,29 +142,6 @@ class _LoginWidgetState extends State<LoginWidget> {
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message);
     }
-    //navigatorKey.currentState!.popUntil((route) => route.isFirst);
-  }
-}
-
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return const Center(
-              child: Text('Something went wrong!'),
-            );
-          } else if (snapshot.hasData) {
-            return const RootScreen();
-          } else {
-            return const AuthPage();
-          }
-        });
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }

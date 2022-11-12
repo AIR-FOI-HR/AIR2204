@@ -1,3 +1,14 @@
-TODO: srediti navigaciju za login jer trenutno ide prek upisivanja rute (crasha se kad se login postavi na početnu u RootScreen)
-ne zaboraviti maknuti login iz navbaritems i iz navigation cubita po potrebi
+
 TODO: materialbutton ima longpress, to implementati
+
+TODO: trenutno rješenje za guest login:
+gumbić u loginscreenu koji RootScreen() klasi prosljeđuje guestLogin = true
+u tom slučaju rootscreen isto vraća bottomNavigation koji daje HomeScreen
+nakon toga je logika u appbaru napravljena da ak snapshot.HasData ispisuje korisnika i gumb za logout, ak ne onda daje samo gumb za login
+Ak ideš na MySchedule dok si loginan ko guest onda ti samo isto daje gumb za login umjesto bodya
+sljedeća stvar sa guest loginom:
+možda taj guestLogin parametar iskoristiti s cubitom koji ga onda pamti, i onda umjesto snapshot.hasData koji je dosta nestabilan koristiti taj state cubita za provjeru ak si logiran ko guest ili ne i na temelju toga napraviti logiku kaj se prikazuje
+Note za lakši refactor sa cubitom:
+guestLogin je trenutno korišten u RootScreenu, u loginScreenu na gumbu za guest login, u AppBarItems di se prikazuje gumb za login i u MySchedule za isto to
+
+TODO: CENTRIRATI NA MYSCHEDULE GUESTLOGIN TEXT

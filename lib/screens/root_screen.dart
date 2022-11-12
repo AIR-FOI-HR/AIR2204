@@ -1,14 +1,13 @@
-import 'package:expandable_attempt/screens/my_schedule.dart';
+import 'package:expandable_attempt/screens/auth_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../constants/nav_bar_items.dart';
-import '../cubits/cubit/navigation_cubit.dart';
-import 'home_screen.dart';
+import 'email_verification.dart';
+import 'navigation.dart';
 
 class RootScreen extends StatefulWidget {
-  const RootScreen({super.key});
-
+  //SKUŽI ILI KAK OVO RIJEŠITI PREK BOOLA
+  final bool guestLogin;
+  const RootScreen({super.key, required this.guestLogin});
   @override
   _RootScreenState createState() => _RootScreenState();
 }
@@ -16,63 +15,17 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BlocBuilder<NavigationCubit, NavigationState>(
-        builder: (context, state) {
-          return BottomNavigationBar(
-            currentIndex: state.index,
-            showUnselectedLabels: false,
-            // ignore: prefer_const_literals_to_create_immutables
-            items: [
-              const BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home,
-                ),
-                label: 'Schedule',
-              ),
-              const BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.person,
-                ),
-                label: 'Profile',
-              ),
-              const BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.schedule,
-                ),
-                label: 'My Schedule',
-              ),
-            ],
-            onTap: (index) {
-              if (index == 0) {
-                BlocProvider.of<NavigationCubit>(context)
-                    .getNavBarItem(NavbarItem.schedule);
-              } else if (index == 1) {
-                BlocProvider.of<NavigationCubit>(context)
-                    .getNavBarItem(NavbarItem.profile);
-              } else if (index == 2) {
-                BlocProvider.of<NavigationCubit>(context)
-                    .getNavBarItem(NavbarItem.mySchedule);
-              }
-            },
-          );
-        },
-      ),
-      body: BlocBuilder<NavigationCubit, NavigationState>(
-          builder: (context, state) {
-        if (state.navbarItem == NavbarItem.schedule) {
-          return const HomeScreen(
-              color: Colors.deepPurpleAccent, title: 'Schedule');
-        } else if (state.navbarItem == NavbarItem.profile) {
-          return const HomeScreen(
-              color: Colors.deepPurpleAccent, title: 'Schedule');
-        } else if (state.navbarItem == NavbarItem.mySchedule) {
-          return MySchedule(color: Colors.cyanAccent, title: 'Schedule');
-        } //else if (state.navbarItem == NavbarItem.login) {
-        //return LoginWidget();
-        // }
-        return Container();
-      }),
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return const EmailVerificationScreen();
+        } else if (widget.guestLogin == true) {
+          return const BottomNavigation();
+        } else {
+          return const AuthPage();
+        }
+      },
     );
   }
 }

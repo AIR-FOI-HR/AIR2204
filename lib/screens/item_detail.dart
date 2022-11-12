@@ -4,7 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubits/cubit/saved_cubit.dart';
 
 class ItemDetail extends StatefulWidget {
-  const ItemDetail({super.key, required this.title, required this.color, required this.scheduleItem});
+  const ItemDetail(
+      {super.key,
+      required this.title,
+      required this.color,
+      required this.scheduleItem});
 
   final ScheduleItem scheduleItem;
   final String title;
@@ -21,6 +25,9 @@ class _ItemDetailState extends State<ItemDetail> {
       appBar: AppBar(
         title: Text(widget.scheduleItem.title),
         centerTitle: true,
+        /*actions: [
+          const AppBarActions(),
+        ],*/
       ),
       body: Column(
         children: [
@@ -30,14 +37,18 @@ class _ItemDetailState extends State<ItemDetail> {
                 onPressed: () {
                   setState(() {
                     if (state.savedItems.contains(widget.scheduleItem)) {
-                      BlocProvider.of<SavedCubit>(context).removeFromSchedule(widget.scheduleItem);
+                      BlocProvider.of<SavedCubit>(context)
+                          .removeFromSchedule(widget.scheduleItem);
                     } else {
-                      BlocProvider.of<SavedCubit>(context).saveToSchedule(widget.scheduleItem);
+                      BlocProvider.of<SavedCubit>(context)
+                          .saveToSchedule(widget.scheduleItem);
                     }
                   });
                 },
                 child: Icon(
-                  state.savedItems.contains(widget.scheduleItem) ? Icons.remove : Icons.add,
+                  state.savedItems.contains(widget.scheduleItem)
+                      ? Icons.remove
+                      : Icons.add,
                   size: 20,
                 ),
               );

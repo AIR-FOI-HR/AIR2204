@@ -2,42 +2,10 @@ import 'package:expandable_attempt/cubits/cubit/saved_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../constants/schedule_item_category_model.dart';
 import '../data/models/schedule_item_model.dart';
+import 'appbar_items.dart';
 import 'item_detail.dart';
-
-class AppBarButtons extends StatefulWidget {
-  const AppBarButtons({super.key});
-
-  @override
-  State<AppBarButtons> createState() => _AppBarButtonsState();
-}
-
-class _AppBarButtonsState extends State<AppBarButtons> {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          height: 40,
-          width: 40,
-          child: MaterialButton(
-            onPressed: () => {
-              Navigator.of(context).pushNamed('/mySchedule').then(
-                    (_) => setState(() {}),
-                  )
-            },
-            child: const Icon(
-              Icons.directions_bike,
-              size: 20,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -73,25 +41,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: napraviti da se screen refresha dok se navigiraš pa onda netreba ova linija (možda neki cubit koji emita state svaki put kad promjeniš screen)
     return Scaffold(
       appBar: AppBar(
         backgroundColor: widget.color,
         title: Text(widget.title),
         centerTitle: true,
-        leading: const AppBarButtons(),
+        // leading: const AppBarButtons(),
+        // ignore: prefer_const_literals_to_create_immutables
         actions: [
-          const SizedBox(height: 40, width: 40),
-          const Text('User: '),
-          MaterialButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-            },
-            child: const Icon(
-              Icons.arrow_back,
-              size: 20,
-            ),
-          ),
+          AppBarActions(),
         ],
       ),
       body: BlocBuilder<SavedCubit, SavedState>(
