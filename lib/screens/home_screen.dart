@@ -1,5 +1,4 @@
 import 'package:expandable_attempt/cubits/cubit/saved_cubit.dart';
-import 'package:expandable_attempt/screens/my_schedule.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,19 +30,6 @@ class _AppBarButtonsState extends State<AppBarButtons> {
             },
             child: const Icon(
               Icons.directions_bike,
-              size: 20,
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 40,
-          width: 40,
-          child: MaterialButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-            },
-            child: Icon(
-              Icons.arrow_back,
               size: 20,
             ),
           ),
@@ -87,12 +73,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: napraviti da se screen refresha dok se navigiraš pa onda netreba ova linija (možda neki cubit koji emita state svaki put kad promjeniš screen)
+    // TODO: napraviti da se screen refresha dok se navigiraš pa onda netreba ova linija (možda neki cubit koji emita state svaki put kad promjeniš screen)
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: widget.color,
         title: Text(widget.title),
         centerTitle: true,
-        leading: AppBarButtons(),
+        leading: const AppBarButtons(),
+        actions: [
+          const SizedBox(height: 40, width: 40),
+          const Text('User: '),
+          MaterialButton(
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+            },
+            child: const Icon(
+              Icons.arrow_back,
+              size: 20,
+            ),
+          ),
+        ],
       ),
       body: BlocBuilder<SavedCubit, SavedState>(
         builder: (context, state) {
@@ -122,7 +122,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ItemDetail(
-                      title: 'Schedule Item Details', color: Colors.pinkAccent, scheduleItem: scheduleItems[index]),
+                      title: 'Schedule Item Details',
+                      color: Colors.pinkAccent,
+                      scheduleItem: scheduleItems[index]),
                 ),
               ),
             },
@@ -141,22 +143,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 () {
                   if (state.savedItems.contains(scheduleItems[index])) {
                     //saved.remove(scheduleItems[index]);
-                    BlocProvider.of<SavedCubit>(context).removeFromSchedule(scheduleItems[index]);
+                    BlocProvider.of<SavedCubit>(context)
+                        .removeFromSchedule(scheduleItems[index]);
                   } else {
                     //saved.add(scheduleItems[index]);
-                    BlocProvider.of<SavedCubit>(context).saveToSchedule(scheduleItems[index]);
+                    BlocProvider.of<SavedCubit>(context)
+                        .saveToSchedule(scheduleItems[index]);
                   }
                 },
               );
             },
             child: Icon(
-              state.savedItems.contains(scheduleItems[index]) ? Icons.remove : Icons.add,
+              state.savedItems.contains(scheduleItems[index])
+                  ? Icons.remove
+                  : Icons.add,
               size: 20,
             ),
           ),
         ),
         const SizedBox(width: 10),
-        Text(state.savedItems.contains(scheduleItems[index]) ? 'Remove from schedule' : 'Add to schedule'),
+        Text(state.savedItems.contains(scheduleItems[index])
+            ? 'Remove from schedule'
+            : 'Add to schedule'),
       ],
     );
   }

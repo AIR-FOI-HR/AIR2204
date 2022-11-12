@@ -22,6 +22,6 @@ class ScheduleItem extends Equatable {
       required this.category});
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [id, title, speaker, time, description, hall, category];
+  List<Object?> get props =>
+      [id, title, speaker, time, description, hall, category];
 }

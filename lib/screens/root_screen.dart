@@ -1,16 +1,14 @@
-import 'package:expandable_attempt/cubits/cubit/saved_cubit.dart';
-import 'package:expandable_attempt/screens/login_screen.dart';
 import 'package:expandable_attempt/screens/my_schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../constants/nav_bar_items.dart';
 import '../cubits/cubit/navigation_cubit.dart';
-import '../data/models/schedule_item_model.dart';
 import 'home_screen.dart';
-import 'item_detail.dart';
 
 class RootScreen extends StatefulWidget {
+  const RootScreen({super.key});
+
   @override
   _RootScreenState createState() => _RootScreenState();
 }
@@ -24,20 +22,21 @@ class _RootScreenState extends State<RootScreen> {
           return BottomNavigationBar(
             currentIndex: state.index,
             showUnselectedLabels: false,
+            // ignore: prefer_const_literals_to_create_immutables
             items: [
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Icon(
                   Icons.home,
                 ),
                 label: 'Schedule',
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Icon(
                   Icons.person,
                 ),
                 label: 'Profile',
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Icon(
                   Icons.schedule,
                 ),
@@ -46,22 +45,27 @@ class _RootScreenState extends State<RootScreen> {
             ],
             onTap: (index) {
               if (index == 0) {
-                BlocProvider.of<NavigationCubit>(context).getNavBarItem(NavbarItem.schedule);
+                BlocProvider.of<NavigationCubit>(context)
+                    .getNavBarItem(NavbarItem.schedule);
               } else if (index == 1) {
-                BlocProvider.of<NavigationCubit>(context).getNavBarItem(NavbarItem.profile);
+                BlocProvider.of<NavigationCubit>(context)
+                    .getNavBarItem(NavbarItem.profile);
               } else if (index == 2) {
-                BlocProvider.of<NavigationCubit>(context).getNavBarItem(NavbarItem.mySchedule);
+                BlocProvider.of<NavigationCubit>(context)
+                    .getNavBarItem(NavbarItem.mySchedule);
               }
             },
           );
         },
       ),
-      body: BlocBuilder<NavigationCubit, NavigationState>(builder: (context, state) {
+      body: BlocBuilder<NavigationCubit, NavigationState>(
+          builder: (context, state) {
         if (state.navbarItem == NavbarItem.schedule) {
-          return HomeScreen(color: Colors.deepPurpleAccent, title: 'Schedule');
+          return const HomeScreen(
+              color: Colors.deepPurpleAccent, title: 'Schedule');
         } else if (state.navbarItem == NavbarItem.profile) {
-          return HomeScreen(color: Colors.deepPurpleAccent, title: 'Schedule');
-          ;
+          return const HomeScreen(
+              color: Colors.deepPurpleAccent, title: 'Schedule');
         } else if (state.navbarItem == NavbarItem.mySchedule) {
           return MySchedule(color: Colors.cyanAccent, title: 'Schedule');
         } //else if (state.navbarItem == NavbarItem.login) {

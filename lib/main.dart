@@ -1,14 +1,18 @@
 import 'dart:html';
-import 'package:expandable_attempt/cubits/cubit/navigation_cubit.dart';
-import 'package:expandable_attempt/cubits/cubit/saved_cubit.dart';
-import 'package:expandable_attempt/screens/login_screen.dart';
-import 'package:expandable_attempt/screens/my_schedule.dart';
-import 'package:expandable_attempt/screens/home_screen.dart';
-import 'package:expandable_attempt/screens/root_screen.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'firebase_options.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:expandable_attempt/Utilities/utils.dart';
+import 'package:expandable_attempt/cubits/cubit/navigation_cubit.dart';
+import 'package:expandable_attempt/cubits/cubit/saved_cubit.dart';
+import 'package:expandable_attempt/screens/home_screen.dart';
+import 'package:expandable_attempt/screens/login_screen.dart';
+import 'package:expandable_attempt/screens/my_schedule.dart';
+import 'package:expandable_attempt/screens/root_screen.dart';
+
+import 'firebase_options.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +25,8 @@ Future main() async {
 /* void main() {
   runApp(const MyApp());
 } */
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -37,15 +43,19 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        scaffoldMessengerKey: Utils.messengerKey,
+        navigatorKey: navigatorKey,
+        debugShowCheckedModeBanner: false,
         title: 'Schedule test',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
         routes: {
-          '/': (context) => RootScreen(),
-          '/login': (context) => LoginScreen(),
-          '/schedule': (context) => const HomeScreen(title: 'Schedule Home Screen', color: Colors.purpleAccent),
-          '/mySchedule': (context) => MySchedule(
+          '/': (context) => const RootScreen(),
+          '/login': (context) => const LoginScreen(),
+          '/schedule': (context) => const HomeScreen(
+              title: 'Schedule Home Screen', color: Colors.purpleAccent),
+          '/mySchedule': (context) => const MySchedule(
                 title: 'Schedule Home Screen',
                 color: Colors.purpleAccent,
               ),

@@ -1,13 +1,18 @@
-import 'package:expandable_attempt/screens/home_screen.dart';
+import 'package:expandable_attempt/screens/root_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
+import '../Utilities/utils.dart';
+import 'auth_page.dart';
+import 'forgot_password_page.dart';
 
 class LoginWidget extends StatefulWidget {
+  final VoidCallback onClickedSignUp;
+
   const LoginWidget({
     Key? key,
+    required this.onClickedSignUp,
   }) : super(key: key);
   @override
   State<LoginWidget> createState() => _LoginWidgetState();
@@ -28,61 +33,75 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text('Login screen'),
+          title: const Text('Login screen'),
           centerTitle: true,
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             TextField(
               controller: emailController,
               cursorColor: Colors.white,
               textInputAction: TextInputAction.next,
-              decoration: InputDecoration(labelText: "Email"),
+              decoration: const InputDecoration(labelText: "Email"),
             ),
-            SizedBox(
+            const SizedBox(
               height: 4,
             ),
             TextField(
               controller: passwordController,
               cursorColor: Colors.white,
               textInputAction: TextInputAction.done,
-              decoration: InputDecoration(labelText: "Password"),
+              decoration: const InputDecoration(labelText: "Password"),
               obscureText: true,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             ElevatedButton.icon(
               onPressed: signIn,
-              icon: Icon(Icons.lock_open),
-              label: Text(
+              icon: const Icon(Icons.lock_open),
+              label: const Text(
                 "Sign in",
                 style: TextStyle(fontSize: 24),
               ),
             ),
+            GestureDetector(
+              child: Text(
+                'Forgot password?',
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  color: Theme.of(context).primaryColor,
+                  fontSize: 20,
+                ),
+              ),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const ForgotPasswordPage(),
+              )),
+            ),
 
             /// SIGN UP
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             RichText(
               text: TextSpan(
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 18,
                 ),
                 text: "No account? ",
                 children: [
-                  /*TextSpan(
+                  TextSpan(
                     text: "Sign up",
-                    recognizer: TapGestureRecognizer()..onTap = widget.onClickedSignUp,
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = widget.onClickedSignUp,
                     style: TextStyle(
                       decoration: TextDecoration.underline,
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                  ),*/
+                  ),
                 ],
               ),
             ),
@@ -91,19 +110,19 @@ class _LoginWidgetState extends State<LoginWidget> {
       );
 
   Future signIn() async {
-    showDialog(
+    /*showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => Center(
         child: CircularProgressIndicator(),
       ),
-    );
+    );*/
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: emailController.text.trim(), password: passwordController.text.trim());
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim());
     } on FirebaseAuthException catch (e) {
-      print(e);
-      // TODO
+      Utils.showSnackBar(e.message);
     }
     //navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
@@ -117,13 +136,16 @@ class LoginScreen extends StatelessWidget {
     return StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return const HomeScreen(
-              color: Colors.blueAccent,
-              title: 'Home screen',
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return const Center(
+              child: Text('Something went wrong!'),
             );
+          } else if (snapshot.hasData) {
+            return const RootScreen();
           } else {
-            return const LoginWidget();
+            return const AuthPage();
           }
         });
   }
