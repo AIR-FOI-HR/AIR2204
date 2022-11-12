@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../constants/schedule_item_category_model.dart';
+import '../cubits/cubit/auth_cubit.dart';
 import '../data/models/schedule_item_model.dart';
 import 'appbar_items.dart';
 import 'item_detail.dart';
@@ -92,37 +93,50 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(width: 10),
         const Text('More'),
         //Text(alreadySaved ? "saved" : "not saved"),
-        SizedBox(
-          width: 40,
-          child: MaterialButton(
-            //onPressed: () => {Navigator.of(context).pushNamed('/mySchedule')},
-            onPressed: () {
-              setState(
-                () {
-                  if (state.savedItems.contains(scheduleItems[index])) {
-                    //saved.remove(scheduleItems[index]);
-                    BlocProvider.of<SavedCubit>(context)
-                        .removeFromSchedule(scheduleItems[index]);
-                  } else {
-                    //saved.add(scheduleItems[index]);
-                    BlocProvider.of<SavedCubit>(context)
-                        .saveToSchedule(scheduleItems[index]);
-                  }
-                },
+        BlocBuilder<AuthCubit, AuthState>(
+          builder: (context, authState) {
+            if (authState.guestLogin == false) {
+              return Column(
+                children: [
+                  SizedBox(
+                    width: 40,
+                    child: MaterialButton(
+                      //onPressed: () => {Navigator.of(context).pushNamed('/mySchedule')},
+                      onPressed: () {
+                        setState(
+                          () {
+                            if (state.savedItems
+                                .contains(scheduleItems[index])) {
+                              //saved.remove(scheduleItems[index]);
+                              BlocProvider.of<SavedCubit>(context)
+                                  .removeFromSchedule(scheduleItems[index]);
+                            } else {
+                              //saved.add(scheduleItems[index]);
+                              BlocProvider.of<SavedCubit>(context)
+                                  .saveToSchedule(scheduleItems[index]);
+                            }
+                          },
+                        );
+                      },
+                      child: Icon(
+                        state.savedItems.contains(scheduleItems[index])
+                            ? Icons.remove
+                            : Icons.add,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(state.savedItems.contains(scheduleItems[index])
+                      ? 'Remove from schedule'
+                      : 'Add to schedule'),
+                ],
               );
-            },
-            child: Icon(
-              state.savedItems.contains(scheduleItems[index])
-                  ? Icons.remove
-                  : Icons.add,
-              size: 20,
-            ),
-          ),
+            } else {
+              return Container();
+            }
+          },
         ),
-        const SizedBox(width: 10),
-        Text(state.savedItems.contains(scheduleItems[index])
-            ? 'Remove from schedule'
-            : 'Add to schedule'),
       ],
     );
   }

@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:expandable_attempt/screens/root_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../Utilities/utils.dart';
+import '../cubits/cubit/auth_cubit.dart';
 
 class AppBarButtons extends StatefulWidget {
   const AppBarButtons({super.key});
@@ -65,9 +67,9 @@ class AppBarActions extends StatelessWidget {
         } else {
           return MaterialButton(
             onPressed: () {
+              BlocProvider.of<AuthCubit>(context).guestLoginToggle();
               Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) => const RootScreen(guestLogin: false)),
+                MaterialPageRoute(builder: (context) => const RootScreen()),
               );
             },
             child: const Icon(
@@ -79,9 +81,9 @@ class AppBarActions extends StatelessWidget {
       },
     );
   }
-}
 
-void logOut() {
-  Utils.showSnackBar('Logged Out');
-  FirebaseAuth.instance.signOut();
+  void logOut() {
+    Utils.showSnackBar('Logged Out');
+    FirebaseAuth.instance.signOut();
+  }
 }

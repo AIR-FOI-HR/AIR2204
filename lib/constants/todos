@@ -12,3 +12,5 @@ Note za lakši refactor sa cubitom:
 guestLogin je trenutno korišten u RootScreenu, u loginScreenu na gumbu za guest login, u AppBarItems di se prikazuje gumb za login i u MySchedule za isto to
 
 TODO: CENTRIRATI NA MYSCHEDULE GUESTLOGIN TEXT
+
+TODO: Test gita

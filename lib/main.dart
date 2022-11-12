@@ -13,6 +13,7 @@ import 'package:expandable_attempt/screens/login_screen.dart';
 import 'package:expandable_attempt/screens/my_schedule.dart';
 import 'package:expandable_attempt/screens/root_screen.dart';
 
+import 'cubits/cubit/auth_cubit.dart';
 import 'firebase_options.dart';
 
 Future main() async {
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<NavigationCubit>(
           create: (context) => NavigationCubit(),
         ),
+        BlocProvider<AuthCubit>(
+          create: (context) => AuthCubit(),
+        ),
       ],
       child: MaterialApp(
         scaffoldMessengerKey: Utils.messengerKey,
@@ -52,9 +56,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.deepPurple,
         ),
         routes: {
-          '/': (context) => const RootScreen(
-                guestLogin: false,
-              ),
+          '/': (context) => const RootScreen(),
           '/login': (context) => const AuthPage(),
           '/schedule': (context) => const HomeScreen(
               title: 'Schedule Home Screen', color: Colors.purpleAccent),

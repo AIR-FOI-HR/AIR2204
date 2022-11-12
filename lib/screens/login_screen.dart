@@ -4,7 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable_attempt/main.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../Utilities/utils.dart';
+import '../cubits/cubit/auth_cubit.dart';
 import 'auth_page.dart';
 import 'forgot_password_page.dart';
 
@@ -116,12 +118,14 @@ class _LoginWidgetState extends State<LoginWidget> {
                   fontSize: 20,
                 ),
               ),
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) => const RootScreen(
-                          guestLogin: true,
-                        )),
-              ),
+              onTap: () {
+                BlocProvider.of<AuthCubit>(context).guestLoginToggle();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const RootScreen(),
+                  ),
+                );
+              },
             ),
           ],
         ),
