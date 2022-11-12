@@ -1,11 +1,8 @@
 import 'dart:async';
 
 import 'package:expandable_attempt/screens/navigation.dart';
-import 'package:expandable_attempt/screens/root_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import '../Utilities/utils.dart';
 

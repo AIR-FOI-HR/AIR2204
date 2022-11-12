@@ -4,12 +4,10 @@ import 'package:expandable_attempt/screens/auth_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:expandable_attempt/Utilities/utils.dart';
 import 'package:expandable_attempt/cubits/cubit/navigation_cubit.dart';
 import 'package:expandable_attempt/cubits/cubit/saved_cubit.dart';
 import 'package:expandable_attempt/screens/home_screen.dart';
-import 'package:expandable_attempt/screens/login_screen.dart';
 import 'package:expandable_attempt/screens/my_schedule.dart';
 import 'package:expandable_attempt/screens/root_screen.dart';
 

@@ -1,4 +1,4 @@
-import 'package:expandable_attempt/data/models/schedule_item_model.dart';
+import 'package:expandable_attempt/data/models/schedule_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubits/cubit/auth_cubit.dart';

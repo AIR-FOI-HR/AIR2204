@@ -9,10 +9,10 @@ import 'navigation.dart';
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
   @override
-  _RootScreenState createState() => _RootScreenState();
+  RootScreenState createState() => RootScreenState();
 }
 
-class _RootScreenState extends State<RootScreen> {
+class RootScreenState extends State<RootScreen> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(

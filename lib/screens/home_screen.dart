@@ -1,10 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expandable_attempt/cubits/cubit/saved_cubit.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../constants/schedule_item_category_model.dart';
 import '../cubits/cubit/auth_cubit.dart';
-import '../data/models/schedule_item_model.dart';
+import '../data/models/schedule_item.dart';
 import 'appbar_items.dart';
 import 'item_detail.dart';
 
@@ -23,22 +22,23 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final scheduleItems = List.generate(
-    10,
-    (index) => ScheduleItem(
-        id: '$index',
-        title: 'Schedule item $index',
-        speaker: 'Daria Komić',
-        date: '20/03/20222',
-        time: '14:00-14:45',
-        description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut',
-        hall: 'B site',
-        category: ScheduleItemCategory.tech),
-  );
+  Stream<List<ScheduleItem>> readScheduleItems() {
+    return FirebaseFirestore.instance
+        .collection('scheduleItems')
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => ScheduleItem.fromJson(doc.data()))
+            .toList());
+  }
 
-  //možda netreba
-  List<ScheduleItem> savedItems = [];
+  // final CollectionReference scheduleItemsCollection =
+  //   FirebaseFirestore.instance.collection('scheduleItems');
+
+  /*
+  await scheduleItems.add({"category": category, "date" : date});
+  await scheduleItems.update({"category": category, "date" : date});
+  await scheduleItems.doc(scheduleItemId).delete();
+  */
 
   @override
   Widget build(BuildContext context) {
@@ -50,28 +50,41 @@ class _HomeScreenState extends State<HomeScreen> {
         // leading: const AppBarButtons(),
         // ignore: prefer_const_literals_to_create_immutables
         actions: [
-          AppBarActions(),
+          const AppBarActions(),
         ],
       ),
-      body: BlocBuilder<SavedCubit, SavedState>(
-        builder: (context, state) {
-          return ListView.builder(
-            //body nam je lista koja ima itema onolko kolko ima lista Quotes, i item builder
-            //je widget _buildList koji prima quote na svakom indexu
-            itemCount: scheduleItems.length,
-            itemBuilder: (context, index) {
-              return _buildList(index, state);
-            },
-          );
+      body: StreamBuilder<List<ScheduleItem>>(
+        stream: readScheduleItems(),
+        builder: (context, scheduleItemsSnapshot) {
+          if (scheduleItemsSnapshot.hasData) {
+            return BlocBuilder<SavedCubit, SavedState>(
+              builder: (context, state) {
+                return ListView.builder(
+                  //body nam je lista koja ima itema onolko kolko ima lista Quotes, i item builder
+                  //je widget _buildList koji prima quote na svakom indexu
+                  itemCount:
+                      scheduleItemsSnapshot.data!.length, //number of rows
+                  itemBuilder: (context, index) {
+                    final scheduleItem = scheduleItemsSnapshot.data![index];
+                    return _buildList(scheduleItem, state);
+                  },
+                );
+              },
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
         },
       ),
     );
   }
 
-  Widget _buildList(int index, SavedState state) {
+  Widget _buildList(ScheduleItem scheduleItem, SavedState state) {
     return ExpansionTile(
-      title: Text(scheduleItems[index].time),
-      subtitle: Text(scheduleItems[index].title),
+      title: Text(scheduleItem.time),
+      subtitle: Text(scheduleItem.title),
       children: [
         SizedBox(
           width: 40,
@@ -83,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   builder: (context) => ItemDetail(
                       title: 'Schedule Item Details',
                       color: Colors.pinkAccent,
-                      scheduleItem: scheduleItems[index]),
+                      scheduleItem: scheduleItem),
                 ),
               ),
             },
@@ -105,21 +118,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () {
                         setState(
                           () {
-                            if (state.savedItems
-                                .contains(scheduleItems[index])) {
+                            if (state.savedItems.contains(scheduleItem)) {
                               //saved.remove(scheduleItems[index]);
                               BlocProvider.of<SavedCubit>(context)
-                                  .removeFromSchedule(scheduleItems[index]);
+                                  .removeFromSchedule(scheduleItem);
                             } else {
                               //saved.add(scheduleItems[index]);
                               BlocProvider.of<SavedCubit>(context)
-                                  .saveToSchedule(scheduleItems[index]);
+                                  .saveToSchedule(scheduleItem);
                             }
                           },
                         );
                       },
                       child: Icon(
-                        state.savedItems.contains(scheduleItems[index])
+                        state.savedItems.contains(scheduleItem)
                             ? Icons.remove
                             : Icons.add,
                         size: 20,
@@ -127,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  Text(state.savedItems.contains(scheduleItems[index])
+                  Text(state.savedItems.contains(scheduleItem)
                       ? 'Remove from schedule'
                       : 'Add to schedule'),
                 ],

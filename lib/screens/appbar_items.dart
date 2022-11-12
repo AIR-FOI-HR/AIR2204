@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:expandable_attempt/screens/root_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +39,7 @@ class _AppBarButtonsState extends State<AppBarButtons> {
 }
 
 class AppBarActions extends StatelessWidget {
-  AppBarActions({super.key});
+  const AppBarActions({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +47,10 @@ class AppBarActions extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          final user = FirebaseAuth.instance.currentUser!.email;
+          //final user = FirebaseAuth.instance.currentUser!.email;
           return Row(
             children: [
-              Text('User: $user'),
+              //Text('User: $user'),
               MaterialButton(
                 onPressed: () {
                   logOut();

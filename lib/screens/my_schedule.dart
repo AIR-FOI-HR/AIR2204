@@ -1,5 +1,4 @@
-import 'package:expandable_attempt/screens/root_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:expandable_attempt/data/models/schedule_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubits/cubit/auth_cubit.dart';
@@ -29,8 +28,9 @@ class _MyScheduleState extends State<MySchedule> {
         backgroundColor: widget.color,
         title: const Text('Personal Schedule'),
         centerTitle: true,
+        // ignore: prefer_const_literals_to_create_immutables
         actions: [
-          AppBarActions(),
+          const AppBarActions(),
         ],
       ),
       body: BlocBuilder<AuthCubit, AuthState>(
@@ -41,7 +41,7 @@ class _MyScheduleState extends State<MySchedule> {
                 return ListView.builder(
                   itemCount: state.savedItems.length,
                   itemBuilder: (context, index) {
-                    return _buildList(index, state);
+                    return _buildList(state.savedItems[index]);
                   },
                 );
               },
@@ -60,10 +60,10 @@ class _MyScheduleState extends State<MySchedule> {
     );
   }
 
-  Widget _buildList(int index, SavedState state) {
+  Widget _buildList(ScheduleItem savedItem) {
     return ExpansionTile(
-      title: Text(state.savedItems[index].time),
-      subtitle: Text(state.savedItems[index].title),
+      title: Text(savedItem.time),
+      subtitle: Text(savedItem.title),
       children: [
         SizedBox(
           width: 40,
@@ -75,7 +75,7 @@ class _MyScheduleState extends State<MySchedule> {
                   builder: (context) => ItemDetail(
                       title: 'Schedule Item Details',
                       color: Colors.pinkAccent,
-                      scheduleItem: state.savedItems[index]),
+                      scheduleItem: savedItem),
                 ),
               ),
             },
@@ -90,7 +90,7 @@ class _MyScheduleState extends State<MySchedule> {
             onPressed: () {
               setState(() {
                 BlocProvider.of<SavedCubit>(context)
-                    .removeFromSchedule(state.savedItems[index]);
+                    .removeFromSchedule(savedItem);
               });
             },
             child: const Icon(Icons.remove, size: 20),

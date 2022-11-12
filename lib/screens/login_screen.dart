@@ -1,4 +1,3 @@
-import 'package:expandable_attempt/screens/home_screen.dart';
 import 'package:expandable_attempt/screens/root_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -7,7 +6,6 @@ import 'package:expandable_attempt/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../Utilities/utils.dart';
 import '../cubits/cubit/auth_cubit.dart';
-import 'auth_page.dart';
 import 'forgot_password_page.dart';
 
 class LoginWidget extends StatefulWidget {
@@ -36,7 +34,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text('Login screen'),
+          title: const Text('Login'),
           centerTitle: true,
         ),
         body: Column(
@@ -135,7 +133,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => Center(
+      builder: (context) => const Center(
         child: CircularProgressIndicator(),
       ),
     );

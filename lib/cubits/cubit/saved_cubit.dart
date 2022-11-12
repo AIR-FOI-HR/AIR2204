@@ -1,7 +1,7 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
-import '../../data/models/schedule_item_model.dart';
+import 'package:expandable_attempt/data/models/schedule_item.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 part 'saved_state.dart';
 
 class SavedCubit extends Cubit<SavedState> {

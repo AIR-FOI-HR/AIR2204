@@ -1,12 +1,10 @@
 import 'package:email_validator/email_validator.dart';
-import 'package:expandable_attempt/screens/root_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../Utilities/utils.dart';
 import '../main.dart';
-import 'auth_page.dart';
 
 class SignUpWidget extends StatefulWidget {
   final VoidCallback onClickedSignIn;
@@ -35,7 +33,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text('Sign up screen'),
+          title: const Text('Sign up'),
           centerTitle: true,
         ),
         body: Form(
@@ -129,8 +127,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => Center(
-        child: const CircularProgressIndicator(),
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
       ),
     );
     try {
@@ -138,8 +136,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
           email: emailController.text.trim(),
           password: passwordController.text.trim());
     } on FirebaseAuthException catch (e) {
-      print(e);
-
       Utils.showSnackBar(e.message);
     }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
