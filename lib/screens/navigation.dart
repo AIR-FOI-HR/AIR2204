@@ -1,3 +1,4 @@
+import 'package:expandable_attempt/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../constants/nav_bar_items.dart';
@@ -61,10 +62,13 @@ class _BottomNavigationState extends State<BottomNavigation> {
         builder: (context, state) {
           if (state.navbarItem == NavbarItem.schedule) {
             return const HomeScreen(
-                color: Colors.deepPurpleAccent, title: 'Schedule');
+              color: Colors.deepPurpleAccent,
+              title: 'Schedule',
+              //category: ScheduleItemCategory.tech,
+            );
           } else if (state.navbarItem == NavbarItem.profile) {
-            return const HomeScreen(
-                color: Colors.deepPurpleAccent, title: 'Schedule');
+            return const ProfileScreen(
+                color: Colors.deepPurpleAccent, title: 'My Profile');
           } else if (state.navbarItem == NavbarItem.mySchedule) {
             return const MySchedule(
                 color: Colors.deepPurpleAccent, title: 'Schedule');

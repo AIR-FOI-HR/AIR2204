@@ -62,6 +62,7 @@ class _MyScheduleState extends State<MySchedule> {
 
   Widget _buildList(ScheduleItem savedItem) {
     return ExpansionTile(
+      leading: buildCategoryIcon(savedItem),
       title: Text(savedItem.time),
       subtitle: Text(savedItem.title),
       children: [

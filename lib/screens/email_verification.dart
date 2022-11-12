@@ -16,8 +16,8 @@ class EmailVerificationScreen extends StatefulWidget {
 
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   bool isEmailVerified = false;
-  Timer? timer;
   bool canResendEmail = false;
+  Timer? timer;
 
   @override
   void initState() {
@@ -26,8 +26,11 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
     if (!isEmailVerified) {
       sendVerificationEmail();
+
       timer = Timer.periodic(
-          const Duration(seconds: 3), (_) => checkEmailVerified());
+        const Duration(seconds: 3),
+        (_) => checkEmailVerified(),
+      );
     }
   }
 
@@ -53,15 +56,14 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     try {
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
-      /* setState(() {
-        canResendEmail = false;
-      });
+      setState(() => canResendEmail = false);
       await Future.delayed(const Duration(seconds: 5));
-      setState(() {
-        canResendEmail = true;
-      });*/
+      setState(() => canResendEmail = true);
     } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(e.message);
+      e.code == 'too-many-requests'
+          ? Utils.showSnackBar(
+              'You pressed the button too many times. Try again later.')
+          : Utils.showSnackBar(e.message);
     }
   }
 
@@ -83,7 +85,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               const Text('A verification email has been sent',
                   style: TextStyle(fontSize: 20), textAlign: TextAlign.center),
               const SizedBox(height: 24),
-              /*ElevatedButton.icon(
+              ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size.fromHeight(50),
                 ),
@@ -93,11 +95,9 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   style: TextStyle(fontSize: 24),
                 ),
                 onPressed: () {
-                  if (canResendEmail) {
-                    sendVerificationEmail();
-                  }
+                  canResendEmail ? sendVerificationEmail : null;
                 },
-              ),*/
+              ),
               TextButton(
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size.fromHeight(50),

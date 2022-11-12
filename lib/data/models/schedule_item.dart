@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:expandable_attempt/constants/schedule_item_category_model.dart';
 
 class ScheduleItem extends Equatable {
   final String title;
@@ -7,7 +8,7 @@ class ScheduleItem extends Equatable {
   final String time;
   final String description;
   final String hall;
-  final String category;
+  final ScheduleItemCategory category;
 
   const ScheduleItem(
       {required this.title,
@@ -20,13 +21,14 @@ class ScheduleItem extends Equatable {
 
   static ScheduleItem fromJson(Map<String, dynamic> json) {
     return ScheduleItem(
-        title: json['title'],
-        speaker: json['speaker'],
-        date: json['dateAsString'],
-        time: json['timeAsString'],
-        description: json['description'],
-        hall: json['hall'],
-        category: json['category']);
+      title: json['title'],
+      speaker: json['speaker'],
+      date: json['dateAsString'],
+      time: json['timeAsString'],
+      description: json['description'],
+      hall: json['hall'],
+      category: ScheduleItemCategoryX.fromString(json['category']),
+    );
   }
 
   @override

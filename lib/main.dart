@@ -1,14 +1,9 @@
-import 'dart:html';
-
-import 'package:expandable_attempt/screens/auth_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:expandable_attempt/Utilities/utils.dart';
 import 'package:expandable_attempt/cubits/cubit/navigation_cubit.dart';
 import 'package:expandable_attempt/cubits/cubit/saved_cubit.dart';
-import 'package:expandable_attempt/screens/home_screen.dart';
-import 'package:expandable_attempt/screens/my_schedule.dart';
 import 'package:expandable_attempt/screens/root_screen.dart';
 
 import 'cubits/cubit/auth_cubit.dart';
@@ -52,17 +47,30 @@ class MyApp extends StatelessWidget {
         title: 'Schedule test',
         theme: ThemeData(
           primarySwatch: Colors.deepPurple,
+          // colorScheme: const ColorScheme(
+          //     brightness: Brightness.light,
+          //     primary: Color(0xFF040306),
+          //     onPrimary: Colors.white,
+          //     secondary: Color(0xFF040306),
+          //     onSecondary: Color(0xFF040306),
+          //     error: Color(0xFF040306),
+          //     onError: Color(0xFF040306),
+          //     background: Color(0xFF040306),
+          //     onBackground: Color(0xFF040306),
+          //     surface: Color(0xFF040306),
+          //     onSurface: Color(0xFF040306)),
         ),
-        routes: {
+        home: const RootScreen(),
+        /*routes: {
           '/': (context) => const RootScreen(),
           '/login': (context) => const AuthPage(),
           '/schedule': (context) => const HomeScreen(
-              title: 'Schedule Home Screen', color: Colors.purpleAccent),
+              title: 'Schedule Home Screen', color: Colors.purpleAccent, category: ,),
           '/mySchedule': (context) => const MySchedule(
                 title: 'Schedule Home Screen',
                 color: Colors.purpleAccent,
               ),
-        },
+        },*/
       ),
     );
   }

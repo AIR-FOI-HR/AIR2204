@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../Utilities/utils.dart';
+import '../data/models/users.dart';
 import '../main.dart';
 
 class SignUpWidget extends StatefulWidget {
@@ -21,6 +23,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final phoneNumberController = TextEditingController();
+  final companyUrlController = TextEditingController();
 
   @override
   void dispose() {
@@ -68,19 +74,43 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     : null,
               ),
               TextFormField(
-                  cursorColor: Colors.white,
-                  textInputAction: TextInputAction.done,
-                  decoration:
-                      const InputDecoration(labelText: "Repeat password"),
-                  obscureText: true,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) {
-                    if (value != passwordController.text) {
-                      return 'Passwords must match';
-                    } else {
-                      return null;
-                    }
-                  }),
+                cursorColor: Colors.white,
+                textInputAction: TextInputAction.done,
+                decoration: const InputDecoration(labelText: "Repeat password"),
+                obscureText: true,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) {
+                  if (value != passwordController.text) {
+                    return 'Passwords must match';
+                  } else {
+                    return null;
+                  }
+                },
+              ),
+              TextFormField(
+                controller: firstNameController,
+                cursorColor: Colors.white,
+                textInputAction: TextInputAction.next,
+                decoration: const InputDecoration(labelText: "First Name"),
+              ),
+              TextFormField(
+                controller: lastNameController,
+                cursorColor: Colors.white,
+                textInputAction: TextInputAction.next,
+                decoration: const InputDecoration(labelText: "Last Name"),
+              ),
+              TextFormField(
+                controller: phoneNumberController,
+                cursorColor: Colors.white,
+                textInputAction: TextInputAction.next,
+                decoration: const InputDecoration(labelText: "Phone Number"),
+              ),
+              TextFormField(
+                controller: companyUrlController,
+                cursorColor: Colors.white,
+                textInputAction: TextInputAction.next,
+                decoration: const InputDecoration(labelText: "Company Url"),
+              ),
               const SizedBox(
                 height: 20,
               ),
@@ -131,10 +161,25 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         child: CircularProgressIndicator(),
       ),
     );
+
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
+
+      //putting user info into a firestore
+      final user = AppUser(
+        email: emailController.text,
+        firstName: firstNameController.text,
+        lastName: lastNameController.text,
+        phoneNumber: phoneNumberController.text,
+        companyUrl: companyUrlController.text,
+      );
+      final json = user.toJson();
+      final docUser = FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid);
+      await docUser.set(json);
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message);
     }

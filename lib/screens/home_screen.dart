@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expandable_attempt/constants/schedule_item_category_model.dart';
 import 'package:expandable_attempt/cubits/cubit/saved_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,10 +13,12 @@ class HomeScreen extends StatefulWidget {
     super.key,
     required this.title,
     required this.color,
+    //required this.category,
   });
 
   final String title;
   final MaterialAccentColor color;
+  //final ScheduleItemCategory category;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -23,22 +26,31 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Stream<List<ScheduleItem>> readScheduleItems() {
+    if (category == ScheduleItemCategory.all) {
+      return FirebaseFirestore.instance
+          .collection('scheduleItems')
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => ScheduleItem.fromJson(doc.data()))
+              .toList());
+    }
     return FirebaseFirestore.instance
         .collection('scheduleItems')
+        //enumi imaju .name parametar kad ih treba koristiti ovak
+        .where('category', isEqualTo: category.name)
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => ScheduleItem.fromJson(doc.data()))
             .toList());
   }
 
-  // final CollectionReference scheduleItemsCollection =
-  //   FirebaseFirestore.instance.collection('scheduleItems');
+  ScheduleItemCategory category = ScheduleItemCategory.all;
 
-  /*
-  await scheduleItems.add({"category": category, "date" : date});
-  await scheduleItems.update({"category": category, "date" : date});
-  await scheduleItems.doc(scheduleItemId).delete();
-  */
+  void onPressed(ScheduleItemCategory category) {
+    setState(() {
+      this.category = category;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,15 +71,43 @@ class _HomeScreenState extends State<HomeScreen> {
           if (scheduleItemsSnapshot.hasData) {
             return BlocBuilder<SavedCubit, SavedState>(
               builder: (context, state) {
-                return ListView.builder(
-                  //body nam je lista koja ima itema onolko kolko ima lista Quotes, i item builder
-                  //je widget _buildList koji prima quote na svakom indexu
-                  itemCount:
-                      scheduleItemsSnapshot.data!.length, //number of rows
-                  itemBuilder: (context, index) {
-                    final scheduleItem = scheduleItemsSnapshot.data![index];
-                    return _buildList(scheduleItem, state);
-                  },
+                return Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CategoryButton(
+                            color: Colors.red,
+                            onPressed: () =>
+                                onPressed(ScheduleItemCategory.tech)),
+                        CategoryButton(
+                            color: Colors.grey,
+                            onPressed: () =>
+                                onPressed(ScheduleItemCategory.lead)),
+                        CategoryButton(
+                            color: Colors.blue,
+                            onPressed: () =>
+                                onPressed(ScheduleItemCategory.ops)),
+                        CategoryButton(
+                            color: Colors.green,
+                            onPressed: () =>
+                                onPressed(ScheduleItemCategory.all))
+                      ],
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        //body nam je lista koja ima itema onolko kolko ima lista Quotes, i item builder
+                        //je widget _buildList koji prima quote na svakom indexu
+                        itemCount:
+                            scheduleItemsSnapshot.data!.length, //number of rows
+                        itemBuilder: (context, index) {
+                          final scheduleItem =
+                              scheduleItemsSnapshot.data![index];
+                          return _buildList(scheduleItem, state);
+                        },
+                      ),
+                    ),
+                  ],
                 );
               },
             );
@@ -83,6 +123,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildList(ScheduleItem scheduleItem, SavedState state) {
     return ExpansionTile(
+      //backgroundColor: Theme.of(context).colorScheme.background,
+      leading: buildCategoryIcon(scheduleItem),
+      //trailing: CircleAvatar(backgroundColor: (Colors.red)),
       title: Text(scheduleItem.time),
       subtitle: Text(scheduleItem.title),
       children: [
