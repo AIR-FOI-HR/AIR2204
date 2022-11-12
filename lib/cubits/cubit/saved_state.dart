@@ -1,10 +1,14 @@
 part of 'saved_cubit.dart';
 
 @immutable
-class SavedState {
-  List<Schedule> savedItems;
+class SavedState extends Equatable {
+  final List<ScheduleItem> savedItems;
 
-  SavedState({
+  const SavedState({
     required this.savedItems,
   });
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [savedItems];
 }

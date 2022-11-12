@@ -19,35 +19,30 @@ class MySchedule extends StatefulWidget {
 }
 
 class _MyScheduleState extends State<MySchedule> {
-  List<Schedule> savedItems = [];
-
   @override
   Widget build(BuildContext context) {
-    savedItems = BlocProvider.of<SavedCubit>(context).state.savedItems;
-
-    return BlocListener<SavedCubit, SavedState>(
-      listener: (context, state) {
-        savedItems = state.savedItems;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Personal Schedule'),
-          centerTitle: true,
-        ),
-        body: ListView.builder(
-          itemCount: savedItems.length,
-          itemBuilder: (context, index) {
-            return _buildList(index);
-          },
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Personal Schedule'),
+        centerTitle: true,
+      ),
+      body: BlocBuilder<SavedCubit, SavedState>(
+        builder: (context, state) {
+          return ListView.builder(
+            itemCount: state.savedItems.length,
+            itemBuilder: (context, index) {
+              return _buildList(index, state);
+            },
+          );
+        },
       ),
     );
   }
 
-  Widget _buildList(index) {
+  Widget _buildList(int index, SavedState state) {
     return ExpansionTile(
-      title: Text(savedItems[index].time),
-      subtitle: Text(savedItems[index].title),
+      title: Text(state.savedItems[index].time),
+      subtitle: Text(state.savedItems[index].title),
       children: [
         SizedBox(
           width: 40,
@@ -57,9 +52,7 @@ class _MyScheduleState extends State<MySchedule> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ItemDetail(
-                      title: 'Schedule Item Details',
-                      color: Colors.pinkAccent,
-                      scheduleItem: savedItems[index]),
+                      title: 'Schedule Item Details', color: Colors.pinkAccent, scheduleItem: state.savedItems[index]),
                 ),
               ),
             },
@@ -73,8 +66,7 @@ class _MyScheduleState extends State<MySchedule> {
           child: MaterialButton(
             onPressed: () {
               setState(() {
-                BlocProvider.of<SavedCubit>(context)
-                    .removeFromSchedule(savedItems[index]);
+                BlocProvider.of<SavedCubit>(context).removeFromSchedule(state.savedItems[index]);
               });
             },
             child: const Icon(Icons.remove, size: 20),

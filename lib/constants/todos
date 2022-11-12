@@ -1,0 +1,3 @@
+TODO: srediti navigaciju za login jer trenutno ide prek upisivanja rute (crasha se kad se login postavi na početnu u RootScreen)
+ne zaboraviti maknuti login iz navbaritems i iz navigation cubita po potrebi
+TODO: materialbutton ima longpress, to implementati

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "797969937440",
+    "firebase_url": "https://air-2204-test-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "air-2204-test",
+    "storage_bucket": "air-2204-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:797969937440:android:956f2eedb486488b2ff845",
+        "android_client_info": {
+          "package_name": "com.example.expandable_attempt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "797969937440-jdub7fortr7765jlaric561qda5olbn1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPxJ69Kf8wcZTX5CZ-25T9OfVghWVfSP0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "797969937440-jdub7fortr7765jlaric561qda5olbn1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
