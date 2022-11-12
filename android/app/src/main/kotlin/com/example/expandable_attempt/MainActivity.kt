@@ -1,4 +1,4 @@
-package com.deep.conference.deep_conference
+package com.example.expandable_attempt
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,5 +1,5 @@
-name: deep_conference
-description: A mobile app for Deep conferences
+name: expandable_attempt
+description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -40,6 +40,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_bloc: ^8.1.1
+  equatable: ^2.0.5
+  test: ^1.15.2
+  bloc_test: ^9.1.0
+  connectivity_plus: ^3.0.2
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
