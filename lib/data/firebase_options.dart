@@ -70,7 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '35499122175',
     projectId: 'air-2204',
     storageBucket: 'air-2204.appspot.com',
-    iosClientId: '35499122175-uladmafqni4f27qok0q0bncaer2rte5t.apps.googleusercontent.com',
+    iosClientId:
+        '35499122175-uladmafqni4f27qok0q0bncaer2rte5t.apps.googleusercontent.com',
     iosBundleId: 'com.deep.conference.deepConference',
   );
 }

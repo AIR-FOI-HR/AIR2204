@@ -1,7 +1,9 @@
-import 'package:deep_conference/schedule_screen.dart';
+import 'package:deep_conference/application/presentation/schedule_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'firebase_options.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'application/logic/schedule_cubit.dart';
+import 'data/firebase_options.dart';
 
 //na ovaj način se aplikacija povezuje na firebase
 Future main() async {
@@ -17,12 +19,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ScheduleCubit>(create: (context) => ScheduleCubit())
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const MyHomePage(title: 'Deep Conference App'),
       ),
-      home: const MyHomePage(title: 'Deep Conference App'),
     );
   }
 }

@@ -5,7 +5,12 @@ class ScheduleItem extends Equatable {
   final String title;
   final String speaker;
   final String date;
+
   final String time;
+  //final Timestamp startTime;
+  //final Timestamp endTime;
+  //final String speakerId;
+
   final String description;
   final String hall;
   final ScheduleItemCategory category;
@@ -25,6 +30,11 @@ class ScheduleItem extends Equatable {
       speaker: json['speaker'],
       date: json['dateAsString'],
       time: json['timeAsString'],
+
+      //startTime: json['startTime'],
+      //endTime: json['endTime'],
+      //speakerId: json['speakerId'],
+
       description: json['description'],
       hall: json['hall'],
       category: ScheduleItemCategoryX.fromString(json['category']),
