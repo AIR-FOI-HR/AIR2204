@@ -7,9 +7,9 @@ class ScheduleItem extends Equatable {
   final String date;
 
   final String time;
-  //final Timestamp startTime;
-  //final Timestamp endTime;
-  //final String speakerId;
+  //final DateTime startTime;
+  //final DateTime endTime;
+  final String speakerId;
 
   final String description;
   final String hall;
@@ -20,6 +20,7 @@ class ScheduleItem extends Equatable {
       required this.speaker,
       required this.date,
       required this.time,
+      required this.speakerId,
       required this.description,
       required this.hall,
       required this.category});
@@ -33,7 +34,7 @@ class ScheduleItem extends Equatable {
 
       //startTime: json['startTime'],
       //endTime: json['endTime'],
-      //speakerId: json['speakerId'],
+      speakerId: json['speakerId'],
 
       description: json['description'],
       hall: json['hall'],
@@ -43,5 +44,5 @@ class ScheduleItem extends Equatable {
 
   @override
   List<Object?> get props =>
-      [title, speaker, time, description, hall, category];
+      [title, speaker, time, description, hall, category, speakerId];
 }

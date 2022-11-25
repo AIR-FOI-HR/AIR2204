@@ -9,7 +9,7 @@ class ScheduleCubit extends Cubit<ScheduleState> {
 
   final scheduleRepository = ScheduleRepository();
 
-  Future readScheduleItems() async {
+  void readScheduleItems() async {
     final data = await scheduleRepository.getScheduleList();
     emit(ScheduleState(scheduleItems: data));
   }
