@@ -1,4 +1,5 @@
 import 'package:deep_conference/application/presentation/action_items.dart';
+import 'package:deep_conference/constants/my_colors.dart';
 import 'package:deep_conference/constants/schedule_item_categories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,22 +25,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Theme.of(context).colorScheme.onPrimary, //change your color here
-        ),
-        centerTitle: true,
-        backgroundColor: Theme.of(context).colorScheme.background,
-        title: Text(
+        title: const Text(
           'Schedule',
-          style: Theme.of(context).textTheme.titleLarge,
         ),
         actions: [
           MaterialButton(
-            child: const Icon(
-              Icons.notifications,
-            ),
+            child: const Icon(Icons.notifications, color: MyColors.colorFFFFFF),
             onPressed: () => {
               //implement notification screen
             },
@@ -49,81 +41,85 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       body: Column(
         children: [
           //buttons for filtration by date
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Transform(
-                transform: Matrix4.skewX(0.3),
-                child: MaterialButton(
-                  onPressed: () {
-                    //implement filtration by date
-                  },
-                  color: Theme.of(context).colorScheme.primary,
-                  child: Transform(
-                    transform: Matrix4.skewX(-0.3),
-                    //dynamic
-                    child: Text(
-                      'WED, OCT 19TH',
-                      style: Theme.of(context).textTheme.titleMedium,
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Transform(
+                  transform: Matrix4.skewX(0.3),
+                  child: MaterialButton(
+                    onPressed: () {
+                      //implement filtration by date
+                    },
+                    color: MyColors.color772DFF,
+                    child: Transform(
+                      transform: Matrix4.skewX(-0.3),
+                      //dynamic
+                      child: Text(
+                        'WED, OCT 19TH',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 24),
-              Transform(
-                transform: Matrix4.skewX(0.3),
-                child: MaterialButton(
-                  onPressed: () {
-                    //implement filtration by date
-                  },
-                  color: Theme.of(context).colorScheme.primary,
-                  child: Transform(
-                    transform: Matrix4.skewX(-0.3),
-                    //dynamic
-                    child: Text(
-                      'THU, OCT 20TH',
-                      style: Theme.of(context).textTheme.titleMedium,
+                const SizedBox(width: 24),
+                Transform(
+                  transform: Matrix4.skewX(0.3),
+                  child: MaterialButton(
+                    onPressed: () {
+                      //implement filtration by date
+                    },
+                    color: MyColors.color772DFF,
+                    child: Transform(
+                      transform: Matrix4.skewX(-0.3),
+                      //dynamic
+                      child: Text(
+                        'THU, OCT 20TH',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           const SizedBox(height: 10),
           //buttons for filtration by category
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(width: 40),
-              CategoryButton(
-                category: ScheduleItemCategory.all,
-                onPressed: () => {
-                  //implement filtration by category
-                },
-              ),
-              const SizedBox(width: 16),
-              CategoryButton(
-                category: ScheduleItemCategory.tech,
-                onPressed: () => {
-                  //implement filtration by category
-                },
-              ),
-              const SizedBox(width: 16),
-              CategoryButton(
-                category: ScheduleItemCategory.ops,
-                onPressed: () => {
-                  //implement filtration by category
-                },
-              ),
-              const SizedBox(width: 16),
-              CategoryButton(
-                category: ScheduleItemCategory.lead,
-                onPressed: () => {
-                  //implement filtration by category
-                },
-              ),
-              const SizedBox(width: 40),
-            ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CategoryButton(
+                  category: ScheduleItemCategory.all,
+                  onPressed: () => {
+                    //implement filtration by category
+                  },
+                ),
+                const SizedBox(width: 16),
+                CategoryButton(
+                  category: ScheduleItemCategory.tech,
+                  onPressed: () => {
+                    //implement filtration by category
+                  },
+                ),
+                const SizedBox(width: 16),
+                CategoryButton(
+                  category: ScheduleItemCategory.ops,
+                  onPressed: () => {
+                    //implement filtration by category
+                  },
+                ),
+                const SizedBox(width: 16),
+                CategoryButton(
+                  category: ScheduleItemCategory.lead,
+                  onPressed: () => {
+                    //implement filtration by category
+                  },
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 10),
           //list view of schedule items
@@ -153,11 +149,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     //after the title atribute column there's a leading button and an onpressed func
     return Card(
       margin: const EdgeInsets.fromLTRB(15, 5, 0, 5),
-      color: Theme.of(context).colorScheme.background,
       child: ListTile(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-        ),
         title: Column(
           children: [
             //category and time
@@ -167,7 +159,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 //logic za boju icona
                 const Icon(
                   Icons.circle,
-                  color: Colors.red,
+                  color: MyColors.colorF44336,
                   size: 12,
                 ),
                 const SizedBox(width: 12),
@@ -205,10 +197,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       const SizedBox(
                         width: 24,
                       ),
-                      Icon(
+                      const Icon(
                         Icons.place,
                         size: 14,
-                        color: Theme.of(context).colorScheme.shadow,
+                        color: MyColors.color9B9A9B,
                       ),
                       const SizedBox(width: 10),
                       Text(
@@ -223,10 +215,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         //scheduleItem detail screen trailing button
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const [
             Icon(
               Icons.arrow_forward_ios,
-              color: Theme.of(context).colorScheme.onPrimary,
+              color: MyColors.colorFFFFFF,
               size: 24,
             ),
           ],

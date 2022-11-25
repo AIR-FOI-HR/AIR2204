@@ -1,7 +1,7 @@
 import 'package:deep_conference/application/presentation/schedule_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import '../../constants/my_colors.dart';
 import '../../constants/nav_bar_items.dart';
 import '../logic/navigation_cubit.dart';
 
@@ -14,63 +14,68 @@ class RootScreen extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<RootScreen> {
+  void onNavButtonPressed(NavbarItem item) {
+    context.read<NavigationCubit>().getNavBarItem(item);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
       bottomNavigationBar: BlocBuilder<NavigationCubit, NavigationState>(
         builder: (context, state) {
           return Container(
-            clipBehavior: Clip.hardEdge,
-            height: 56,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(24),
-                topLeft: Radius.circular(24),
+              clipBehavior: Clip.hardEdge,
+              height: 50,
+              decoration: const BoxDecoration(
+                color: MyColors.color3A3A3A,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(24),
+                  //bottomLeft: Radius.circular(0),
+                  //bottomRight: Radius.circular(0),
+                ),
+                boxShadow: [
+                  BoxShadow(color: MyColors.color3A3A3A, spreadRadius: 0, blurRadius: 20),
+                ],
               ),
-              boxShadow: [
-                BoxShadow(color: Theme.of(context).colorScheme.secondary, spreadRadius: 0, blurRadius: 20),
-              ],
-            ),
-            child: BottomNavigationBar(
-              currentIndex: state.index,
-              unselectedItemColor: Theme.of(context).colorScheme.shadow,
-              selectedItemColor: Theme.of(context).colorScheme.onSecondary,
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              showUnselectedLabels: false,
-              showSelectedLabels: false,
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.home,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: state.navbarItem == NavbarItem.schedule
+                        ? IconButton(
+                            icon: const Icon(Icons.home, color: MyColors.colorD9D9D9),
+                            onPressed: () => onNavButtonPressed(NavbarItem.schedule),
+                          )
+                        : IconButton(
+                            icon: const Icon(Icons.home, color: MyColors.color9B9A9B),
+                            onPressed: () => onNavButtonPressed(NavbarItem.schedule),
+                          ),
                   ),
-                  label: 'Schedule',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.person,
-                    size: 24,
+                  Expanded(
+                    child: state.navbarItem == NavbarItem.profile
+                        ? IconButton(
+                            icon: const Icon(Icons.person, color: MyColors.colorD9D9D9),
+                            onPressed: () => onNavButtonPressed(NavbarItem.profile),
+                          )
+                        : IconButton(
+                            icon: const Icon(Icons.person, color: MyColors.color9B9A9B),
+                            onPressed: () => onNavButtonPressed(NavbarItem.profile),
+                          ),
                   ),
-                  label: 'Profile',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.schedule,
-                  ),
-                  label: 'My Schedule',
-                ),
-              ],
-              onTap: (index) {
-                if (index == 0) {
-                  context.read<NavigationCubit>().getNavBarItem(NavbarItem.schedule);
-                } else if (index == 1) {
-                  context.read<NavigationCubit>().getNavBarItem(NavbarItem.profile);
-                } else if (index == 2) {
-                  context.read<NavigationCubit>().getNavBarItem(NavbarItem.mySchedule);
-                }
-              },
-            ),
-          );
+                  Expanded(
+                    child: state.navbarItem == NavbarItem.mySchedule
+                        ? IconButton(
+                            icon: const Icon(Icons.schedule, color: MyColors.colorD9D9D9),
+                            onPressed: () => onNavButtonPressed(NavbarItem.mySchedule),
+                          )
+                        : IconButton(
+                            icon: const Icon(Icons.schedule, color: MyColors.color9B9A9B),
+                            onPressed: () => onNavButtonPressed(NavbarItem.mySchedule),
+                          ),
+                  )
+                ],
+              ));
         },
       ),
       body: BlocBuilder<NavigationCubit, NavigationState>(

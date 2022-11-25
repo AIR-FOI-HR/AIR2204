@@ -13,13 +13,7 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Theme.of(context).colorScheme.onPrimary, //change your color here
-        ),
-        centerTitle: true,
-        backgroundColor: Theme.of(context).colorScheme.background,
         title: Text(
           'Schedule Item Detail',
           style: Theme.of(context).textTheme.titleLarge,

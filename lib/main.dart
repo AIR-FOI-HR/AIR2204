@@ -1,4 +1,5 @@
 import 'package:deep_conference/application/logic/navigation_cubit.dart';
+import 'package:deep_conference/constants/theme_data.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,34 +27,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<NavigationCubit>(create: (context) => NavigationCubit())
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Deep Conference App',
-        theme: ThemeData(
-          fontFamily: 'Montserrat',
-          primarySwatch: Colors.deepPurple,
-          colorScheme: const ColorScheme(
-              brightness: Brightness.dark,
-              primary: Color(0xFF772DFF), //primary highlight color
-              onPrimary: Colors.white, //text color
-              secondary: Color(0xff3a3a3a), //secondary background color (bottom nav)
-              onSecondary: Color(0xffD9D9D9), //highlighted element on secondary
-              shadow: Color(0xff9b9a9b), //unselected element on secondary, muted elements
-              error: Color(0xFF040306),
-              onError: Color(0xFF040306),
-              background: Color(0xFF040306), //background color
-              onBackground: Color(0xFF040306),
-              surface: Color(0xFF040306),
-              onSurface: Color(0xFF040306)),
-          textTheme: const TextTheme(
-            titleLarge: TextStyle(fontSize: 24, color: Colors.white), //appbar title text
-            titleMedium: TextStyle(fontSize: 14, color: Colors.white), //medium title text (date filtration buttons)
-            labelMedium: TextStyle(
-              fontSize: 14,
-              color: Color(0xff9b9a9b),
-            ), //medium gray text
-            bodyLarge: TextStyle(
-                fontSize: 16, color: Colors.white, overflow: TextOverflow.ellipsis), //big body text with overflow
-          ),
-        ),
+        theme: MyTheme.deepTheme,
         home: const RootScreen(),
       ),
     );
