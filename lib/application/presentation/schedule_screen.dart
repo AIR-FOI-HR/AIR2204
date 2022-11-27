@@ -3,6 +3,7 @@ import 'package:deep_conference/constants/my_colors.dart';
 import 'package:deep_conference/constants/schedule_item_categories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../constants/my_dates.dart';
 import '../../domain/models/schedule_items.dart';
 import '../logic/schedule_cubit.dart';
 import 'detail_screen.dart';
@@ -19,7 +20,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<ScheduleCubit>().readScheduleItems();
+    //FILTRACIJA
+    context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.all, MyDates.firstDay);
   }
 
   @override
@@ -38,104 +40,135 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          //buttons for filtration by date
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Transform(
-                  transform: Matrix4.skewX(0.3),
-                  child: MaterialButton(
-                    onPressed: () {
-                      //implement filtration by date
-                    },
-                    color: MyColors.color772DFF,
-                    child: Transform(
-                      transform: Matrix4.skewX(-0.3),
-                      //dynamic
-                      child: Text(
-                        'WED, OCT 19TH',
-                        style: Theme.of(context).textTheme.titleMedium,
+      body: BlocBuilder<ScheduleCubit, ScheduleState>(
+        builder: (context, state) {
+          return Column(
+            children: [
+              //buttons for filtration by date
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Transform(
+                      transform: Matrix4.skewX(0.3),
+                      child: MaterialButton(
+                        onPressed: () {
+                          //FILTRACIJA
+                          context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.all, MyDates.firstDay);
+                        },
+                        //FILTRACIJA
+                        color: state.currentDate == MyDates.firstDay
+                            ? MyColors.color772DFF
+                            : MyColors.color772DFF.withOpacity(0.3),
+                        child: Transform(
+                          transform: Matrix4.skewX(-0.3),
+                          //dynamic
+                          child: Text(
+                            'WED, OCT 19TH',
+                            //FILTRACIJA
+                            style: state.currentDate == MyDates.firstDay
+                                ? Theme.of(context).textTheme.titleMedium
+                                : Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(color: Colors.white.withOpacity(0.3)),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                const SizedBox(width: 24),
-                Transform(
-                  transform: Matrix4.skewX(0.3),
-                  child: MaterialButton(
-                    onPressed: () {
-                      //implement filtration by date
-                    },
-                    color: MyColors.color772DFF,
-                    child: Transform(
-                      transform: Matrix4.skewX(-0.3),
-                      //dynamic
-                      child: Text(
-                        'THU, OCT 20TH',
-                        style: Theme.of(context).textTheme.titleMedium,
+                    const SizedBox(width: 24),
+                    Transform(
+                      transform: Matrix4.skewX(0.3),
+                      child: MaterialButton(
+                        onPressed: () {
+                          //FILTRACIJA
+                          context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.all, MyDates.secondDay);
+                        },
+                        //FILTRACIJA
+                        color: state.currentDate == MyDates.secondDay
+                            ? MyColors.color772DFF
+                            : MyColors.color772DFF.withOpacity(0.3),
+                        child: Transform(
+                          transform: Matrix4.skewX(-0.3),
+                          //dynamic
+                          child: Text(
+                            'THU, OCT 20TH',
+                            //FILTRACIJA
+                            style: state.currentDate == MyDates.secondDay
+                                ? Theme.of(context).textTheme.titleMedium
+                                : Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(color: Colors.white.withOpacity(0.3)),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-          //buttons for filtration by category
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CategoryButton(
-                  category: ScheduleItemCategory.all,
-                  onPressed: () => {
-                    //implement filtration by category
-                  },
+              ),
+              const SizedBox(height: 10),
+              //buttons for filtration by category
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CategoryButton(
+                      //FILTRACIJA
+                      highlighted: state.currentCategory == ScheduleItemCategory.all ? true : false,
+                      category: ScheduleItemCategory.all,
+                      onPressed: () => {
+                        //FILTRACIJA
+                        context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.all, state.date)
+                      },
+                    ),
+                    const SizedBox(width: 16),
+                    CategoryButton(
+                      //FILTRACIJA
+                      highlighted: state.currentCategory == ScheduleItemCategory.tech ? true : false,
+                      category: ScheduleItemCategory.tech,
+                      onPressed: () => {
+                        //FILTRACIJA
+                        context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.tech, state.date)
+                      },
+                    ),
+                    const SizedBox(width: 16),
+                    CategoryButton(
+                      //FILTRACIJA
+                      highlighted: state.currentCategory == ScheduleItemCategory.ops ? true : false,
+                      category: ScheduleItemCategory.ops,
+                      onPressed: () => {
+                        //FILTRACIJA
+                        context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.ops, state.date)
+                      },
+                    ),
+                    const SizedBox(width: 16),
+                    CategoryButton(
+                      //FILTRACIJA
+                      highlighted: state.currentCategory == ScheduleItemCategory.lead ? true : false,
+                      category: ScheduleItemCategory.lead,
+                      onPressed: () => {
+                        //FILTRACIJA
+                        context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.lead, state.date)
+                      },
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 16),
-                CategoryButton(
-                  category: ScheduleItemCategory.tech,
-                  onPressed: () => {
-                    //implement filtration by category
-                  },
-                ),
-                const SizedBox(width: 16),
-                CategoryButton(
-                  category: ScheduleItemCategory.ops,
-                  onPressed: () => {
-                    //implement filtration by category
-                  },
-                ),
-                const SizedBox(width: 16),
-                CategoryButton(
-                  category: ScheduleItemCategory.lead,
-                  onPressed: () => {
-                    //implement filtration by category
-                  },
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-          //list view of schedule items
-          BlocBuilder<ScheduleCubit, ScheduleState>(
-            builder: (context, state) {
-              return Expanded(
+              ),
+              const SizedBox(height: 10),
+              Expanded(
                 child: ListView.builder(
                   itemCount: state.scheduleItems.length,
                   itemBuilder: (context, index) {
                     return listBuild(state.scheduleItems[index]);
                   },
                 ),
-              );
-            },
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -157,9 +190,15 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               children: [
                 //dynamic color
                 //logic za boju icona
-                const Icon(
+                Icon(
                   Icons.circle,
-                  color: MyColors.colorF44336,
+                  color: scheduleItem.category == ScheduleItemCategory.tech
+                      ? MyColors.colorF44336
+                      : scheduleItem.category == ScheduleItemCategory.lead
+                          ? MyColors.color9B9A9B
+                          : scheduleItem.category == ScheduleItemCategory.ops
+                              ? MyColors.color251F5D
+                              : MyColors.color000000,
                   size: 12,
                 ),
                 const SizedBox(width: 12),

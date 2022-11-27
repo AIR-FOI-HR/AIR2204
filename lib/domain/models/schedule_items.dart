@@ -4,7 +4,7 @@ import '../../constants/schedule_item_categories.dart';
 class ScheduleItem extends Equatable {
   final String title;
   final String speaker;
-  final String date;
+  //final String date;
 
   final String time;
   //final DateTime startTime;
@@ -18,7 +18,7 @@ class ScheduleItem extends Equatable {
   const ScheduleItem(
       {required this.title,
       required this.speaker,
-      required this.date,
+      //required this.date,
       required this.time,
       required this.speakerId,
       required this.description,
@@ -29,7 +29,7 @@ class ScheduleItem extends Equatable {
     return ScheduleItem(
       title: json['title'],
       speaker: json['speaker'],
-      date: json['dateAsString'],
+      //date: json['dateAsString'],
       time: json['timeAsString'],
 
       //startTime: json['startTime'],
@@ -43,6 +43,5 @@ class ScheduleItem extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [title, speaker, time, description, hall, category, speakerId];
+  List<Object?> get props => [title, speaker, time, description, hall, category, speakerId];
 }

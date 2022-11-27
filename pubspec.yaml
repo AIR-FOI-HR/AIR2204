@@ -111,4 +111,8 @@ flutter:
     - images/icons/lead.png
     - images/icons/ops.png
     - images/icons/all.png
+    - images/icons/tech_highlighted.png
+    - images/icons/lead_highlighted.png
+    - images/icons/ops_highlighted.png
+    - images/icons/all_highlighted.png
        
