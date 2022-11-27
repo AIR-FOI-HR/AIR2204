@@ -203,7 +203,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  scheduleItem.time,
+                  "${scheduleItem.startTime.hour.toString()}:${scheduleItem.startTime.minute.toString().padLeft(2, '0')} - ${scheduleItem.endTime.hour.toString()}:${scheduleItem.endTime.minute.toString().padLeft(2, '0')}",
                   style: Theme.of(context).textTheme.labelMedium,
                 ),
               ],
