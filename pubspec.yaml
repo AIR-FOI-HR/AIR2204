@@ -32,13 +32,13 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
-    sdk: flutter    
+    sdk: flutter
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   cloud_firestore: ^4.0.4
-  firebase_core: ^2.1.1  
+  firebase_core: ^2.1.1
   flutter_bloc: ^8.1.1
   equatable: ^2.0.5
   collection: 1.16.0
@@ -47,13 +47,14 @@ dependencies:
   firebase_auth: ^4.1.5
   email_validator: ^2.1.17
   google_sign_in: ^5.4.2
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.11.0
   flutter_lints: ^2.0.1
-  
+
 flutter_icons:
   android: "launcher_icon"
   ios: true
@@ -120,9 +121,9 @@ flutter:
           weight: 600
         - asset: fonts/Montserrat-Bold.ttf
           weight: 700
-        
 
-  assets: 
+
+  assets:
     - images/
     - images/icons/
     - images/backgrounds/
