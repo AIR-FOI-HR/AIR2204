@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "35499122175",
+    "project_id": "air-2204",
+    "storage_bucket": "air-2204.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35499122175:android:4096c4b77860caa87c5bca",
+        "android_client_info": {
+          "package_name": "com.deep.conference.deep_conference"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "35499122175-nq9e0jukmn9tqck4p4rred0jls050c97.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdsm2yV1jpWQOJTbgw6HSuaHP3_we_7Gw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "35499122175-nq9e0jukmn9tqck4p4rred0jls050c97.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
