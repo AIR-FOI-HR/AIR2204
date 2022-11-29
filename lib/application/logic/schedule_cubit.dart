@@ -5,12 +5,17 @@ import '../../domain/models/schedule_items.dart';
 part 'schedule_state.dart';
 
 class ScheduleCubit extends Cubit<ScheduleState> {
-  ScheduleCubit() : super(const ScheduleState(scheduleItems: []));
+  ScheduleCubit(this.scheduleRepository) : super(const ScheduleState());
 
-  final scheduleRepository = ScheduleRepository();
+  final ScheduleRepository scheduleRepository;
 
   void readScheduleItems() async {
-    final data = await scheduleRepository.getScheduleList();
-    emit(ScheduleState(scheduleItems: data));
+    emit(const ScheduleState());
+    try {
+      final data = await scheduleRepository.getScheduleList();
+      emit(ScheduleState(scheduleItems: data, loading: false));
+    } catch (e) {
+      emit(ScheduleState(error: e));
+    }
   }
 }

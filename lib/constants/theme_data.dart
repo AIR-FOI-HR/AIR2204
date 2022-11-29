@@ -13,7 +13,7 @@ class MyTheme {
         color: MyColors.colorFFFFFF,
       ),
       centerTitle: true,
-      titleTextStyle: TextStyle(fontSize: 24, color: MyColors.colorFFFFFF, fontFamily: 'Montserrat'),
+      //titleTextStyle: TextStyle(fontSize: 24, color: MyColors.colorFFFFFF, fontFamily: 'Montserrat'),
     ),
     //icontheme does not apply on all icons throughout the app, check why
     iconTheme: const IconThemeData(color: MyColors.colorFFFFFF),
@@ -23,14 +23,15 @@ class MyTheme {
       ),
     ),
     textTheme: const TextTheme(
-      titleLarge: TextStyle(fontSize: 24, color: Colors.white), //appbar title text
-      titleMedium: TextStyle(fontSize: 14, color: Colors.white), //medium title text (date filtration buttons)
-      labelMedium: TextStyle(
-        fontSize: 14,
-        color: Color(0xff9b9a9b),
-      ), //medium gray text
-      bodyLarge:
-          TextStyle(fontSize: 16, color: Colors.white, overflow: TextOverflow.ellipsis), //big body text with overflow
+      titleLarge: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w700), //appbar title text
+      titleMedium: TextStyle(
+          fontSize: 14, color: Colors.white, fontWeight: FontWeight.w700), //medium title text (date filtration buttons)
+      labelMedium: TextStyle(fontSize: 14, color: Color(0xff9b9a9b), fontWeight: FontWeight.w700), //medium gray text
+      bodyLarge: TextStyle(
+          fontSize: 16,
+          color: Colors.white,
+          overflow: TextOverflow.ellipsis,
+          fontWeight: FontWeight.w700), //big body text with overflow
     ),
   );
 }

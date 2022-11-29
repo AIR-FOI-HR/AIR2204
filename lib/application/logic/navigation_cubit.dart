@@ -4,18 +4,18 @@ import '../../constants/nav_bar_items.dart';
 part 'navigation_state.dart';
 
 class NavigationCubit extends Cubit<NavigationState> {
-  NavigationCubit() : super(const NavigationState(NavbarItem.schedule, 0));
+  NavigationCubit() : super(const NavigationState(NavbarItem.schedule));
 
   void getNavBarItem(NavbarItem navbarItem) {
     switch (navbarItem) {
       case NavbarItem.schedule:
-        emit(const NavigationState(NavbarItem.schedule, 0));
+        emit(const NavigationState(NavbarItem.schedule));
         break;
       case NavbarItem.profile:
-        emit(const NavigationState(NavbarItem.profile, 1));
+        emit(const NavigationState(NavbarItem.profile));
         break;
       case NavbarItem.mySchedule:
-        emit(const NavigationState(NavbarItem.mySchedule, 2));
+        emit(const NavigationState(NavbarItem.mySchedule));
         break;
     }
   }
