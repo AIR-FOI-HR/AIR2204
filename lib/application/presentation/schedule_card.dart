@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/my_colors.dart';
+import '../../constants/schedule_item_categories.dart';
 import '../../domain/models/schedule_items.dart';
 import 'detail_screen.dart';
 
@@ -18,15 +19,20 @@ class ScheduleCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.circle,
-                  //logic za boju ikona
-                  color: MyColors.colorF44336,
+                  color: scheduleItem.category == ScheduleItemCategory.tech
+                      ? MyColors.colorF44336
+                      : scheduleItem.category == ScheduleItemCategory.lead
+                          ? MyColors.color9B9A9B
+                          : scheduleItem.category == ScheduleItemCategory.ops
+                              ? MyColors.color251F5D
+                              : MyColors.color000000,
                   size: 12,
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  scheduleItem.time,
+                  "${scheduleItem.startTime.hour.toString()}:${scheduleItem.startTime.minute.toString().padLeft(2, '0')} - ${scheduleItem.endTime.hour.toString()}:${scheduleItem.endTime.minute.toString().padLeft(2, '0')}",
                   style: Theme.of(context).textTheme.labelMedium,
                 ),
               ],

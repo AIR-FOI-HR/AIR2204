@@ -2,6 +2,7 @@ import 'package:deep_conference/application/presentation/action_items.dart';
 import 'package:deep_conference/application/presentation/error_widgets.dart';
 import 'package:deep_conference/application/presentation/schedule_card.dart';
 import 'package:deep_conference/constants/my_colors.dart';
+import 'package:deep_conference/constants/my_dates.dart';
 import 'package:deep_conference/constants/schedule_item_categories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +20,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<ScheduleCubit>().readScheduleItems();
+    context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.all, MyDates.firstDay);
   }
 
   @override
@@ -42,49 +43,74 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         children: [
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                DateButton(label: 'WED, OCT 19TH', onPressed: () => {}),
-                const SizedBox(width: 24),
-                DateButton(label: 'THU, OCT 20TH', onPressed: () => {}),
-              ],
+            child: BlocBuilder<ScheduleCubit, ScheduleState>(
+              builder: (context, state) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    DateButton(
+                      label: 'WED, OCT 19TH',
+                      onPressed: () =>
+                          {context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.all, MyDates.firstDay)},
+                      date: state.currentDate,
+                      myDate: MyDates.firstDay,
+                    ),
+                    const SizedBox(width: 24),
+                    DateButton(
+                      label: 'THU, OCT 20TH',
+                      onPressed: () => {
+                        context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.all, MyDates.secondDay)
+                      },
+                      date: state.currentDate,
+                      myDate: MyDates.secondDay,
+                    )
+                  ],
+                );
+              },
             ),
           ),
           const SizedBox(height: 10),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CategoryButton(
-                  category: ScheduleItemCategory.all,
-                  onPressed: () => {
-                    //implement filtration by category
-                  },
-                ),
-                const SizedBox(width: 16),
-                CategoryButton(
-                  category: ScheduleItemCategory.tech,
-                  onPressed: () => {
-                    //implement filtration by category
-                  },
-                ),
-                const SizedBox(width: 16),
-                CategoryButton(
-                  category: ScheduleItemCategory.ops,
-                  onPressed: () => {
-                    //implement filtration by category
-                  },
-                ),
-                const SizedBox(width: 16),
-                CategoryButton(
-                  category: ScheduleItemCategory.lead,
-                  onPressed: () => {
-                    //implement filtration by category
-                  },
-                ),
-              ],
+            child: BlocBuilder<ScheduleCubit, ScheduleState>(
+              builder: (context, state) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CategoryButton(
+                      myCategory: ScheduleItemCategory.all,
+                      onPressed: () => {
+                        context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.all, state.currentDate)
+                      },
+                      category: state.currentCategory,
+                    ),
+                    const SizedBox(width: 16),
+                    CategoryButton(
+                      myCategory: ScheduleItemCategory.tech,
+                      onPressed: () => {
+                        context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.tech, state.currentDate)
+                      },
+                      category: state.currentCategory,
+                    ),
+                    const SizedBox(width: 16),
+                    CategoryButton(
+                      myCategory: ScheduleItemCategory.ops,
+                      onPressed: () => {
+                        context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.ops, state.currentDate)
+                      },
+                      category: state.currentCategory,
+                    ),
+                    const SizedBox(width: 16),
+                    CategoryButton(
+                      myCategory: ScheduleItemCategory.lead,
+                      onPressed: () => {
+                        context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.lead, state.currentDate)
+                      },
+                      category: state.currentCategory,
+                    ),
+                  ],
+                );
+              },
             ),
           ),
           const SizedBox(height: 10),
@@ -94,7 +120,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 return RetryButton(
                   error: state.error,
                   onRetry: () => {
-                    context.read<ScheduleCubit>().readScheduleItems(),
+                    context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.all, MyDates.firstDay),
                   },
                 );
               }
@@ -113,7 +139,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               }
               return NoData(
                 onRetry: () => {
-                  context.read<ScheduleCubit>().readScheduleItems(),
+                  context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.all, MyDates.firstDay),
                 },
               );
             },

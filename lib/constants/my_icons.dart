@@ -15,9 +15,13 @@ class MyIcons {
     'tech': 'images/icons/tech_highlighted.png',
   };
 
-  static String? getCategoryIcon(ScheduleItemCategory category) {
+  static String? getCategoryIcon(ScheduleItemCategory category, bool highlighted) {
     String categoryName = category.name;
-    return categoryIcons[categoryName];
+    if (highlighted) {
+      return categoryIconsHighlighted[categoryName];
+    } else {
+      return categoryIcons[categoryName];
+    }
   }
 
   static const String appIcon = 'images/icons/app_icon.png';
