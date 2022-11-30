@@ -9,7 +9,6 @@ part 'schedule_state.dart';
 class ScheduleCubit extends Cubit<ScheduleState> {
   ScheduleCubit(this.scheduleRepository)
       : super(ScheduleState(
-          currentCategory: ScheduleItemCategory.all,
           currentDate: MyDates.firstDay,
         ));
 
@@ -24,7 +23,7 @@ class ScheduleCubit extends Cubit<ScheduleState> {
       final data = await scheduleRepository.getScheduleList(category, date);
       emit(ScheduleState(scheduleItems: data, loading: false, currentCategory: category, currentDate: date));
     } catch (e) {
-      emit(ScheduleState(error: e, currentCategory: ScheduleItemCategory.all, currentDate: MyDates.firstDay));
+      emit(ScheduleState(error: e, currentCategory: category, currentDate: date));
     }
   }
 }

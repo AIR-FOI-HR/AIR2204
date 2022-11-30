@@ -11,20 +11,19 @@ class ScheduleRepository {
 
   Future<List<ScheduleItem>> getScheduleList(ScheduleItemCategory category, DateTime date) async {
     QuerySnapshot scheduleListData;
-
     DateTime start = DateTime(date.year, date.month, date.day, 0, 0);
     DateTime end = DateTime(date.year, date.month, date.day, 23, 59, 59);
 
     if (category == ScheduleItemCategory.all) {
       scheduleListData = await firestore
-          .collection('scheduleItems')
+          .collection(MyCollections.scheduleItems)
           .where('startTime', isGreaterThanOrEqualTo: start)
           .where('startTime', isLessThanOrEqualTo: end)
           .orderBy('startTime', descending: false)
           .get();
     } else {
       scheduleListData = await firestore
-          .collection('scheduleItems')
+          .collection(MyCollections.scheduleItems)
           .where('startTime', isGreaterThanOrEqualTo: start)
           .where('startTime', isLessThanOrEqualTo: end)
           .where('category', isEqualTo: category.name)

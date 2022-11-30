@@ -120,7 +120,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 return RetryButton(
                   error: state.error,
                   onRetry: () => {
-                    context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.all, MyDates.firstDay),
+                    context.read<ScheduleCubit>().readScheduleItems(state.currentCategory, state.currentDate),
                   },
                 );
               }
@@ -139,7 +139,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               }
               return NoData(
                 onRetry: () => {
-                  context.read<ScheduleCubit>().readScheduleItems(ScheduleItemCategory.all, MyDates.firstDay),
+                  context.read<ScheduleCubit>().readScheduleItems(state.currentCategory, state.currentDate),
                 },
               );
             },

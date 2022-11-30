@@ -25,13 +25,4 @@ class MyIcons {
   }
 
   static const String appIcon = 'images/icons/app_icon.png';
-
-  // static const String all = 'images/icons/all.png';
-  // static const String allHighlighted = 'images/icons/all_highlighted.png';
-  // static const String lead = 'images/icons/lead.png';
-  // static const String leadHighlighted = 'images/icons/lead_highlighted.png';
-  // static const String ops = 'images/icons/ops.png';
-  // static const String opsHighlighted = 'images/icons/ops_highlighted.png';
-  // static const String tech = 'images/icons/tech.png';
-  // static const String techHighlighted = 'images/icons/tech_highlighted.png';
 }

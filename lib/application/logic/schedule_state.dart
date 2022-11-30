@@ -13,7 +13,7 @@ class ScheduleState extends Equatable {
       this.loading = true,
       this.error,
       required this.currentDate,
-      required this.currentCategory});
+      this.currentCategory = ScheduleItemCategory.all});
 
   @override
   List<Object?> get props => [scheduleItems, loading, error, currentDate, currentCategory];
