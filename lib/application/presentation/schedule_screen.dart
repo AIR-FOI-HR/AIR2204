@@ -69,7 +69,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           const SizedBox(height: 10),
           BlocBuilder<ScheduleCubit, ScheduleState>(
             builder: (context, state) {
-              //not sure if this is better than what we had
               return SizedBox(
                 height: 80,
                 child: Center(
@@ -84,10 +83,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       );
                     },
                     itemBuilder: (context, index) {
+                      final ScheduleItemCategory categoryFromIndex = ScheduleItemCategoryX.fromIndex(index);
                       return CategoryButton(
-                        myCategory: ScheduleItemCategoryX.fromIndex(index),
-                        onPressed: () =>
-                            {context.read<ScheduleCubit>().sortByCategory(ScheduleItemCategoryX.fromIndex(index))},
+                        myCategory: categoryFromIndex,
+                        onPressed: () => {context.read<ScheduleCubit>().sortByCategory(categoryFromIndex)},
                         category: state.currentCategory,
                       );
                     },

@@ -14,12 +14,7 @@ class CategoryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool highlighted;
-    if (category == myCategory) {
-      highlighted = true;
-    } else {
-      highlighted = false;
-    }
+    final bool highlighted = category == myCategory;
 
     String? categoryName = MyIcons.getCategoryIcon(myCategory, highlighted);
     if (categoryName != null) {

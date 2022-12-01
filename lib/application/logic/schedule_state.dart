@@ -23,5 +23,5 @@ class ScheduleState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [scheduleItems, loading, error, currentDate, currentCategory];
+  List<Object?> get props => [scheduleItems, loading, error, currentDate, currentCategory, allItems];
 }
