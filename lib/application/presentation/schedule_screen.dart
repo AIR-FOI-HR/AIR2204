@@ -2,6 +2,7 @@ import 'package:deep_conference/application/presentation/action_items.dart';
 import 'package:deep_conference/application/presentation/error_widgets.dart';
 import 'package:deep_conference/application/presentation/schedule_card.dart';
 import 'package:deep_conference/constants/my_colors.dart';
+
 import 'package:deep_conference/constants/schedule_item_categories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +20,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<ScheduleCubit>().readScheduleItems();
+    context.read<ScheduleCubit>().readAllItems();
   }
 
   @override
@@ -40,52 +41,59 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       ),
       body: Column(
         children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                DateButton(label: 'WED, OCT 19TH', onPressed: () => {}),
-                const SizedBox(width: 24),
-                DateButton(label: 'THU, OCT 20TH', onPressed: () => {}),
-              ],
-            ),
+          BlocBuilder<ScheduleCubit, ScheduleState>(
+            builder: (context, state) {
+              return SizedBox(
+                height: 35,
+                child: Center(
+                  child: ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: state.allDates.length,
+                      scrollDirection: Axis.horizontal,
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(
+                          width: 24,
+                        );
+                      },
+                      itemBuilder: (context, index) {
+                        return DateButton(
+                          onPressed: () => {context.read<ScheduleCubit>().sortByDate(state.allDates[index])},
+                          date: state.currentDate,
+                          myDate: state.allDates[index],
+                        );
+                      }),
+                ),
+              );
+            },
           ),
           const SizedBox(height: 10),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CategoryButton(
-                  category: ScheduleItemCategory.all,
-                  onPressed: () => {
-                    //implement filtration by category
-                  },
+          BlocBuilder<ScheduleCubit, ScheduleState>(
+            builder: (context, state) {
+              return SizedBox(
+                height: 80,
+                child: Center(
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    // -2 because there are two categories that we don't filter by
+                    itemCount: ScheduleItemCategory.values.length - 2,
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        width: 10,
+                      );
+                    },
+                    itemBuilder: (context, index) {
+                      final ScheduleItemCategory categoryFromIndex = ScheduleItemCategoryX.fromIndex(index);
+                      return CategoryButton(
+                        myCategory: categoryFromIndex,
+                        onPressed: () => {context.read<ScheduleCubit>().sortByCategory(categoryFromIndex)},
+                        category: state.currentCategory,
+                      );
+                    },
+                  ),
                 ),
-                const SizedBox(width: 16),
-                CategoryButton(
-                  category: ScheduleItemCategory.tech,
-                  onPressed: () => {
-                    //implement filtration by category
-                  },
-                ),
-                const SizedBox(width: 16),
-                CategoryButton(
-                  category: ScheduleItemCategory.ops,
-                  onPressed: () => {
-                    //implement filtration by category
-                  },
-                ),
-                const SizedBox(width: 16),
-                CategoryButton(
-                  category: ScheduleItemCategory.lead,
-                  onPressed: () => {
-                    //implement filtration by category
-                  },
-                ),
-              ],
-            ),
+              );
+            },
           ),
           const SizedBox(height: 10),
           BlocBuilder<ScheduleCubit, ScheduleState>(
@@ -94,7 +102,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 return RetryButton(
                   error: state.error,
                   onRetry: () => {
-                    context.read<ScheduleCubit>().readScheduleItems(),
+                    context.read<ScheduleCubit>().readAllItems(),
                   },
                 );
               }
@@ -113,7 +121,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               }
               return NoData(
                 onRetry: () => {
-                  context.read<ScheduleCubit>().readScheduleItems(),
+                  context.read<ScheduleCubit>().readAllItems(),
                 },
               );
             },

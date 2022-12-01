@@ -1,23 +1,30 @@
 import 'package:deep_conference/constants/my_icons.dart';
 import 'package:deep_conference/constants/schedule_item_categories.dart';
 import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
 
 import '../../constants/my_colors.dart';
 
 class CategoryButton extends StatelessWidget {
-  const CategoryButton({super.key, required this.category, required this.onPressed});
+  const CategoryButton({super.key, required this.category, required this.onPressed, required this.myCategory});
 
   final VoidCallback onPressed;
   final ScheduleItemCategory category;
+  final ScheduleItemCategory myCategory;
 
   @override
   Widget build(BuildContext context) {
-    String? categoryName = MyIcons.getCategoryIcon(category);
+    final bool highlighted = category == myCategory;
+
+    String? categoryName = MyIcons.getCategoryIcon(myCategory, highlighted);
     if (categoryName != null) {
-      return IconButton(
-        onPressed: onPressed,
-        icon: Image.asset(categoryName),
-        iconSize: 50,
+      return Opacity(
+        opacity: highlighted ? 1.0 : 0.3,
+        child: IconButton(
+          onPressed: onPressed,
+          icon: Image.asset(categoryName),
+          iconSize: 50,
+        ),
       );
     } else {
       return IconButton(
@@ -29,23 +36,28 @@ class CategoryButton extends StatelessWidget {
 }
 
 class DateButton extends StatelessWidget {
-  const DateButton({super.key, required this.label, required this.onPressed});
+  const DateButton({super.key, required this.onPressed, required this.date, required this.myDate});
 
-  final String label;
   final VoidCallback onPressed;
+  final DateTime date;
+  final DateTime myDate;
 
   @override
   Widget build(BuildContext context) {
+    final label = Jiffy(myDate).format("EE, MMM do").toUpperCase();
+    //final label = DateFormat('EE, d MMM').format(myDate).toUpperCase();
     return Transform(
       transform: Matrix4.skewX(0.3),
       child: MaterialButton(
         onPressed: onPressed,
-        color: MyColors.color772DFF,
+        color: date == myDate ? MyColors.color772DFF : MyColors.color772DFF.withOpacity(0.3),
         child: Transform(
           transform: Matrix4.skewX(-0.3),
           child: Text(
             label,
-            style: Theme.of(context).textTheme.titleMedium,
+            style: date == myDate
+                ? Theme.of(context).textTheme.titleMedium
+                : Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white.withOpacity(0.3)),
           ),
         ),
       ),

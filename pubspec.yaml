@@ -40,6 +40,9 @@ dependencies:
   firebase_core: ^2.1.1  
   flutter_bloc: ^8.1.1
   equatable: ^2.0.5
+  collection: 1.16.0
+  intl: ^0.17.0
+  jiffy: ^5.0.0
 
 dev_dependencies:
   flutter_test:
@@ -58,7 +61,7 @@ flutter_icons:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

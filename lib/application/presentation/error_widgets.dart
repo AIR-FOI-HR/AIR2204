@@ -49,14 +49,14 @@ class NoData extends StatelessWidget {
           Center(
             child: Text('No data available.', style: Theme.of(context).textTheme.labelMedium),
           ),
-          MaterialButton(
+          /*  MaterialButton(
             onPressed: onRetry,
             color: MyColors.color772DFF,
             child: Text(
               'Retry',
               style: Theme.of(context).textTheme.titleMedium,
             ),
-          ),
+          ),*/
         ],
       ),
     );
