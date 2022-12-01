@@ -25,13 +25,18 @@ class ScheduleItem extends Equatable {
     return ScheduleItem(
       title: json['title'],
       speaker: json['speaker'],
-      startTime: DateTime.parse(json['startTime'].toDate().toString()),
-      endTime: DateTime.parse(json['endTime'].toDate().toString()),
+      startTime: json['startTime'].toDate(),
+      endTime: json['endTime'].toDate(),
       speakerId: json['speakerId'],
       description: json['description'],
       hall: json['hall'],
       category: ScheduleItemCategoryX.fromString(json['category']),
     );
+  }
+
+  DateTime get date {
+    DateTime date = DateTime(startTime.year, startTime.month, startTime.day);
+    return date;
   }
 
   @override

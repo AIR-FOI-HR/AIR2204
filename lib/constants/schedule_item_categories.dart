@@ -16,4 +16,16 @@ extension ScheduleItemCategoryX on ScheduleItemCategory {
       return ScheduleItemCategory.all;
     }
   }
+
+  static ScheduleItemCategory fromIndex(int index) {
+    if (index == 0) {
+      return ScheduleItemCategory.all;
+    } else if (index == 1) {
+      return ScheduleItemCategory.tech;
+    } else if (index == 2) {
+      return ScheduleItemCategory.ops;
+    } else {
+      return ScheduleItemCategory.lead;
+    }
+  }
 }

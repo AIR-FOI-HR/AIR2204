@@ -1,6 +1,7 @@
 import 'package:deep_conference/constants/my_icons.dart';
 import 'package:deep_conference/constants/schedule_item_categories.dart';
 import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
 
 import '../../constants/my_colors.dart';
 
@@ -22,10 +23,13 @@ class CategoryButton extends StatelessWidget {
 
     String? categoryName = MyIcons.getCategoryIcon(myCategory, highlighted);
     if (categoryName != null) {
-      return IconButton(
-        onPressed: onPressed,
-        icon: Image.asset(categoryName),
-        iconSize: 50,
+      return Opacity(
+        opacity: highlighted ? 1.0 : 0.3,
+        child: IconButton(
+          onPressed: onPressed,
+          icon: Image.asset(categoryName),
+          iconSize: 50,
+        ),
       );
     } else {
       return IconButton(
@@ -37,15 +41,16 @@ class CategoryButton extends StatelessWidget {
 }
 
 class DateButton extends StatelessWidget {
-  const DateButton({super.key, required this.label, required this.onPressed, required this.date, required this.myDate});
+  const DateButton({super.key, required this.onPressed, required this.date, required this.myDate});
 
-  final String label;
   final VoidCallback onPressed;
   final DateTime date;
   final DateTime myDate;
 
   @override
   Widget build(BuildContext context) {
+    final label = Jiffy(myDate).format("EE, MMM do").toUpperCase();
+    //final label = DateFormat('EE, d MMM').format(myDate).toUpperCase();
     return Transform(
       transform: Matrix4.skewX(0.3),
       child: MaterialButton(
