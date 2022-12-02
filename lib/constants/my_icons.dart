@@ -8,7 +8,7 @@ class MyIcons {
     'tech': 'images/icons/tech.png',
   };
 
-  static String? getCategoryIcon(ScheduleItemCategory category, bool highlighted) {
+  static String? getCategoryIcon(ScheduleItemCategory category) {
     String categoryName = category.name;
 
     return categoryIcons[categoryName];

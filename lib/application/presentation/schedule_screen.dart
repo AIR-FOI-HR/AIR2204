@@ -4,6 +4,7 @@ import 'package:deep_conference/application/presentation/schedule_card.dart';
 import 'package:deep_conference/constants/my_colors.dart';
 
 import 'package:deep_conference/constants/schedule_item_categories.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/models/schedule_items.dart';
@@ -32,11 +33,19 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         ),
         actions: [
           MaterialButton(
-            child: const Icon(Icons.notifications, color: MyColors.colorFFFFFF),
+            child: const Icon(Icons.logout, color: MyColors.colorFFFFFF),
             onPressed: () => {
-              //implement notification screen
+              // sign out test
+              FirebaseAuth.instance.signOut()
             },
           ),
+          // TODO: Implement notification screen
+          // MaterialButton(
+          //   child: const Icon(Icons.notifications, color: MyColors.colorFFFFFF),
+          //   onPressed: () => {
+          //     //implement notification screen
+          //   },
+          // ),
         ],
       ),
       body: Column(
@@ -83,10 +92,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       );
                     },
                     itemBuilder: (context, index) {
-                      final ScheduleItemCategory categoryFromIndex = ScheduleItemCategoryX.fromIndex(index);
+                      final ScheduleItemCategory category = ScheduleItemCategory.values[index];
                       return CategoryButton(
-                        myCategory: categoryFromIndex,
-                        onPressed: () => {context.read<ScheduleCubit>().sortByCategory(categoryFromIndex)},
+                        myCategory: category,
+                        onPressed: () => {context.read<ScheduleCubit>().sortByCategory(category)},
                         category: state.currentCategory,
                       );
                     },
