@@ -1,5 +1,6 @@
 import 'package:deep_conference/application/presentation/bottom_navigation.dart';
 import 'package:deep_conference/application/presentation/login_screen.dart';
+import 'package:deep_conference/application/presentation/personal_schedule.dart';
 import 'package:deep_conference/application/presentation/schedule_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class _MyHomePageState extends State<RootScreen> {
                   } else if (state.navbarItem == NavbarItem.profile) {
                     return const ScheduleScreen();
                   } else if (state.navbarItem == NavbarItem.mySchedule) {
-                    return const ScheduleScreen();
+                    return const PersonalSchedule();
                   } else {
                     return const ScheduleScreen();
                   }

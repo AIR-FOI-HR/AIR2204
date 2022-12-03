@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deep_conference/application/presentation/login_screen.dart';
 import 'package:deep_conference/constants/my_colors.dart';
 import 'package:email_validator/email_validator.dart';
@@ -208,6 +209,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: emailController.text.trim(), password: passwordController.text.trim());
+
+      //creating an array of saved items for the user
+      final docSavedItems =
+          FirebaseFirestore.instance.collection('savedItems').doc(FirebaseAuth.instance.currentUser!.uid);
+      final Map<String, dynamic> savedItems = {
+        "savedItems": [],
+      };
+      await docSavedItems.set(savedItems);
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message);
     }

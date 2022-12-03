@@ -8,16 +8,19 @@ part 'schedule_state.dart';
 
 class ScheduleCubit extends Cubit<ScheduleState> {
   ScheduleCubit(this.scheduleRepository)
-      : super(ScheduleState(
-          currentDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
-        ));
+      : super(
+          ScheduleState(
+            currentDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
+          ),
+        );
 
   final ScheduleRepository scheduleRepository;
 
   void readAllItems() async {
-    emit(ScheduleState(currentDate: state.currentDate, currentCategory: ScheduleItemCategory.all));
+    emit(ScheduleState(currentDate: state.currentDate, currentCategory: state.currentCategory));
     try {
       final data = await scheduleRepository.getScheduleItems();
+
       DateTime currentDate = state.currentDate;
       final List<DateTime> allDates = groupBy(data, (scheduleItem) => scheduleItem.date).keys.toList()..sort();
       List<ScheduleItem> dataFiltered = data.where((scheduleItem) => scheduleItem.date == state.currentDate).toList();
@@ -39,8 +42,7 @@ class ScheduleCubit extends Cubit<ScheduleState> {
   }
 
   void sortByCategory(ScheduleItemCategory category) async {
-    emit(ScheduleState(
-        allItems: state.allItems, currentDate: state.currentDate, currentCategory: state.currentCategory));
+    emit(ScheduleState(allItems: state.allItems, currentDate: state.currentDate, currentCategory: category));
 
     List<ScheduleItem> filteredItems =
         state.allItems.where((scheduleItem) => scheduleItem.date == state.currentDate).toList();

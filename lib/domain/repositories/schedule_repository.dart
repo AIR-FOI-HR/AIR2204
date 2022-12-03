@@ -11,7 +11,7 @@ class ScheduleRepository {
   Future<List<ScheduleItem>> getScheduleItems() async {
     QuerySnapshot scheduleListData = await firestore.collection(MyCollections.scheduleItems).orderBy('startTime').get();
     List<ScheduleItem> scheduleList =
-        scheduleListData.docs.map((e) => ScheduleItem.fromJson(e.data() as Map<String, dynamic>)).toList();
+        scheduleListData.docs.map((e) => ScheduleItem.fromJson(e.data() as Map<String, dynamic>, e.id)).toList();
 
     return scheduleList;
   }

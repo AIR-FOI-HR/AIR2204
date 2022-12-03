@@ -36,9 +36,9 @@ class RetryButton extends StatelessWidget {
 }
 
 class NoData extends StatelessWidget {
-  const NoData({super.key, required this.onRetry});
+  const NoData({super.key});
 
-  final VoidCallback onRetry;
+  //final VoidCallback onRetry;
 
   @override
   Widget build(BuildContext context) {

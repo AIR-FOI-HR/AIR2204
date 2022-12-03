@@ -1,5 +1,9 @@
-import 'package:deep_conference/domain/models/schedule_items.dart';
+import 'package:deep_conference/constants/my_colors.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../domain/models/schedule_items.dart';
+import '../logic/saved_schedule_cubit.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key, required this.scheduleItem});
@@ -18,6 +22,27 @@ class _DetailScreenState extends State<DetailScreen> {
           'Schedule Item Detail',
           style: Theme.of(context).textTheme.titleLarge,
         ),
+        actions: [
+          BlocBuilder<SavedScheduleCubit, SavedScheduleState>(
+            builder: (context, state) {
+              if (state.savedItems.contains(widget.scheduleItem)) {
+                return MaterialButton(
+                  child: const Icon(Icons.remove, color: MyColors.colorFFFFFF),
+                  onPressed: () => setState(() {
+                    context.read<SavedScheduleCubit>().removeScheduleItem(widget.scheduleItem);
+                  }),
+                );
+              } else {
+                return MaterialButton(
+                  child: const Icon(Icons.add, color: MyColors.colorFFFFFF),
+                  onPressed: () => setState(() {
+                    context.read<SavedScheduleCubit>().addScheduleItem(widget.scheduleItem);
+                  }),
+                );
+              }
+            },
+          ),
+        ],
       ),
       body: Text(widget.scheduleItem.description, style: Theme.of(context).textTheme.titleMedium),
     );
