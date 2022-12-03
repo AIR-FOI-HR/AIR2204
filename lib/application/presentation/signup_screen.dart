@@ -5,14 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../../Utilities/utils.dart';
+import '../../constants/my_icons.dart';
 import '../../main.dart';
 
 class SignUpScreen extends StatefulWidget {
-  // final VoidCallback onClickedSignUp;
-
   const SignUpScreen({
     Key? key,
-    // required this.onClickedSignUp,
   }) : super(key: key);
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -38,7 +36,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("images/backgrounds/background-cropped.jpg"),
+            image: AssetImage(MyIcons.authBackground),
             fit: BoxFit.cover,
           ),
         ),
@@ -46,21 +44,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
           padding: const EdgeInsets.only(left: 40, right: 40, bottom: 40),
           child: ListView(
             children: [
+              const SizedBox(height: 20),
+              Center(
+                child: Text(
+                  'Sign Up',
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 30),
+                ),
+              ),
+              const SizedBox(height: 40),
               Form(
                 key: formKey,
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Center(
-                      child: Text(
-                        'Sign Up',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 30),
-                      ),
-                    ),
-                    const SizedBox(height: 40),
                     TextFormField(
+                      controller: emailController,
+                      cursorHeight: 24,
+                      cursorColor: MyColors.colorFFFFFF,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
+                        enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(width: 1.5, color: MyColors.color9B9A9B),
+                        ),
+                      ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: ((value) {
                         if (value != null && !EmailValidator.validate(value)) {
@@ -69,23 +76,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           return null;
                         }
                       }),
-                      controller: emailController,
-                      cursorHeight: 24,
-                      cursorColor: MyColors.colorFFFFFF,
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(
-                        hintText: 'Email',
-                        hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
-                        contentPadding: const EdgeInsets.only(bottom: 5),
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(width: 1.5, color: MyColors.color9B9A9B),
-                        ),
-                      ),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     TextFormField(
+                      controller: passwordController,
+                      cursorHeight: 24,
+                      cursorColor: MyColors.colorFFFFFF,
+                      textInputAction: TextInputAction.done,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
+                        enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(width: 1.5, color: MyColors.color9B9A9B),
+                        ),
+                      ),
+                      obscureText: true,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: ((value) {
                         if (value != null && value.length < 6) {
@@ -94,19 +101,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           return null;
                         }
                       }),
-                      controller: passwordController,
-                      cursorHeight: 24,
-                      cursorColor: MyColors.colorFFFFFF,
-                      textInputAction: TextInputAction.done,
-                      decoration: InputDecoration(
-                        hintText: 'Password',
-                        contentPadding: const EdgeInsets.only(bottom: 5),
-                        hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(width: 1.5, color: MyColors.color9B9A9B),
-                        ),
-                      ),
-                      obscureText: true,
                     ),
                     const SizedBox(
                       height: 20,

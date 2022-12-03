@@ -1,45 +1,55 @@
-// import 'package:deep_conference/main.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/gestures.dart';
 // import 'package:flutter/material.dart';
 
-// import '../../Utilities/utils.dart';
-// import '../../app.dart';
+// import '../../constants/my_colors.dart';
 
-// class SignInButton extends StatelessWidget {
-//   const SignInButton(
-//       {super.key, required this.context, required this.emailController, required this.passwordController});
-
-//   final BuildContext context;
-//   final TextEditingController emailController;
-//   final TextEditingController passwordController;
+// class TOSCheckbox extends StatefulWidget {
+//   const TOSCheckbox({super.key});
 
 //   @override
-//   Widget build(BuildContext context) {
-//     return ElevatedButton(
-//       onPressed: signIn,
-//       // icon: const Icon(Icons.lock_open),
-//       child: const Text(
-//         "Sign in",
-//         style: TextStyle(fontSize: 24),
-//       ),
-//     );
-//   }
+//   State<TOSCheckbox> createState() => _TOSCheckboxState();
+// }
 
-//   Future signIn() async {
-//     showDialog(
-//       context: context,
-//       barrierDismissible: false,
-//       builder: (context) => const Center(
-//         child: CircularProgressIndicator(),
-//       ),
+// class _TOSCheckboxState extends State<TOSCheckbox> {
+//   @override
+//   Widget build(BuildContext context) {
+//     bool isChecked = false;
+//     return Row(
+//       mainAxisAlignment: MainAxisAlignment.start,
+//       children: [
+//         Checkbox(
+//           checkColor: MyColors.colorFFFFFF,
+//           activeColor: MyColors.colorFB65BA,
+//           side: MaterialStateBorderSide.resolveWith(
+//             (states) => const BorderSide(width: 1.5, color: MyColors.color9B9A9B),
+//           ),
+//           value: isChecked,
+//           onChanged: (bool? value) {
+//             setState(() {
+//               isChecked = value!;
+//             });
+//           },
+//         ),
+//         Flexible(
+//           child: RichText(
+//             overflow: TextOverflow.visible,
+//             text: TextSpan(
+//               text: 'I agree to the ',
+//               style: Theme.of(context).textTheme.bodyMedium,
+//               children: <TextSpan>[
+//                 TextSpan(
+//                   recognizer: TapGestureRecognizer()
+//                     ..onTap = () {
+//                       // TODO: Implement TOS and privacy policy link
+//                     },
+//                   text: "Terms of services and Privacy Policy",
+//                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: MyColors.colorFB65BA),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         )
+//       ],
 //     );
-//     try {
-//       await FirebaseAuth.instance
-//           .signInWithEmailAndPassword(email: emailController.text.trim(), password: passwordController.text.trim());
-//     } on FirebaseAuthException catch (e) {
-//       Utils.showSnackBar(e.message);
-//     }
-//     // NavigatorKe(context, MaterialPageRoute(builder: ((context) => const RootScreen())));
-//     navigatorKey.currentState!.popUntil((route) => route.isFirst);
 //   }
 // }

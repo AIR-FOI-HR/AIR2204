@@ -7,11 +7,8 @@ import '../../Utilities/utils.dart';
 import '../../main.dart';
 
 class LoginScreen extends StatefulWidget {
-  // final VoidCallback onClickedSignUp;
-
   const LoginScreen({
     Key? key,
-    // required this.onClickedSignUp,
   }) : super(key: key);
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -34,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
         body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("images/backgrounds/background-cropped.jpg"),
+              image: AssetImage(MyIcons.authBackground),
               fit: BoxFit.cover,
             ),
           ),
@@ -68,9 +65,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   cursorColor: MyColors.colorFFFFFF,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
-                    hintText: 'Email',
-                    hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
-                    contentPadding: const EdgeInsets.only(bottom: 5),
+                    labelText: 'Email',
+                    labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
                     enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(width: 1.5, color: MyColors.color9B9A9B),
                     ),
@@ -85,18 +81,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   cursorColor: MyColors.colorFFFFFF,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
-                    hintText: 'Password',
-                    contentPadding: const EdgeInsets.only(bottom: 5),
-                    hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
+                    labelText: 'Password',
+                    labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
                     enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(width: 1.5, color: MyColors.color9B9A9B),
                     ),
                   ),
                   obscureText: true,
                 ),
-                const SizedBox(
-                  height: 40,
-                ),
+                const SizedBox(height: 40),
                 Center(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -116,19 +109,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     GestureDetector(
-                      onTap: () => {},
+                      onTap: () => {
+                        //TODO: implement password reset
+                      },
                       child: Text(
                         'Forgot your password?',
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(decoration: TextDecoration.underline),
                       ),
                     ),
                     GestureDetector(
                       onTap: () => {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SignUpScreen(),
-                            ))
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignUpScreen(),
+                          ),
+                        ),
                       },
                       child: Text(
                         'Sign Up',

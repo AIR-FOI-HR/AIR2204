@@ -15,4 +15,5 @@ class MyIcons {
   }
 
   static const String appIcon = 'images/icons/app_icon.png';
+  static const String authBackground = 'images/backgrounds/background-cropped.jpg';
 }
