@@ -105,6 +105,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const SizedBox(
                       height: 20,
                     ),
+                    TextFormField(
+                      cursorHeight: 24,
+                      cursorColor: MyColors.colorFFFFFF,
+                      textInputAction: TextInputAction.done,
+                      decoration: InputDecoration(
+                        labelText: 'Repeat password',
+                        labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
+                        enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(width: 1.5, color: MyColors.color9B9A9B),
+                        ),
+                      ),
+                      obscureText: true,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: ((value) {
+                        if (value != passwordController.text) {
+                          return 'Passwords must match';
+                        } else {
+                          return null;
+                        }
+                      }),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
