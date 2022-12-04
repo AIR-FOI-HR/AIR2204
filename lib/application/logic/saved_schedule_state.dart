@@ -1,6 +1,5 @@
 part of 'saved_schedule_cubit.dart';
 
-// ignore: must_be_immutable
 class SavedScheduleState extends Equatable {
   final List<ScheduleItem> scheduleItems;
   final List<ScheduleItem> savedItems;
@@ -8,9 +7,9 @@ class SavedScheduleState extends Equatable {
   final dynamic error;
   final DateTime currentDate;
   final ScheduleItemCategory currentCategory;
-  List<DateTime> allDates;
+  final List<DateTime> allDates;
 
-  SavedScheduleState(
+  const SavedScheduleState(
       {this.scheduleItems = const [],
       this.savedItems = const [],
       this.loading = true,
