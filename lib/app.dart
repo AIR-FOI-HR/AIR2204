@@ -4,6 +4,8 @@ import 'package:deep_conference/domain/repositories/saved_schedule_repository.da
 import 'package:deep_conference/domain/repositories/schedule_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'Utilities/utils.dart';
 import 'application/logic/navigation_cubit.dart';
@@ -41,6 +43,15 @@ class MyApp extends StatelessWidget {
           scaffoldMessengerKey: Utils.messengerKey,
           debugShowCheckedModeBanner: false,
           title: 'Deep Conference App',
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en', ''),
+          ],
           theme: MyTheme.deepTheme,
           home: const RootScreen(),
         ),

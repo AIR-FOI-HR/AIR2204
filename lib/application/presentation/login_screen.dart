@@ -3,6 +3,7 @@ import 'package:deep_conference/constants/my_colors.dart';
 import 'package:deep_conference/constants/my_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../Utilities/utils.dart';
 import '../../main.dart';
 
@@ -47,12 +48,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       Image.asset(MyIcons.categoryIcons['all']!),
                       Text(
-                        'Sign In',
+                        AppLocalizations.of(context)!.signIn,
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 30),
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Welcome!',
+                        AppLocalizations.of(context)!.welcome,
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w400),
                       ),
                     ],
@@ -65,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   cursorColor: MyColors.colorFFFFFF,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
-                    labelText: 'Email',
+                    labelText: AppLocalizations.of(context)!.email,
                     labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
                     enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(width: 1.5, color: MyColors.color9B9A9B),
@@ -81,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   cursorColor: MyColors.colorFFFFFF,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
-                    labelText: 'Password',
+                    labelText: AppLocalizations.of(context)!.password,
                     labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
                     enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(width: 1.5, color: MyColors.color9B9A9B),
@@ -97,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 60)),
                     onPressed: signIn,
                     child: Text(
-                      "Sign In",
+                      AppLocalizations.of(context)!.signIn,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
@@ -113,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         //TODO: implement password reset
                       },
                       child: Text(
-                        'Forgot your password?',
+                        AppLocalizations.of(context)!.forgotPassword,
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(decoration: TextDecoration.underline),
                       ),
                     ),
@@ -127,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       },
                       child: Text(
-                        'Sign Up',
+                        AppLocalizations.of(context)!.signUp,
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
                       ),
                     ),

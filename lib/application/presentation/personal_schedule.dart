@@ -1,6 +1,7 @@
 import 'package:deep_conference/application/presentation/error_widgets.dart';
 import 'package:deep_conference/application/presentation/schedule_card.dart';
 import 'package:deep_conference/constants/my_colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -28,8 +29,8 @@ class _PersonalScheduleState extends State<PersonalSchedule> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Personal Schedule',
+        title: Text(
+          AppLocalizations.of(context)!.personalScheduleTitle,
         ),
         actions: [
           MaterialButton(

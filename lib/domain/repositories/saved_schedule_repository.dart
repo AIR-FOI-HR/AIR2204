@@ -19,8 +19,8 @@ class SavedRepository {
     ScheduleItem savedItem;
     List<ScheduleItem> savedItemsList = [];
 
-    for (var index in idList) {
-      savedItemsQuery = firestore.collection(MyCollections.scheduleItems).doc(index);
+    for (var id in idList) {
+      savedItemsQuery = firestore.collection(MyCollections.scheduleItems).doc(id);
       savedItem = await savedItemsQuery
           .get()
           .then((value) => ScheduleItem.fromJson(value.data() as Map<String, dynamic>, value.id));

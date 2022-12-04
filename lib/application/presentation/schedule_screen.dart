@@ -2,6 +2,7 @@ import 'package:deep_conference/application/presentation/action_items.dart';
 import 'package:deep_conference/application/presentation/error_widgets.dart';
 import 'package:deep_conference/application/presentation/schedule_card.dart';
 import 'package:deep_conference/constants/my_colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:deep_conference/constants/schedule_item_categories.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,8 +32,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Schedule',
+        title: Text(
+          AppLocalizations.of(context)!.scheduleTitle,
         ),
         actions: [
           MaterialButton(

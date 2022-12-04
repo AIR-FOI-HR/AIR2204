@@ -1,5 +1,5 @@
 import 'package:deep_conference/constants/my_colors.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/models/schedule_items.dart';
@@ -19,7 +19,7 @@ class _DetailScreenState extends State<DetailScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Schedule Item Detail',
+          AppLocalizations.of(context)!.detailTitle,
           style: Theme.of(context).textTheme.titleLarge,
         ),
         actions: [
@@ -29,14 +29,14 @@ class _DetailScreenState extends State<DetailScreen> {
                 return MaterialButton(
                   child: const Icon(Icons.remove, color: MyColors.colorFFFFFF),
                   onPressed: () => setState(() {
-                    context.read<SavedScheduleCubit>().removeScheduleItem(widget.scheduleItem);
+                    context.read<SavedScheduleCubit>().updatePersonalSchedule(widget.scheduleItem, false);
                   }),
                 );
               } else {
                 return MaterialButton(
                   child: const Icon(Icons.add, color: MyColors.colorFFFFFF),
                   onPressed: () => setState(() {
-                    context.read<SavedScheduleCubit>().addScheduleItem(widget.scheduleItem);
+                    context.read<SavedScheduleCubit>().updatePersonalSchedule(widget.scheduleItem, true);
                   }),
                 );
               }

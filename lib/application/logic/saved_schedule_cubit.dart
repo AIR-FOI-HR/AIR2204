@@ -25,7 +25,6 @@ class SavedScheduleCubit extends Cubit<SavedScheduleState> {
         allDates: const [],
         currentCategory: ScheduleItemCategory.all));
     try {
-      //getting all dates (the only reason why we need scheduleRepo)
       final allItems = await scheduleRepository.getScheduleItems();
       final List<DateTime> allDates = groupBy(allItems, (scheduleItem) => scheduleItem.date).keys.toList()..sort();
 
@@ -33,7 +32,6 @@ class SavedScheduleCubit extends Cubit<SavedScheduleState> {
       data.sortBy((scheduleItem) => scheduleItem.startTime);
 
       DateTime currentDate = state.currentDate;
-
       List<ScheduleItem> dataFiltered = data.where((scheduleItem) => scheduleItem.date == state.currentDate).toList();
 
       if (dataFiltered.isEmpty) {
@@ -96,46 +94,12 @@ class SavedScheduleCubit extends Cubit<SavedScheduleState> {
         currentDate: date));
   }
 
-  //implement add item and remove item
-  void addScheduleItem(ScheduleItem scheduleItem) {
-    //add an item to savedItems
+  void updatePersonalSchedule(ScheduleItem scheduleItem, bool add) {
     final savedItems = state.savedItems;
-    savedItems.add(scheduleItem);
 
-    //emit to refresh the add button
-    emit(SavedScheduleState(
-        allDates: state.allDates,
-        savedItems: savedItems,
-        scheduleItems: state.scheduleItems,
-        loading: false,
-        currentCategory: state.currentCategory,
-        currentDate: state.currentDate));
+    add ? savedItems.add(scheduleItem) : savedItems.remove(scheduleItem);
 
-    //filter items to instantly refresh the view
     sortByCategory(state.currentCategory);
-
-    //add to firebase
-    savedRepository.refreshSavedItems(savedItems);
-  }
-
-  void removeScheduleItem(ScheduleItem scheduleItem) {
-    //remove an item from savedItems
-    final savedItems = state.savedItems;
-    savedItems.remove(scheduleItem);
-
-    //emit to refresh the add button
-    emit(SavedScheduleState(
-        allDates: state.allDates,
-        savedItems: savedItems,
-        scheduleItems: state.scheduleItems,
-        loading: false,
-        currentCategory: state.currentCategory,
-        currentDate: state.currentDate));
-
-    //filter items to instantly refresh the view
-    sortByCategory(state.currentCategory);
-
-    //remove from firebase
     savedRepository.refreshSavedItems(savedItems);
   }
 }

@@ -6,7 +6,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../../Utilities/utils.dart';
+import '../../constants/my_collections.dart';
 import '../../constants/my_icons.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../main.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -48,7 +50,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(height: 20),
               Center(
                 child: Text(
-                  'Sign Up',
+                  AppLocalizations.of(context)!.signUp,
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 30),
                 ),
               ),
@@ -63,7 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       cursorColor: MyColors.colorFFFFFF,
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
-                        labelText: 'Email',
+                        labelText: AppLocalizations.of(context)!.email,
                         labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
                         enabledBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(width: 1.5, color: MyColors.color9B9A9B),
@@ -72,7 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: ((value) {
                         if (value != null && !EmailValidator.validate(value)) {
-                          return 'Enter a valid e-mail!';
+                          return AppLocalizations.of(context)!.enterValidEmail;
                         } else {
                           return null;
                         }
@@ -87,7 +89,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       cursorColor: MyColors.colorFFFFFF,
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
-                        labelText: 'Password',
+                        labelText: AppLocalizations.of(context)!.password,
                         labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
                         enabledBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(width: 1.5, color: MyColors.color9B9A9B),
@@ -97,7 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: ((value) {
                         if (value != null && value.length < 6) {
-                          return 'Password must be at least 6 characters long.';
+                          return AppLocalizations.of(context)!.passwordLengthErrorMsg;
                         } else {
                           return null;
                         }
@@ -126,7 +128,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: RichText(
                             overflow: TextOverflow.visible,
                             text: TextSpan(
-                              text: 'I agree to the ',
+                              text: AppLocalizations.of(context)!.iAgreeToThe,
                               style: Theme.of(context).textTheme.bodyMedium,
                               children: <TextSpan>[
                                 TextSpan(
@@ -134,7 +136,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ..onTap = () {
                                       // TODO: Implement TOS and privacy policy link
                                     },
-                                  text: "Terms of services and Privacy Policy",
+                                  text: AppLocalizations.of(context)!.termsOfService,
                                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: MyColors.colorFB65BA),
                                 ),
                               ],
@@ -153,7 +155,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 60)),
                         onPressed: signUp,
                         child: Text(
-                          "Sign Up",
+                          AppLocalizations.of(context)!.signUp,
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
@@ -165,7 +167,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          'Have an account?',
+                          AppLocalizations.of(context)!.haveAnAccount,
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         GestureDetector(
@@ -177,7 +179,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ))
                           },
                           child: Text(
-                            'Sign In',
+                            AppLocalizations.of(context)!.signIn,
                             style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
                           ),
                         ),
@@ -212,7 +214,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
       //creating an array of saved items for the user
       final docSavedItems =
-          FirebaseFirestore.instance.collection('savedItems').doc(FirebaseAuth.instance.currentUser!.uid);
+          FirebaseFirestore.instance.collection(MyCollections.savedItems).doc(FirebaseAuth.instance.currentUser!.uid);
       final Map<String, dynamic> savedItems = {
         "savedItems": [],
       };

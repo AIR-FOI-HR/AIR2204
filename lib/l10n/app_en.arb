@@ -1,0 +1,69 @@
+{
+    "helloWorld": "Hello World!",
+    "@helloWorld": {
+      "description": "The conventional newborn programmer greeting"     
+    },
+    "appTitle": "Deep Conference App",
+    "@appTitle": {
+      "description": "title of the application"     
+    },
+    "scheduleTitle": "Schedule",
+    "@scheduleTitle": {
+      "description": "title of the schedule screen"     
+    },
+    "detailTitle": "Schedule Item Detail",
+    "@detailTitle": {
+      "description": "title of the schedule item detail screen"     
+    },
+    "retry": "Retry",
+    "@retry": {
+      "description": "text of the retry  button"
+    },
+    "noData": "No data available.",
+    "@noData": {
+      "description": "text of the no data error widget"
+    },
+    "signIn": "Sign In",
+    "@signIn": {
+      "description": "text on the Sign In screen"
+    },  
+    "signUp": "Sign Up",
+    "@signUp": {
+    },
+    "welcome": "Welcome!",
+    "@welcome": {
+      "description": "welcome greeting on the Sign In screen"
+    },
+    "email": "Email",
+    "@email": {
+      "description": "email label"
+    },
+    "password": "Password",
+    "@password": {
+      "description": "password label"
+    },
+    "forgotPassword": "Forgot your password?",
+    "@forgotPassword": {
+      "description": "forgot your password label"
+    },
+    "personalScheduleTitle": "Personal Schedule",
+    "@personalScheduleTitle": {
+      "description": "title of the personal schedule screen"
+    },
+    "enterValidEmail": "Enter a valid email",
+    "@enterValidEmail": {
+    },
+    "passwordLengthErrorMsg": "Password must be at least 6 characters long.",
+    "@passwordLengthErrorMsg": {
+    },
+    "iAgreeToThe": "I agree to the ",
+    "@iAgreeToThe": {
+    },
+    "termsOfService": "Terms of services and Privacy Policy",
+    "@termsOfService": {
+    },
+    "haveAnAccount": "Have an account?",
+    "@haveAnAccount": {
+    }
+    
+}
