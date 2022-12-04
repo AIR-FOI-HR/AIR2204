@@ -1,3 +1,4 @@
+import 'package:deep_conference/application/presentation/password_reset.dart';
 import 'package:deep_conference/application/presentation/signup_screen.dart';
 import 'package:deep_conference/constants/my_colors.dart';
 import 'package:deep_conference/constants/my_icons.dart';
@@ -110,7 +111,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     GestureDetector(
                       onTap: () => {
-                        //TODO: implement password reset
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const PasswordReset(),
+                        )),
                       },
                       child: Text(
                         'Forgot your password?',
