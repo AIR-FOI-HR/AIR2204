@@ -89,6 +89,7 @@ class _PasswordResetState extends State<PasswordReset> {
       navigatorKey.currentState!.popUntil((route) => route.isFirst);
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message);
+      navigatorKey.currentState!.pop(true);
     }
   }
 }

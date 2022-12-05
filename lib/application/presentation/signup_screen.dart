@@ -234,6 +234,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           .createUserWithEmailAndPassword(email: emailController.text.trim(), password: passwordController.text.trim());
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message);
+      return navigatorKey.currentState!.pop(true);
     }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
