@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'app.dart';
 import 'data/firebase_options.dart';
 
-final navigatorKey = GlobalKey<NavigatorState>();
 dynamic main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

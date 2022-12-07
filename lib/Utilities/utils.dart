@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import '../constants/my_colors.dart';
 
 class Utils {
-  static final messengerKey = GlobalKey<ScaffoldMessengerState>();
-
-  static showSnackBar(String? text) {
+  static showSnackBar(String? text, BuildContext context) {
     if (text == null) return;
 
     final snackBar = SnackBar(
@@ -13,7 +11,7 @@ class Utils {
       backgroundColor: MyColors.color772DFF,
     );
 
-    messengerKey.currentState!
+    ScaffoldMessenger.of(context)
       ..removeCurrentSnackBar()
       ..showSnackBar(snackBar);
   }

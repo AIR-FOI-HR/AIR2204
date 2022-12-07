@@ -1,55 +1,64 @@
-// import 'package:flutter/gestures.dart';
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-// import '../../constants/my_colors.dart';
+import '../../constants/my_colors.dart';
 
-// class TOSCheckbox extends StatefulWidget {
-//   const TOSCheckbox({super.key});
+class TextFormFieldWidget extends StatelessWidget {
+  final TextEditingController? controller;
+  final TextInputAction inputAction;
+  final String? label;
+  final bool obscure;
+  final String? Function(String?)? validator;
+  final TextInputType? keyboardType;
 
-//   @override
-//   State<TOSCheckbox> createState() => _TOSCheckboxState();
-// }
+  const TextFormFieldWidget(
+      {super.key,
+      this.keyboardType,
+      this.validator,
+      this.controller,
+      this.label,
+      this.obscure = false,
+      this.inputAction = TextInputAction.next});
 
-// class _TOSCheckboxState extends State<TOSCheckbox> {
-//   @override
-//   Widget build(BuildContext context) {
-//     bool isChecked = false;
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.start,
-//       children: [
-//         Checkbox(
-//           checkColor: MyColors.colorFFFFFF,
-//           activeColor: MyColors.colorFB65BA,
-//           side: MaterialStateBorderSide.resolveWith(
-//             (states) => const BorderSide(width: 1.5, color: MyColors.color9B9A9B),
-//           ),
-//           value: isChecked,
-//           onChanged: (bool? value) {
-//             setState(() {
-//               isChecked = value!;
-//             });
-//           },
-//         ),
-//         Flexible(
-//           child: RichText(
-//             overflow: TextOverflow.visible,
-//             text: TextSpan(
-//               text: 'I agree to the ',
-//               style: Theme.of(context).textTheme.bodyMedium,
-//               children: <TextSpan>[
-//                 TextSpan(
-//                   recognizer: TapGestureRecognizer()
-//                     ..onTap = () {
-//                       // TODO: Implement TOS and privacy policy link
-//                     },
-//                   text: "Terms of services and Privacy Policy",
-//                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: MyColors.colorFB65BA),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         )
-//       ],
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      keyboardType: keyboardType,
+      controller: controller,
+      cursorHeight: 24,
+      cursorColor: MyColors.colorFFFFFF,
+      textInputAction: inputAction,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
+        enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(width: 1.5, color: MyColors.color9B9A9B),
+        ),
+      ),
+      obscureText: obscure,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: validator,
+    );
+  }
+}
+
+class AuthButtonWidget extends StatelessWidget {
+  final Color? backgroundColor;
+  final VoidCallback? onPressed;
+  final String label;
+  const AuthButtonWidget({super.key, required this.label, this.onPressed, this.backgroundColor = MyColors.color772DFF});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            backgroundColor: backgroundColor, padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 60)),
+        onPressed: onPressed,
+        child: Text(
+          label,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+      ),
+    );
+  }
+}

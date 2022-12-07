@@ -1,7 +1,8 @@
+import 'package:deep_conference/application/logic/authentication_cubit.dart';
 import 'package:deep_conference/application/presentation/email_verification.dart';
 import 'package:deep_conference/application/presentation/login_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({
@@ -14,14 +15,14 @@ class RootScreen extends StatefulWidget {
 class _MyHomePageState extends State<RootScreen> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return const EmailVerificationScreen();
-          } else {
-            return const LoginScreen();
-          }
-        });
+    return BlocBuilder<AuthenticationCubit, AuthenticationState>(
+      builder: ((context, state) {
+        if (state.userId.isNotEmpty) {
+          return const EmailVerificationScreen();
+        } else {
+          return const LoginScreen();
+        }
+      }),
+    );
   }
 }

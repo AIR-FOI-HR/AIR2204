@@ -1,13 +1,12 @@
+import 'package:deep_conference/application/logic/authentication_cubit.dart';
 import 'package:deep_conference/application/presentation/action_items.dart';
 import 'package:deep_conference/application/presentation/error_widgets.dart';
 import 'package:deep_conference/application/presentation/schedule_card.dart';
 import 'package:deep_conference/constants/my_colors.dart';
 
 import 'package:deep_conference/constants/schedule_item_categories.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import '../../domain/models/schedule_items.dart';
 import '../logic/schedule_cubit.dart';
 
@@ -28,7 +27,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   @override
   Widget build(BuildContext context) {
     //it's here for now becuase the sign out option will only be available on one screen (profile screen)
-    final GoogleSignIn googleSignIn = GoogleSignIn();
+    //final GoogleSignIn googleSignIn = GoogleSignIn();
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -39,8 +38,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             child: const Icon(Icons.logout, color: MyColors.colorFFFFFF),
             onPressed: () => {
               // sign out test
-              FirebaseAuth.instance.signOut(),
-              googleSignIn.signOut(),
+              context.read<AuthenticationCubit>().signOut(),
+              // googleSignIn.signOut(),
             },
           ),
           // TODO: Implement notification screen
@@ -124,7 +123,14 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               }
               if (state.scheduleItems.isNotEmpty) {
                 return Expanded(
-                  child: ListView.builder(
+                  //pitaj dariju
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        height: 10,
+                      );
+                    },
+                    padding: const EdgeInsets.only(left: 20, top: 5, right: 15, bottom: 5),
                     itemCount: state.scheduleItems.length,
                     itemBuilder: (context, index) {
                       return listBuild(state.scheduleItems[index]);
