@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class Utils {
-  static final messengerKey = GlobalKey<ScaffoldMessengerState>();
+import '../constants/my_colors.dart';
 
-  static showSnackBar(String? text) {
+class Utils {
+  static showSnackBar(String? text, BuildContext context) {
     if (text == null) return;
 
     final snackBar = SnackBar(
       content: Text(text),
-      backgroundColor: Colors.red,
+      backgroundColor: MyColors.color772DFF,
     );
 
-    messengerKey.currentState!
+    ScaffoldMessenger.of(context)
       ..removeCurrentSnackBar()
       ..showSnackBar(snackBar);
   }

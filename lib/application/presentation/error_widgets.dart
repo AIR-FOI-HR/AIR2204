@@ -10,26 +10,24 @@ class RetryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Expanded(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              //imeplement text based on error type
-              error.toString(),
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            //imeplement text based on error type
+            error.toString(),
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          MaterialButton(
+            onPressed: onRetry,
+            color: MyColors.color772DFF,
+            child: Text(
+              AppLocalizations.of(context)!.retry,
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            MaterialButton(
-              onPressed: onRetry,
-              color: MyColors.color772DFF,
-              child: Text(
-                AppLocalizations.of(context)!.retry,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -37,8 +35,6 @@ class RetryButton extends StatelessWidget {
 
 class NoData extends StatelessWidget {
   const NoData({super.key});
-
-  //final VoidCallback onRetry;
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +45,6 @@ class NoData extends StatelessWidget {
           Center(
             child: Text(AppLocalizations.of(context)!.noData, style: Theme.of(context).textTheme.labelMedium),
           ),
-          /*  MaterialButton(
-            onPressed: onRetry,
-            color: MyColors.color772DFF,
-            child: Text(
-              'Retry',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-          ),*/
         ],
       ),
     );

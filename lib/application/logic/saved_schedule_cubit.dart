@@ -38,60 +38,29 @@ class SavedScheduleCubit extends Cubit<SavedScheduleState> {
         dataFiltered = data.where((scheduleItem) => scheduleItem.date == allDates.first).toList();
         currentDate = allDates.first;
       }
-
-      emit(SavedScheduleState(
-          allDates: allDates,
-          savedItems: data,
-          scheduleItems: dataFiltered,
-          loading: false,
-          currentCategory: ScheduleItemCategory.all,
-          currentDate: currentDate));
+      emit(state.copyWith(
+          allDates: allDates, savedItems: data, scheduleItems: dataFiltered, loading: false, currentDate: currentDate));
     } catch (e) {
-      emit(SavedScheduleState(
-          error: e, currentDate: state.currentDate, currentCategory: state.currentCategory, allDates: const []));
+      emit(state.copyWith(error: e));
     }
   }
 
   void sortByCategory(ScheduleItemCategory category) async {
-    emit(SavedScheduleState(
-        savedItems: state.savedItems,
-        currentDate: state.currentDate,
-        currentCategory: category,
-        allDates: state.allDates));
-
+    emit(state.copyWith(currentCategory: category, loading: true));
     List<ScheduleItem> filteredItems =
         state.savedItems.where((scheduleItem) => scheduleItem.date == state.currentDate).toList();
-
     if (category != ScheduleItemCategory.all) {
       filteredItems = filteredItems.where((scheduleItem) => scheduleItem.category == category).toList();
     }
-
-    emit(SavedScheduleState(
-        savedItems: state.savedItems,
-        scheduleItems: filteredItems,
-        loading: false,
-        currentCategory: category,
-        currentDate: state.currentDate,
-        allDates: state.allDates));
+    emit(state.copyWith(scheduleItems: filteredItems, loading: false, currentCategory: category));
   }
 
   void sortByDate(DateTime date) async {
-    emit(SavedScheduleState(
-        savedItems: state.savedItems,
-        currentDate: date,
-        currentCategory: ScheduleItemCategory.all,
-        allDates: state.allDates));
-
+    emit(state.copyWith(currentDate: date, currentCategory: ScheduleItemCategory.all, loading: true));
     final List<ScheduleItem> filteredItems =
         state.savedItems.where((scheduleItem) => scheduleItem.date == date).toList();
 
-    emit(SavedScheduleState(
-        allDates: state.allDates,
-        savedItems: state.savedItems,
-        scheduleItems: filteredItems,
-        loading: false,
-        currentCategory: ScheduleItemCategory.all,
-        currentDate: date));
+    emit(state.copyWith(scheduleItems: filteredItems, loading: false, currentDate: date));
   }
 
   void updatePersonalSchedule(ScheduleItem scheduleItem, bool add) {

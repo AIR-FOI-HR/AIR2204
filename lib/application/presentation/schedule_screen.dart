@@ -5,10 +5,10 @@ import 'package:deep_conference/constants/my_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:deep_conference/constants/schedule_item_categories.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/models/schedule_items.dart';
+import '../logic/authentication_cubit.dart';
 import '../logic/saved_schedule_cubit.dart';
 import '../logic/schedule_cubit.dart';
 
@@ -39,8 +39,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           MaterialButton(
             child: const Icon(Icons.logout, color: MyColors.colorFFFFFF),
             onPressed: () => {
-              // sign out test
-              FirebaseAuth.instance.signOut()
+              context.read<AuthenticationCubit>().signOut(),
             },
           ),
           // TODO: Implement notification screen
@@ -124,7 +123,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               }
               if (state.scheduleItems.isNotEmpty) {
                 return Expanded(
-                  child: ListView.builder(
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        height: 12,
+                      );
+                    },
+                    padding: const EdgeInsets.only(left: 20, top: 5, right: 15, bottom: 5),
                     itemCount: state.scheduleItems.length,
                     itemBuilder: (context, index) {
                       return listBuild(state.scheduleItems[index]);
