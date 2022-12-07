@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:deep_conference/application/logic/authentication_cubit.dart';
 import 'package:deep_conference/application/presentation/schedule_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,7 +35,6 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //return Text('here', style: Theme.of(context).textTheme.bodyLarge);
     return BlocBuilder<AuthenticationCubit, AuthenticationState>(builder: (context, authState) {
       if (authState.isEmailVerified) {
         return Scaffold(

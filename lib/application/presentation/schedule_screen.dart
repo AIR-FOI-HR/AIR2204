@@ -123,11 +123,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               }
               if (state.scheduleItems.isNotEmpty) {
                 return Expanded(
-                  //pitaj dariju
                   child: ListView.separated(
                     separatorBuilder: (context, index) {
                       return const SizedBox(
-                        height: 10,
+                        height: 12,
                       );
                     },
                     padding: const EdgeInsets.only(left: 20, top: 5, right: 15, bottom: 5),
