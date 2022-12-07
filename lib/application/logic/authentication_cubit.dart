@@ -29,6 +29,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     if (authenticationRepository.getCurrentUser() != null) {
       await authenticationRepository.reloadUser();
       if (authenticationRepository.isEmailVerified()) {
+        timer?.cancel();
         emit(AuthenticationState(isEmailVerified: true, userId: state.userId));
       }
     }
