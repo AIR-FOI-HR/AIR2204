@@ -26,8 +26,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //it's here for now becuase the sign out option will only be available on one screen (profile screen)
-    //final GoogleSignIn googleSignIn = GoogleSignIn();
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -37,9 +35,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           MaterialButton(
             child: const Icon(Icons.logout, color: MyColors.colorFFFFFF),
             onPressed: () => {
-              // sign out test
               context.read<AuthenticationCubit>().signOut(),
-              // googleSignIn.signOut(),
             },
           ),
           // TODO: Implement notification screen
