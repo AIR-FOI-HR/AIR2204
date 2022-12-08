@@ -28,8 +28,12 @@ class AuthenticationRepository {
     return auth.currentUser!.uid;
   }
 
-  Future<void> reloadUser() {
-    return auth.currentUser!.reload();
+  Future<void>? reloadUser() {
+    if (auth.currentUser != null) {
+      return auth.currentUser?.reload();
+    } else {
+      return null;
+    }
   }
 
   Future<void> sendVerificationEmail() async {

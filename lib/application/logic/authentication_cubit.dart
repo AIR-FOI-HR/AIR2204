@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:deep_conference/domain/repositories/authentication_repository.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../domain/models/form_error.dart';
 
 part 'authentication_state.dart';
 
@@ -12,6 +15,16 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   final AuthenticationRepository authenticationRepository;
 
   AuthenticationCubit(this.authenticationRepository) : super(const AuthenticationState());
+
+  void isChecked(bool? newValue) {
+    emit(AuthenticationState(
+        isChecked: newValue!,
+        loading: false,
+        password: state.password,
+        emailError: state.emailError,
+        passwordError: state.passwordError,
+        repeatPasswordError: state.repeatPasswordError));
+  }
 
   void isEmailVerified(Timer? timer) {
     if (!authenticationRepository.isEmailVerified()) {
@@ -51,26 +64,92 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     emit(const AuthenticationState(loading: false, userId: ""));
   }
 
-  Future<void> resetPassword(TextEditingController emailController) async {
+  Future<void> resetPassword(String email) async {
     emit(const AuthenticationState());
     try {
-      await authenticationRepository.sendPasswordResetEmail(emailController.text.trim());
-      emit(const AuthenticationState(loading: false));
+      await authenticationRepository.sendPasswordResetEmail(email);
+      emit(const AuthenticationState(loading: false, resetEmail: true));
     } on FirebaseAuthException catch (e) {
       emit(AuthenticationState(loading: false, error: e.message));
     }
   }
 
-  Future<void> signUp(GlobalKey<FormState> formKey, TextEditingController emailController,
-      TextEditingController passwordController) async {
-    emit(const AuthenticationState());
-    final isValid = formKey.currentState!.validate();
-    if (!isValid) {
-      emit(const AuthenticationState(loading: false, error: 'Something went wrong :('));
+  FormError? _emailValidate(String email) {
+    if (email.isEmpty) {
+      return FieldRequiredError();
+    }
+    if (!EmailValidator.validate(email)) {
+      return InvalidEmailError();
+    }
+    return null;
+  }
+
+  void onEmailChanged(String email) {
+    FormError? emailValidate = _emailValidate(email);
+    emit(AuthenticationState(
+        isChecked: state.isChecked,
+        password: state.password,
+        passwordError: state.passwordError,
+        repeatPasswordError: state.repeatPasswordError,
+        emailError: emailValidate,
+        loading: false));
+  }
+
+  FormError? _passwordValidate(String password) {
+    if (password.isEmpty) {
+      return FieldRequiredError();
+    }
+    if (password.length < 6) {
+      return PasswordLengthError();
+    }
+    return null;
+  }
+
+  void onPasswordChanged(String password) {
+    FormError? passwordValidate = _passwordValidate(password);
+    emit(AuthenticationState(
+        isChecked: state.isChecked,
+        password: password,
+        emailError: state.emailError,
+        repeatPasswordError: state.repeatPasswordError,
+        passwordError: passwordValidate,
+        loading: false));
+  }
+
+  FormError? _repeatPasswordValidate(String repeatPassword) {
+    if (repeatPassword.isEmpty) {
+      return FieldRequiredError();
+    }
+    if (state.password != repeatPassword) {
+      return PasswordMatchError();
+    }
+    return null;
+  }
+
+  void onRepeatPasswordChanged(String repeatPassword) {
+    FormError? repeatPasswordValidate = _repeatPasswordValidate(repeatPassword);
+    emit(AuthenticationState(
+        isChecked: state.isChecked,
+        password: state.password,
+        emailError: state.emailError,
+        passwordError: state.passwordError,
+        repeatPasswordError: repeatPasswordValidate,
+        loading: false));
+  }
+
+  Future<void> signUp(String repeatPassword, String email, String password) async {
+    emit(AuthenticationState(password: state.password));
+    //pozovem metode za svaki field i ak je bilo koja od njih != null onda something went wrong
+    final passwordValidate = _passwordValidate(password);
+    final emailValidate = _emailValidate(email);
+    final repeatPasswordValidate = _repeatPasswordValidate(repeatPassword);
+
+    if (emailValidate != null || passwordValidate != null || repeatPasswordValidate != null) {
+      emit(AuthenticationState(password: state.password, loading: false, error: 'Please check all input fields'));
       return;
     }
     try {
-      await authenticationRepository.createUser(emailController.text.trim(), passwordController.text.trim());
+      await authenticationRepository.createUser(email, password);
       emit(AuthenticationState(loading: false, userId: authenticationRepository.getUserId()));
     } on FirebaseAuthException catch (e) {
       emit(AuthenticationState(loading: false, error: e.message));
