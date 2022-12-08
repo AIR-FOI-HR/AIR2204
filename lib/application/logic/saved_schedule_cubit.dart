@@ -10,20 +10,14 @@ import '../../domain/models/schedule_items.dart';
 part 'saved_schedule_state.dart';
 
 class SavedScheduleCubit extends Cubit<SavedScheduleState> {
-  SavedScheduleCubit(this.savedRepository, this.scheduleRepository)
-      : super(
-          SavedScheduleState(
-              currentDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day), allDates: const []),
-        );
+  SavedScheduleCubit(this.savedRepository, this.scheduleRepository) : super(SavedScheduleState.inital());
 
   final ScheduleRepository scheduleRepository;
   final SavedRepository savedRepository;
 
   void readAllSavedItems() async {
-    emit(SavedScheduleState(
-        currentDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
-        allDates: const [],
-        currentCategory: ScheduleItemCategory.all));
+    emit(SavedScheduleState.inital());
+
     try {
       final allItems = await scheduleRepository.getScheduleItems();
       final List<DateTime> allDates = groupBy(allItems, (scheduleItem) => scheduleItem.date).keys.toList()..sort();

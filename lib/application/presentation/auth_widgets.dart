@@ -2,32 +2,36 @@ import 'package:flutter/material.dart';
 
 import '../../constants/my_colors.dart';
 
-class TextFormFieldWidget extends StatelessWidget {
+class TextFieldWidget extends StatelessWidget {
   final TextEditingController? controller;
   final TextInputAction inputAction;
   final String? label;
   final bool obscure;
-  final String? Function(String?)? validator;
   final TextInputType? keyboardType;
+  final String? errorText;
+  final void Function(String)? onChanged;
 
-  const TextFormFieldWidget(
+  const TextFieldWidget(
       {super.key,
       this.keyboardType,
-      this.validator,
       this.controller,
       this.label,
       this.obscure = false,
+      this.errorText,
+      this.onChanged,
       this.inputAction = TextInputAction.next});
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return TextField(
+      onChanged: onChanged,
       keyboardType: keyboardType,
       controller: controller,
       cursorHeight: 24,
       cursorColor: MyColors.colorFFFFFF,
       textInputAction: inputAction,
       decoration: InputDecoration(
+        errorText: errorText,
         labelText: label,
         labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
         enabledBorder: const UnderlineInputBorder(
@@ -35,8 +39,6 @@ class TextFormFieldWidget extends StatelessWidget {
         ),
       ),
       obscureText: obscure,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: validator,
     );
   }
 }

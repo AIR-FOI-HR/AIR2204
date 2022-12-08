@@ -18,13 +18,12 @@ class SavedScheduleState extends Equatable {
       required this.allDates,
       this.currentCategory = ScheduleItemCategory.all});
 
-  //test fixanja za initial state
-  SavedScheduleState.inital(this.scheduleItems, this.savedItems, this.loading, this.error, this.currentCategory)
-      : currentDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
-        allDates = [];
-
-  @override
-  List<Object?> get props => [scheduleItems, loading, error, currentDate, currentCategory, savedItems, allDates];
+  factory SavedScheduleState.inital() {
+    return SavedScheduleState(
+        currentDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
+        allDates: const [],
+        currentCategory: ScheduleItemCategory.all);
+  }
 
   SavedScheduleState copyWith(
       {ScheduleItemCategory? currentCategory,
@@ -43,4 +42,7 @@ class SavedScheduleState extends Equatable {
         scheduleItems: scheduleItems ?? this.scheduleItems,
         loading: loading ?? this.loading);
   }
+
+  @override
+  List<Object?> get props => [scheduleItems, loading, error, currentDate, currentCategory, savedItems, allDates];
 }

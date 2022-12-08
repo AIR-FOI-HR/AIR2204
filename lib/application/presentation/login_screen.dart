@@ -81,36 +81,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 40),
-                  TextField(
+                  TextFieldWidget(
                     controller: emailController,
-                    cursorHeight: 24,
-                    cursorColor: MyColors.colorFFFFFF,
-                    textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
-                      enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(width: 1.5, color: MyColors.color9B9A9B),
-                      ),
-                    ),
+                    label: 'Email',
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  TextField(
+                  TextFieldWidget(
                     controller: passwordController,
-                    cursorHeight: 24,
-                    cursorColor: MyColors.colorFFFFFF,
-                    textInputAction: TextInputAction.done,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
-                      enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(width: 1.5, color: MyColors.color9B9A9B),
-                      ),
-                    ),
-                    obscureText: true,
+                    inputAction: TextInputAction.done,
+                    label: 'Password',
+                    obscure: true,
                   ),
                   const SizedBox(height: 40),
                   Center(

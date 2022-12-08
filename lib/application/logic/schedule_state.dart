@@ -16,6 +16,28 @@ class ScheduleState extends Equatable {
       required this.currentDate,
       this.currentCategory = ScheduleItemCategory.all});
 
+  factory ScheduleState.inital() {
+    return ScheduleState(
+      currentDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
+    );
+  }
+
+  ScheduleState copyWith(
+      {ScheduleItemCategory? currentCategory,
+      error,
+      List<ScheduleItem>? allItems,
+      List<ScheduleItem>? scheduleItems,
+      bool? loading,
+      DateTime? currentDate}) {
+    return ScheduleState(
+        error: error ?? this.error,
+        currentCategory: currentCategory ?? this.currentCategory,
+        currentDate: currentDate ?? this.currentDate,
+        allItems: allItems ?? this.allItems,
+        scheduleItems: scheduleItems ?? this.scheduleItems,
+        loading: loading ?? this.loading);
+  }
+
   List<DateTime> get allDates {
     final groupByDates = groupBy(allItems, (scheduleItem) => scheduleItem.date);
     final dates = groupByDates.keys.toList()..sort();
