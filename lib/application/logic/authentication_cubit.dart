@@ -17,13 +17,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit(this.authenticationRepository) : super(const AuthenticationState());
 
   void isChecked(bool? newValue) {
-    emit(AuthenticationState(
-        isChecked: newValue!,
-        loading: false,
-        password: state.password,
-        emailError: state.emailError,
-        passwordError: state.passwordError,
-        repeatPasswordError: state.repeatPasswordError));
+    emit(state.copyWith(isChecked: newValue));
   }
 
   void isEmailVerified(Timer? timer) {
@@ -51,26 +45,35 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   Future<void> sendVerificationEmail() async {
     try {
       await authenticationRepository.sendVerificationEmail();
-      emit(AuthenticationState(loading: false, canResendEmail: false, userId: state.userId));
+      emit(AuthenticationState(canResendEmail: false, userId: state.userId));
       await Future.delayed(const Duration(seconds: 5));
-      emit(AuthenticationState(loading: false, canResendEmail: true, userId: state.userId));
+      emit(AuthenticationState(canResendEmail: true, userId: state.userId));
     } on FirebaseAuthException catch (e) {
       emit(AuthenticationState(error: e.message, userId: state.userId));
+      emit(state.copyWith(error: () => null));
     }
   }
 
   void signOut() {
     authenticationRepository.signOut();
-    emit(const AuthenticationState(loading: false, userId: ""));
+    emit(const AuthenticationState(userId: ""));
   }
 
   Future<void> resetPassword(String email) async {
-    emit(const AuthenticationState());
+    emit(state.copyWith(loading: true));
+    final emailValidate = _emailValidate(email);
+    if(emailValidate != null){
+      emit(state.copyWith(loading: false, error: () =>  'Please enter a valid email'));
+      emit(state.copyWith(error: () => null));
+      return;
+    }
     try {
       await authenticationRepository.sendPasswordResetEmail(email);
-      emit(const AuthenticationState(loading: false, resetEmail: true));
+      emit(const AuthenticationState(resetEmail: true));
+      emit(state.copyWith(resetEmail: false));
     } on FirebaseAuthException catch (e) {
-      emit(AuthenticationState(loading: false, error: e.message));
+      emit(state.copyWith(error:() => e.message, loading: false));
+      emit(state.copyWith(error: () => null));
     }
   }
 
@@ -86,13 +89,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   void onEmailChanged(String email) {
     FormError? emailValidate = _emailValidate(email);
-    emit(AuthenticationState(
-        isChecked: state.isChecked,
-        password: state.password,
-        passwordError: state.passwordError,
-        repeatPasswordError: state.repeatPasswordError,
-        emailError: emailValidate,
-        loading: false));
+    emit(state.copyWith(emailError: () => emailValidate));
   }
 
   FormError? _passwordValidate(String password) {
@@ -107,13 +104,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   void onPasswordChanged(String password) {
     FormError? passwordValidate = _passwordValidate(password);
-    emit(AuthenticationState(
-        isChecked: state.isChecked,
-        password: password,
-        emailError: state.emailError,
-        repeatPasswordError: state.repeatPasswordError,
-        passwordError: passwordValidate,
-        loading: false));
+    emit(state.copyWith(password: password, passwordError: () => passwordValidate));  
   }
 
   FormError? _repeatPasswordValidate(String repeatPassword) {
@@ -128,49 +119,45 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   void onRepeatPasswordChanged(String repeatPassword) {
     FormError? repeatPasswordValidate = _repeatPasswordValidate(repeatPassword);
-    emit(AuthenticationState(
-        isChecked: state.isChecked,
-        password: state.password,
-        emailError: state.emailError,
-        passwordError: state.passwordError,
-        repeatPasswordError: repeatPasswordValidate,
-        loading: false));
+    emit(state.copyWith(repeatPasswordError: () => repeatPasswordValidate));
   }
 
   Future<void> signUp(String repeatPassword, String email, String password) async {
-    emit(AuthenticationState(password: state.password));
-    //pozovem metode za svaki field i ak je bilo koja od njih != null onda something went wrong
+     emit(state.copyWith(loading: true));
     final passwordValidate = _passwordValidate(password);
     final emailValidate = _emailValidate(email);
     final repeatPasswordValidate = _repeatPasswordValidate(repeatPassword);
 
     if (emailValidate != null || passwordValidate != null || repeatPasswordValidate != null) {
-      emit(AuthenticationState(password: state.password, loading: false, error: 'Please check all input fields'));
+      emit(state.copyWith(loading: false, error: () =>  'Please check all input fields'));
+      emit(state.copyWith(error: () => null));
       return;
     }
     try {
       await authenticationRepository.createUser(email, password);
-      emit(AuthenticationState(loading: false, userId: authenticationRepository.getUserId()));
+      emit(AuthenticationState(userId: authenticationRepository.getUserId()));
     } on FirebaseAuthException catch (e) {
-      emit(AuthenticationState(loading: false, error: e.message));
+      emit(state.copyWith(error:() => e.message, loading: false));
+      emit(state.copyWith(error: () => null));
     }
   }
 
   Future<void> signIn(TextEditingController emailController, TextEditingController passwordController) async {
-    emit(const AuthenticationState());
+    emit(const AuthenticationState(loading: true));
     try {
       await authenticationRepository.signIn(emailController.text.trim(), passwordController.text.trim());
-      emit(AuthenticationState(loading: false, userId: authenticationRepository.getUserId()));
+      emit(AuthenticationState(userId: authenticationRepository.getUserId()));
     } on FirebaseAuthException catch (e) {
-      emit(AuthenticationState(loading: false, error: e.message));
+      emit(AuthenticationState(error: e.message));
+       emit(state.copyWith(error: () => null));
     }
   }
 
   Future<void> googleSignIn() async {
-    emit(const AuthenticationState());
+    emit(const AuthenticationState(loading: true));
     try {
       await authenticationRepository.signInGoogle();
-      emit(AuthenticationState(loading: false, userId: authenticationRepository.getUserId()));
+      emit(AuthenticationState(userId: authenticationRepository.getUserId()));
     } on FirebaseAuthException catch (e) {
       String content = "An unknown error has occured";
       switch (e.code) {
@@ -190,7 +177,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
           content = 'The user you tried to log into was not found';
           break;
       }
-      emit(AuthenticationState(loading: false, error: content));
+      emit(AuthenticationState(error: content));
     }
   }
 }

@@ -47,7 +47,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             );
           }
           if (state.userId.isNotEmpty) {
-            //Navigator.of(context).pop(true);
             Navigator.of(context).popUntil((route) => route.isFirst);
           }
         },

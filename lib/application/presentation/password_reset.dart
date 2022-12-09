@@ -35,8 +35,7 @@ class _PasswordResetState extends State<PasswordReset> {
               ),
             );
           }
-          if (state.resetEmail == true) {
-            Navigator.of(context).pop(true);
+          if (state.resetEmail == true) {          
             Utils.showSnackBar('Password Reset Email Sent', context);
             Navigator.of(context).popUntil((route) => route.isFirst);
           }

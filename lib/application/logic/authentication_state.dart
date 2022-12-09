@@ -17,7 +17,7 @@ class AuthenticationState extends Equatable {
   const AuthenticationState({
     this.isEmailVerified = false,
     this.canResendEmail = false,
-    this.loading = true,
+    this.loading = false,
     this.error,
     this.userId = "",
     this.emailError,
@@ -28,24 +28,32 @@ class AuthenticationState extends Equatable {
     this.isChecked = false,
   });
 
-  // AuthenticationState copyWith({
-  //   bool? loading,
-  //   dynamic error,
-  //   String? userId,
-  //   bool? canResendEmail,
-  //   bool? isEmailVerified,
-  //   FormError? emailError,
-  //   FormError? passwordError,
-  // }) {
-  //   return AuthenticationState(
-  //       loading: loading ?? this.loading,
-  //       error: error ?? this.error,
-  //       isEmailVerified: isEmailVerified ?? this.isEmailVerified,
-  //       userId: userId ?? this.userId,
-  //       canResendEmail: canResendEmail ?? this.canResendEmail,
-  //       emailError: emailError ,
-  //       passwordError: passwordError ?? this.passwordError);
-  // }
+  AuthenticationState copyWith({
+    bool? loading,
+    dynamic Function()? error,
+    String? userId,
+    bool? canResendEmail,
+    bool? isEmailVerified,
+    FormError? Function()? emailError,
+    FormError? Function()? passwordError,
+    FormError? Function()? repeatPasswordError,
+    String? password,
+    bool? resetEmail,
+    bool? isChecked
+  }) {
+    return AuthenticationState(
+        loading: loading ?? this.loading,
+        error: error != null ? error() : this.error,
+        isEmailVerified: isEmailVerified ?? this.isEmailVerified,
+        userId: userId ?? this.userId,
+        canResendEmail: canResendEmail ?? this.canResendEmail,
+        emailError: emailError != null ? emailError() : this.emailError,
+        passwordError: passwordError != null ? passwordError() : this.passwordError,
+        repeatPasswordError : repeatPasswordError  != null ? repeatPasswordError() : this.repeatPasswordError,
+        password: password ?? this.password,
+        resetEmail: resetEmail ?? this.resetEmail,
+        isChecked: isChecked ?? this.isChecked);
+  }
 
   @override
   List<Object?> get props => [
