@@ -14,17 +14,29 @@ class PasswordReset extends StatefulWidget {
 }
 
 class _PasswordResetState extends State<PasswordReset> {
-  final formKey = GlobalKey<FormState>();
   final resetEmailController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<AuthenticationCubit>().initState();
+  }
+
+  @override
+  void dispose() {
+    resetEmailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<AuthenticationCubit, AuthenticationState>(
         listener: (context, state) {
-          if (state.error != null) {
+          if (state.error) {
+            context.read<AuthenticationCubit>().initState();
             Navigator.of(context).pop(true);
-            Utils.showSnackBar(state.error.toString(), context);
+            Utils.showSnackBar(state.resetErrorMessage?.message(context), context);
           }
           if (state.loading == true) {
             showDialog(
@@ -35,7 +47,7 @@ class _PasswordResetState extends State<PasswordReset> {
               ),
             );
           }
-          if (state.resetEmail == true) {          
+          if (state.resetEmail == true) {
             Utils.showSnackBar('Password Reset Email Sent', context);
             Navigator.of(context).popUntil((route) => route.isFirst);
           }
@@ -49,33 +61,29 @@ class _PasswordResetState extends State<PasswordReset> {
           ),
           child: Padding(
             padding: const EdgeInsets.only(left: 40, right: 40, bottom: 40, top: 40),
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Receive an email to reset your password.',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(overflow: TextOverflow.visible),
-                  ),
-                  const SizedBox(height: 40),
-                  TextFieldWidget(
-                    inputAction: TextInputAction.done,
-                    onChanged: context.read<AuthenticationCubit>().onEmailChanged,
-                    errorText: state.emailError?.message(context),
-                    controller: resetEmailController,
-                    keyboardType: TextInputType.emailAddress,
-                    label: 'Email',
-                  ),
-                  const SizedBox(height: 40),
-                  AuthButtonWidget(
-                    label: 'Reset Password',
-                    onPressed: () =>
-                        context.read<AuthenticationCubit>().resetPassword(resetEmailController.text.trim()),
-                  ),
-                ],
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Receive an email to reset your password.',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(overflow: TextOverflow.visible),
+                ),
+                const SizedBox(height: 40),
+                TextFieldWidget(
+                  inputAction: TextInputAction.done,
+                  onChanged: context.read<AuthenticationCubit>().onEmailChanged,
+                  errorText: state.emailError?.message(context),
+                  controller: resetEmailController,
+                  keyboardType: TextInputType.emailAddress,
+                  label: 'Email',
+                ),
+                const SizedBox(height: 40),
+                AuthButtonWidget(
+                  label: 'Reset Password',
+                  onPressed: () => context.read<AuthenticationCubit>().resetPassword(resetEmailController.text.trim()),
+                ),
+              ],
             ),
           ),
         ),

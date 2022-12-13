@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 abstract class FormError {
   String message(BuildContext context);
@@ -15,7 +15,7 @@ class FieldRequiredError implements FormError {
 class InvalidEmailError implements FormError {
   @override
   String message(BuildContext context) {
-    return "Enter a valid email";
+    return "Please enter a valid email";
   }
 }
 
