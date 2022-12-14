@@ -16,7 +16,7 @@ class CategoryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool highlighted = category == myCategory;
 
-    String? categoryName = MyIcons.getCategoryIcon(myCategory, highlighted);
+    String? categoryName = MyIcons.getCategoryIcon(myCategory);
     if (categoryName != null) {
       return Opacity(
         opacity: highlighted ? 1.0 : 0.3,

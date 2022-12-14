@@ -1,3 +1,4 @@
+import 'package:deep_conference/application/logic/authentication_cubit.dart';
 import 'package:deep_conference/application/presentation/action_items.dart';
 import 'package:deep_conference/application/presentation/error_widgets.dart';
 import 'package:deep_conference/application/presentation/schedule_card.dart';
@@ -32,11 +33,18 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         ),
         actions: [
           MaterialButton(
-            child: const Icon(Icons.notifications, color: MyColors.colorFFFFFF),
+            child: const Icon(Icons.logout, color: MyColors.colorFFFFFF),
             onPressed: () => {
-              //implement notification screen
+              context.read<AuthenticationCubit>().signOut(),
             },
           ),
+          // TODO: Implement notification screen
+          // MaterialButton(
+          //   child: const Icon(Icons.notifications, color: MyColors.colorFFFFFF),
+          //   onPressed: () => {
+          //     //implement notification screen
+          //   },
+          // ),
         ],
       ),
       body: Column(
@@ -83,10 +91,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       );
                     },
                     itemBuilder: (context, index) {
-                      final ScheduleItemCategory categoryFromIndex = ScheduleItemCategoryX.fromIndex(index);
+                      final ScheduleItemCategory category = ScheduleItemCategory.values[index];
                       return CategoryButton(
-                        myCategory: categoryFromIndex,
-                        onPressed: () => {context.read<ScheduleCubit>().sortByCategory(categoryFromIndex)},
+                        myCategory: category,
+                        onPressed: () => {context.read<ScheduleCubit>().sortByCategory(category)},
                         category: state.currentCategory,
                       );
                     },
@@ -111,7 +119,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               }
               if (state.scheduleItems.isNotEmpty) {
                 return Expanded(
-                  child: ListView.builder(
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        height: 12,
+                      );
+                    },
+                    padding: const EdgeInsets.only(left: 20, top: 5, right: 15, bottom: 5),
                     itemCount: state.scheduleItems.length,
                     itemBuilder: (context, index) {
                       return listBuild(state.scheduleItems[index]);

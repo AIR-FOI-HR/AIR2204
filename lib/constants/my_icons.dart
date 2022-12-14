@@ -8,11 +8,14 @@ class MyIcons {
     'tech': 'images/icons/tech.png',
   };
 
-  static String? getCategoryIcon(ScheduleItemCategory category, bool highlighted) {
+  static String? getCategoryIcon(ScheduleItemCategory category) {
     String categoryName = category.name;
 
     return categoryIcons[categoryName];
   }
 
+  static const String googleIcon = 'images/icons/google_icon.png';
+  static const String loginLogo = 'images/icons/login_logo.png';
   static const String appIcon = 'images/icons/app_icon.png';
+  static const String authBackground = 'images/backgrounds/background-cropped.jpg';
 }
