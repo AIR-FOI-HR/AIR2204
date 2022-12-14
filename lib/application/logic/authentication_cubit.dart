@@ -17,35 +17,39 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit(this.authenticationRepository) : super(const AuthenticationState());
 
   void initState() {
-    emit(const AuthenticationState());
+    if (authenticationRepository.getCurrentUser() != null) {
+      emit(AuthenticationState(userId: authenticationRepository.getUserId()));
+    } else {
+      emit(const AuthenticationState());
+    }
   }
 
   void isChecked(bool? newValue) {
     emit(state.copyWith(isChecked: newValue));
   }
 
-  void isEmailVerified(Timer? timer) {
+  void isEmailVerified() {
+    if (state.userId.isEmpty) {
+      return;
+    }
     if (!authenticationRepository.isEmailVerified()) {
       sendVerificationEmail();
-      timer = Timer.periodic(
-        const Duration(seconds: 3),
-        (_) => checkEmailVerified(timer),
-      );
+      Timer.periodic(const Duration(seconds: 3), (timer) async {
+        if (state.userId.isNotEmpty) {
+          await authenticationRepository.reloadUser();
+          if (authenticationRepository.isEmailVerified()) {
+            timer.cancel();
+            emit(AuthenticationState(isEmailVerified: true, userId: state.userId));
+          }
+        } else {
+          timer.cancel();
+        }
+      });
     } else {
       emit(AuthenticationState(isEmailVerified: true, userId: state.userId));
     }
   }
-
-  void checkEmailVerified(Timer? timer) async {
-    if (authenticationRepository.getCurrentUser() != null) {
-      await authenticationRepository.reloadUser();
-      if (authenticationRepository.isEmailVerified()) {
-        timer?.cancel();
-        emit(AuthenticationState(isEmailVerified: true, userId: state.userId));
-      }
-    }
-  }
-
+  
   Future<void> sendVerificationEmail() async {
     try {
       await authenticationRepository.sendVerificationEmail();

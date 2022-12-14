@@ -1,31 +1,27 @@
-import 'package:deep_conference/application/logic/authentication_cubit.dart';
-import 'package:deep_conference/application/presentation/action_items.dart';
 import 'package:deep_conference/application/presentation/error_widgets.dart';
 import 'package:deep_conference/application/presentation/schedule_card.dart';
 import 'package:deep_conference/constants/my_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:deep_conference/constants/schedule_item_categories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../constants/schedule_item_categories.dart';
 import '../../domain/models/schedule_items.dart';
 import '../logic/authentication_cubit.dart';
 import '../logic/saved_schedule_cubit.dart';
-import '../logic/schedule_cubit.dart';
+import 'action_items.dart';
 
-class ScheduleScreen extends StatefulWidget {
-  const ScheduleScreen({super.key});
+class PersonalSchedule extends StatefulWidget {
+  const PersonalSchedule({super.key});
 
   @override
-  State<ScheduleScreen> createState() => _ScheduleScreenState();
+  State<PersonalSchedule> createState() => _PersonalScheduleState();
 }
 
-class _ScheduleScreenState extends State<ScheduleScreen> {
+class _PersonalScheduleState extends State<PersonalSchedule> {
   @override
   void initState() {
     super.initState();
-    context.read<ScheduleCubit>().readAllItems();
-    //so saved items are initizalised and you can see if they're saved or not in the detail screen
     context.read<SavedScheduleCubit>().readAllSavedItems();
   }
 
@@ -34,7 +30,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context)!.scheduleTitle,
+          AppLocalizations.of(context)!.personalScheduleTitle,
         ),
         actions: [
           MaterialButton(
@@ -54,7 +50,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       ),
       body: Column(
         children: [
-          BlocBuilder<ScheduleCubit, ScheduleState>(
+          BlocBuilder<SavedScheduleCubit, SavedScheduleState>(
             builder: (context, state) {
               return SizedBox(
                 height: 35,
@@ -70,7 +66,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       },
                       itemBuilder: (context, index) {
                         return DateButton(
-                          onPressed: () => {context.read<ScheduleCubit>().sortByDate(state.allDates[index])},
+                          onPressed: () => {context.read<SavedScheduleCubit>().sortByDate(state.allDates[index])},
                           date: state.currentDate,
                           myDate: state.allDates[index],
                         );
@@ -80,7 +76,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             },
           ),
           const SizedBox(height: 10),
-          BlocBuilder<ScheduleCubit, ScheduleState>(
+          BlocBuilder<SavedScheduleCubit, SavedScheduleState>(
             builder: (context, state) {
               return SizedBox(
                 height: 80,
@@ -99,7 +95,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       final ScheduleItemCategory category = ScheduleItemCategory.values[index];
                       return CategoryButton(
                         myCategory: category,
-                        onPressed: () => {context.read<ScheduleCubit>().sortByCategory(category)},
+                        onPressed: () => {context.read<SavedScheduleCubit>().sortByCategory(category)},
                         category: state.currentCategory,
                       );
                     },
@@ -109,13 +105,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             },
           ),
           const SizedBox(height: 10),
-          BlocBuilder<ScheduleCubit, ScheduleState>(
+          BlocBuilder<SavedScheduleCubit, SavedScheduleState>(
             builder: (context, state) {
               if (state.error != null) {
                 return RetryButton(
                   error: state.error,
                   onRetry: () => {
-                    context.read<ScheduleCubit>().readAllItems(),
+                    context.read<SavedScheduleCubit>().readAllSavedItems(),
                   },
                 );
               }

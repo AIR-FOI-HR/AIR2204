@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../../constants/my_collections.dart';
-
 class AuthenticationRepository {
   final GoogleSignIn googleSignIn;
   final FirebaseAuth auth;
@@ -11,9 +9,9 @@ class AuthenticationRepository {
 
   const AuthenticationRepository({required this.googleSignIn, required this.auth, required this.firestore});
 
-  void signOut() {
-    auth.signOut();
-    googleSignIn.signOut();
+  void signOut() async {
+    await auth.signOut();
+    await googleSignIn.signOut();
   }
 
   bool isEmailVerified() {
@@ -49,7 +47,6 @@ class AuthenticationRepository {
 
   Future<void> createUser(String email, String password) async {
     await auth.createUserWithEmailAndPassword(email: email, password: password);
-    await createSavedItems();
   }
 
   Future<void> signIn(String email, String password) async {
@@ -63,20 +60,6 @@ class AuthenticationRepository {
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
-    final UserCredential authResult = await auth.signInWithCredential(credential);
-
-    if (authResult.additionalUserInfo!.isNewUser) {
-      if (authResult.user != null) {
-        await createSavedItems();
-      }
-    }
-  }
-
-  Future<void> createSavedItems() async {
-    final docRef = firestore.collection(MyCollections.savedItems).doc(auth.currentUser!.uid);
-    final Map<String, dynamic> savedItems = {
-      "savedItems": [],
-    };
-    await docRef.set(savedItems);
+    await auth.signInWithCredential(credential);
   }
 }

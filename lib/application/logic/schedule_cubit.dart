@@ -8,16 +8,17 @@ part 'schedule_state.dart';
 
 class ScheduleCubit extends Cubit<ScheduleState> {
   ScheduleCubit(this.scheduleRepository)
-      : super(ScheduleState(
-          currentDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
-        ));
+      : super(
+          ScheduleState.inital(),
+        );
 
   final ScheduleRepository scheduleRepository;
 
   void readAllItems() async {
-    emit(ScheduleState(currentDate: state.currentDate, currentCategory: ScheduleItemCategory.all));
+    emit(ScheduleState.inital());
     try {
       final data = await scheduleRepository.getScheduleItems();
+
       DateTime currentDate = state.currentDate;
       final List<DateTime> allDates = groupBy(data, (scheduleItem) => scheduleItem.date).keys.toList()..sort();
       List<ScheduleItem> dataFiltered = data.where((scheduleItem) => scheduleItem.date == state.currentDate).toList();
@@ -26,47 +27,25 @@ class ScheduleCubit extends Cubit<ScheduleState> {
         dataFiltered = data.where((scheduleItem) => scheduleItem.date == allDates.first).toList();
         currentDate = allDates.first;
       }
-
-      emit(ScheduleState(
-          allItems: data,
-          scheduleItems: dataFiltered,
-          loading: false,
-          currentCategory: ScheduleItemCategory.all,
-          currentDate: currentDate));
+      emit(state.copyWith(allItems: data, scheduleItems: dataFiltered, loading: false, currentDate: currentDate));
     } catch (e) {
-      emit(ScheduleState(error: e, currentDate: state.currentDate, currentCategory: state.currentCategory));
+      emit(state.copyWith(error: e));
     }
   }
 
   void sortByCategory(ScheduleItemCategory category) async {
-    emit(ScheduleState(
-        allItems: state.allItems, currentDate: state.currentDate, currentCategory: state.currentCategory));
-
+    emit(state.copyWith(currentCategory: category, loading: true));
     List<ScheduleItem> filteredItems =
         state.allItems.where((scheduleItem) => scheduleItem.date == state.currentDate).toList();
-
     if (category != ScheduleItemCategory.all) {
       filteredItems = filteredItems.where((scheduleItem) => scheduleItem.category == category).toList();
     }
-
-    emit(ScheduleState(
-        allItems: state.allItems,
-        scheduleItems: filteredItems,
-        loading: false,
-        currentCategory: category,
-        currentDate: state.currentDate));
+    emit(state.copyWith(scheduleItems: filteredItems, loading: false));
   }
 
   void sortByDate(DateTime date) async {
-    emit(ScheduleState(allItems: state.allItems, currentDate: date, currentCategory: ScheduleItemCategory.all));
-
+    emit(state.copyWith(currentCategory: ScheduleItemCategory.all, currentDate: date, loading: true));
     final List<ScheduleItem> filteredItems = state.allItems.where((scheduleItem) => scheduleItem.date == date).toList();
-
-    emit(ScheduleState(
-        allItems: state.allItems,
-        scheduleItems: filteredItems,
-        loading: false,
-        currentCategory: ScheduleItemCategory.all,
-        currentDate: date));
+    emit(state.copyWith(scheduleItems: filteredItems, loading: false));
   }
 }

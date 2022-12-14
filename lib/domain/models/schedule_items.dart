@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
 import '../../constants/schedule_item_categories.dart';
 
+// ignore: must_be_immutable
 class ScheduleItem extends Equatable {
+  String id;
   final String title;
   final String speaker;
   final DateTime startTime;
@@ -11,8 +13,9 @@ class ScheduleItem extends Equatable {
   final String hall;
   final ScheduleItemCategory category;
 
-  const ScheduleItem(
-      {required this.title,
+  ScheduleItem(
+      {this.id = "",
+      required this.title,
       required this.speaker,
       required this.startTime,
       required this.endTime,
@@ -21,8 +24,9 @@ class ScheduleItem extends Equatable {
       required this.hall,
       required this.category});
 
-  static ScheduleItem fromJson(Map<String, dynamic> json) {
+  static ScheduleItem fromJson(Map<String, dynamic> json, String id) {
     return ScheduleItem(
+      id: id,
       title: json['title'],
       speaker: json['speaker'],
       startTime: json['startTime'].toDate(),
@@ -40,5 +44,5 @@ class ScheduleItem extends Equatable {
   }
 
   @override
-  List<Object?> get props => [title, speaker, description, hall, category, speakerId];
+  List<Object?> get props => [id, title, speaker, description, hall, category, speakerId];
 }

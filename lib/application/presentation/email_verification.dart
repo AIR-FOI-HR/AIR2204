@@ -1,5 +1,5 @@
-import 'dart:async';
 import 'package:deep_conference/application/logic/authentication_cubit.dart';
+import 'package:deep_conference/application/presentation/personal_schedule.dart';
 import 'package:deep_conference/application/presentation/schedule_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,17 +20,15 @@ class EmailVerificationScreen extends StatefulWidget {
 }
 
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
-  Timer? timer;
-
   @override
   void initState() {
     super.initState();
-    context.read<AuthenticationCubit>().isEmailVerified(timer);
+    context.read<AuthenticationCubit>().initState();
+    context.read<AuthenticationCubit>().isEmailVerified();
   }
 
   @override
   void dispose() {
-    timer?.cancel();
     super.dispose();
   }
 
@@ -55,7 +53,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   } else if (state.navbarItem == NavbarItem.profile) {
                     return const ScheduleScreen();
                   } else if (state.navbarItem == NavbarItem.mySchedule) {
-                    return const ScheduleScreen();
+                    return const PersonalSchedule();
                   } else {
                     return const ScheduleScreen();
                   }
