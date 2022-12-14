@@ -49,7 +49,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       emit(AuthenticationState(isEmailVerified: true, userId: state.userId));
     }
   }
-
+  
   Future<void> sendVerificationEmail() async {
     try {
       await authenticationRepository.sendVerificationEmail();

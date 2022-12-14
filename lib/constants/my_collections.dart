@@ -3,4 +3,5 @@ class MyCollections {
   static const String savedItems = 'savedItems';
   static const String speakers = 'speakers';
   static const String users = 'users';
+  static const String savedItems = 'savedItems';
 }
