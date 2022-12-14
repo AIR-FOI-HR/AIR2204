@@ -17,13 +17,26 @@ class _PasswordResetState extends State<PasswordReset> {
   final resetEmailController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    context.read<AuthenticationCubit>().initState();
+  }
+
+  @override
+  void dispose() {
+    resetEmailController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<AuthenticationCubit, AuthenticationState>(
         listener: (context, state) {
-          if (state.error != null) {
+          if (state.error) {
+            context.read<AuthenticationCubit>().initState();
             Navigator.of(context).pop(true);
-            Utils.showSnackBar(state.error.toString(), context);
+            Utils.showSnackBar(state.resetErrorMessage?.message(context), context);
           }
           if (state.loading == true) {
             showDialog(
@@ -35,7 +48,6 @@ class _PasswordResetState extends State<PasswordReset> {
             );
           }
           if (state.resetEmail == true) {
-            Navigator.of(context).pop(true);
             Utils.showSnackBar('Password Reset Email Sent', context);
             Navigator.of(context).popUntil((route) => route.isFirst);
           }

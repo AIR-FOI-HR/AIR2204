@@ -13,7 +13,11 @@ class SavedRepository {
   Future<List<ScheduleItem>> getSavedItems() async {
     final docRef = firestore.collection(MyCollections.savedItems).doc(auth.currentUser!.uid);
     List<dynamic> idList = await docRef.get().then((snapshot) {
-      return snapshot.data()!['savedItems'];
+      if (snapshot.data() != null) {
+        return snapshot.data()!['savedItems'];
+      } else {
+        return [];
+      }
     });
 
     List<ScheduleItem> savedItemsList = [];

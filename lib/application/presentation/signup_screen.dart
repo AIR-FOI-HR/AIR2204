@@ -21,10 +21,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final repeatPasswordController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    context.read<AuthenticationCubit>().initState();
+  }
+
+  @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
-
+    repeatPasswordController.dispose();
     super.dispose();
   }
 
@@ -33,9 +39,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       body: BlocConsumer<AuthenticationCubit, AuthenticationState>(
         listener: (context, state) {
-          if (state.error != null) {
+          if (state.error) {
+            context.read<AuthenticationCubit>().initState();
             Navigator.of(context).pop(true);
-            Utils.showSnackBar(state.error.toString(), context);
+            Utils.showSnackBar(state.signupErrorMessage?.message(context), context);
           }
           if (state.loading == true) {
             showDialog(
@@ -47,7 +54,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             );
           }
           if (state.userId.isNotEmpty) {
-            //Navigator.of(context).pop(true);
             Navigator.of(context).popUntil((route) => route.isFirst);
           }
         },

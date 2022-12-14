@@ -21,6 +21,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    context.read<AuthenticationCubit>().initState();
+  }
+
+  @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
@@ -32,9 +38,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) => Scaffold(
         body: BlocListener<AuthenticationCubit, AuthenticationState>(
           listener: (context, state) {
-            if (state.error != null) {
+            if (state.error) {
+              context.read<AuthenticationCubit>().initState();
               Navigator.of(context).pop(true);
-              Utils.showSnackBar(state.error.toString(), context);
+              Utils.showSnackBar(state.loginErrorMessage?.message(context), context);
             }
             if (state.loading == true) {
               showDialog(
@@ -46,6 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
               );
             }
             if (state.userId.isNotEmpty) {
+              Navigator.of(context).pop(true);
               Navigator.of(context).popUntil((route) => route.isFirst);
             }
           },
@@ -101,8 +109,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         AuthButtonWidget(
                           label: 'Sign In',
-                          onPressed: () =>
-                              context.read<AuthenticationCubit>().signIn(emailController, passwordController),
+                          onPressed: () => context
+                              .read<AuthenticationCubit>()
+                              .signIn(emailController.text.trim(), passwordController.text.trim()),
                         ),
                         const SizedBox(height: 10),
                         ElevatedButton.icon(
