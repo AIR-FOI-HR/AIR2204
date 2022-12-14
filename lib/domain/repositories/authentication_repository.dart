@@ -9,9 +9,9 @@ class AuthenticationRepository {
 
   const AuthenticationRepository({required this.googleSignIn, required this.auth, required this.firestore});
 
-  void signOut() {
-    auth.signOut();
-    googleSignIn.signOut();
+  void signOut() async {
+    await auth.signOut();
+    await googleSignIn.signOut();
   }
 
   bool isEmailVerified() {

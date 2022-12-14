@@ -14,6 +14,17 @@ class RootScreen extends StatefulWidget {
 
 class _MyHomePageState extends State<RootScreen> {
   @override
+  void initState() {
+    super.initState();
+    context.read<AuthenticationCubit>().initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationCubit, AuthenticationState>(
       builder: ((context, state) {
