@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:deep_conference/domain/repositories/authentication_repository.dart';
+import 'package:deep_conference/domain/repositories/user_repository.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,8 +14,9 @@ part 'authentication_state.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
   final AuthenticationRepository authenticationRepository;
-
-  AuthenticationCubit(this.authenticationRepository) : super(const AuthenticationState());
+  final UserRepository userRepository;
+  //USER BRANCH
+  AuthenticationCubit(this.authenticationRepository, this.userRepository) : super(const AuthenticationState());
 
   void initState() {
     if (authenticationRepository.getCurrentUser() != null) {
@@ -49,7 +51,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       emit(AuthenticationState(isEmailVerified: true, userId: state.userId));
     }
   }
-  
+
   Future<void> sendVerificationEmail() async {
     try {
       await authenticationRepository.sendVerificationEmail();
@@ -134,7 +136,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     emit(state.copyWith(repeatPasswordError: () => repeatPasswordValidate));
   }
 
-  Future<void> signUp(String repeatPassword, String email, String password) async {
+  //USER BRANCH
+  Future<void> signUp(String repeatPassword, String email, String password, String firstName) async {
     emit(state.copyWith(loading: true));
     final passwordValidate = _passwordValidate(password);
     final emailValidate = _emailValidate(email);
@@ -146,6 +149,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
     try {
       await authenticationRepository.createUser(email, password);
+      //USER BRANCH
+      await userRepository.writeUserData(firstName);
       emit(AuthenticationState(userId: authenticationRepository.getUserId()));
     } on FirebaseAuthException catch (e) {
       final AuthError? signupError = _checkAuthError(e, email, password);

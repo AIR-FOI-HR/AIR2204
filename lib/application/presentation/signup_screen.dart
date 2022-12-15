@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../Utilities/utils.dart';
 import '../../constants/my_icons.dart';
+import '../logic/user_cubit.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({
@@ -20,6 +21,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final repeatPasswordController = TextEditingController();
+  final firstNameController = TextEditingController();
 
   @override
   void initState() {
@@ -32,6 +34,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     emailController.dispose();
     passwordController.dispose();
     repeatPasswordController.dispose();
+    firstNameController.dispose();
     super.dispose();
   }
 
@@ -110,6 +113,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const SizedBox(
                       height: 20,
                     ),
+                    TextFieldWidget(
+                      //onChanged: context.read<AuthenticationCubit>().onRepeatPasswordChanged,
+                      errorText: state.repeatPasswordError?.message(context),
+                      inputAction: TextInputAction.done,
+                      controller: firstNameController,
+                      //obscure: true,
+                      label: "First name",
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -148,8 +162,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     AuthButtonWidget(
                       label: AppLocalizations.of(context)!.signUp,
-                      onPressed: () => context.read<AuthenticationCubit>().signUp(repeatPasswordController.text.trim(),
-                          emailController.text.trim(), passwordController.text.trim()),
+                      onPressed: () {
+                        context.read<AuthenticationCubit>().signUp(
+                            repeatPasswordController.text.trim(),
+                            emailController.text.trim(),
+                            passwordController.text.trim(),
+                            firstNameController.text.trim());
+                      },
                     ),
                     const SizedBox(
                       height: 100,

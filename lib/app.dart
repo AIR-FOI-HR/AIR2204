@@ -12,9 +12,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'application/logic/authentication_cubit.dart';
 import 'application/logic/navigation_cubit.dart';
 import 'application/logic/schedule_cubit.dart';
+import 'application/logic/user_cubit.dart';
 import 'application/presentation/root_screen.dart';
 import 'constants/theme_data.dart';
 import 'domain/repositories/authentication_repository.dart';
+import 'domain/repositories/user_repository.dart';
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
@@ -35,6 +37,9 @@ class MyApp extends StatelessWidget {
         ),
         RepositoryProvider<AuthenticationRepository>(
           create: (context) => AuthenticationRepository(googleSignIn: googleSignIn, auth: auth, firestore: firestore),
+        ),
+        RepositoryProvider<UserRepository>(
+          create: (context) => UserRepository(auth: auth, firestore: firestore),
         )
       ],
       child: MultiBlocProvider(
@@ -45,8 +50,13 @@ class MyApp extends StatelessWidget {
                   SavedScheduleCubit(context.read<SavedRepository>(), context.read<ScheduleRepository>())),
           BlocProvider<NavigationCubit>(create: (context) => NavigationCubit()),
           BlocProvider<AuthenticationCubit>(
-            create: (context) => AuthenticationCubit(context.read<AuthenticationRepository>()),
+            //USER BRANCH
+            create: (context) =>
+                AuthenticationCubit(context.read<AuthenticationRepository>(), context.read<UserRepository>()),
           ),
+          BlocProvider<UserCubit>(
+            create: (context) => UserCubit(context.read<UserRepository>()),
+          )
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
