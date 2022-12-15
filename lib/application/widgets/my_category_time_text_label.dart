@@ -1,4 +1,3 @@
-import 'package:const_date_time/const_date_time.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../constants/my_colors.dart';
@@ -10,9 +9,9 @@ class MyCategoryTimeTextLabel extends StatelessWidget {
     required this.category,
     required this.icon,
     required this.textStyle,
-    this.iconColor =  MyColors.color9B9A9B,
-    this.startTime = const ConstDateTime(0),
-    this.endTime = const ConstDateTime(0),
+    this.iconColor = MyColors.color9B9A9B,
+    required this.startTime,
+    required this.endTime,
     this.spacing = 5,
     this.iconSize = 14,
   });

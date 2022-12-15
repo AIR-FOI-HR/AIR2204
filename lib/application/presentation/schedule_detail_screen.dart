@@ -1,15 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deep_conference/application/logic/speaker_state.dart';
 import 'package:deep_conference/application/widgets/my_horizontal_divider.dart';
 import 'package:deep_conference/application/widgets/my_icon_text_label.dart';
 import 'package:deep_conference/constants/my_icons.dart';
 import 'package:deep_conference/domain/models/schedule_items.dart';
-import 'package:deep_conference/domain/repositories/speaker_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../constants/my_colors.dart';
 import '../../domain/models/speaker.dart';
+import '../../domain/repositories/speaker_repository.dart';
 import '../logic/speaker_cubit.dart';
 import '../widgets/error_widgets.dart';
 import '../widgets/my_category_time_text_label.dart';
@@ -27,8 +26,8 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          SpeakerCubit(context.read(), [widget.scheduleItem.speakerId]),
+      create: (context) => SpeakerCubit(
+          context.read<SpeakerRepository>(), [widget.scheduleItem.speakerId]),
       child: Scaffold(
         body: Column(
           children: [
@@ -71,7 +70,6 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                             const EdgeInsets.only(left: 40, right: 40, top: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             MyCategoryTimeTextLabel(
                                 category: widget.scheduleItem.category,
@@ -129,7 +127,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                   return const LoadingState();
                 }
                 if (state.speakers.isEmpty) {
-                  return Container();
+                  return const SizedBox();
                 }
                 return Column(
                   children: [
@@ -180,17 +178,17 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
             ),
             const MyHorizontalDivider(),
             Expanded(
-              child: Padding(
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.only(left: 40, right: 40, top: 10),
+                //.horizontal
                 child: SafeArea(
                   top: false,
-                  child: SingleChildScrollView(
-                    //.horizontal
-                    child: Text(
-                      widget.scheduleItem.description,
-                      style: (Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w400, fontSize: 14)),
-                    ),
+                  child: Text(
+                    widget.scheduleItem.description,
+                    style: (Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(fontWeight: FontWeight.w400, fontSize: 14)),
                   ),
                 ),
               ),

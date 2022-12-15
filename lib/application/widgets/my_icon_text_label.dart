@@ -9,7 +9,7 @@ class MyIconTextLabel extends StatelessWidget {
     required this.text,
     this.iconColor = MyColors.color9B9A9B,
     this.spacing = 5,
-    this.iconSize = 14,
+    this.iconSize = 12,
   });
 
   final String text;
@@ -20,8 +20,7 @@ class MyIconTextLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 5,
+    return Row(
       children: [
         Icon(
           icon,
