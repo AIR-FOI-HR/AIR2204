@@ -4,6 +4,7 @@ import 'package:deep_conference/constants/my_colors.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../Utilities/utils.dart';
 import '../../constants/my_icons.dart';
 
@@ -71,7 +72,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(height: 20),
                 Center(
                   child: Text(
-                    'Sign Up',
+                    AppLocalizations.of(context)!.signUp,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 30),
                   ),
                 ),
@@ -83,7 +84,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       errorText: state.emailError?.message(context),
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
-                      label: 'Email',
+                      label: AppLocalizations.of(context)!.email,
                     ),
                     const SizedBox(
                       height: 20,
@@ -93,7 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       errorText: state.passwordError?.message(context),
                       controller: passwordController,
                       obscure: true,
-                      label: 'Password',
+                      label: AppLocalizations.of(context)!.password,
                     ),
                     const SizedBox(
                       height: 20,
@@ -104,7 +105,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       inputAction: TextInputAction.done,
                       controller: repeatPasswordController,
                       obscure: true,
-                      label: 'Repeat password',
+                      label: AppLocalizations.of(context)!.repeatPassword,
                     ),
                     const SizedBox(
                       height: 20,
@@ -125,7 +126,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: RichText(
                             overflow: TextOverflow.visible,
                             text: TextSpan(
-                              text: 'I agree to the ',
+                              text: AppLocalizations.of(context)!.iAgreeToThe,
                               style: Theme.of(context).textTheme.bodyMedium,
                               children: <TextSpan>[
                                 TextSpan(
@@ -133,7 +134,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ..onTap = () {
                                       // TODO: Implement TOS and privacy policy link
                                     },
-                                  text: "Terms of services and Privacy Policy",
+                                  text: AppLocalizations.of(context)!.termsOfService,
                                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: MyColors.colorFB65BA),
                                 ),
                               ],
@@ -146,7 +147,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       height: 40,
                     ),
                     AuthButtonWidget(
-                      label: 'Sign Up',
+                      label: AppLocalizations.of(context)!.signUp,
                       onPressed: () => context.read<AuthenticationCubit>().signUp(repeatPasswordController.text.trim(),
                           emailController.text.trim(), passwordController.text.trim()),
                     ),
@@ -157,7 +158,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          'Have an account?',
+                          AppLocalizations.of(context)!.haveAnAccount,
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         GestureDetector(
@@ -165,7 +166,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             Navigator.of(context).pop(),
                           },
                           child: Text(
-                            'Sign In',
+                            AppLocalizations.of(context)!.signIn,
                             style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: MyColors.colorFB65BA),
                           ),
                         ),

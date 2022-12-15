@@ -1,6 +1,7 @@
 import 'package:deep_conference/application/presentation/auth_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../Utilities/utils.dart';
 import '../../constants/my_icons.dart';
@@ -48,7 +49,7 @@ class _PasswordResetState extends State<PasswordReset> {
             );
           }
           if (state.resetEmail == true) {
-            Utils.showSnackBar('Password Reset Email Sent', context);
+            Utils.showSnackBar(AppLocalizations.of(context)!.passwordResetEmailSent, context);
             Navigator.of(context).popUntil((route) => route.isFirst);
           }
         },
@@ -65,7 +66,7 @@ class _PasswordResetState extends State<PasswordReset> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Receive an email to reset your password.',
+                  AppLocalizations.of(context)!.receiveEmailPassword,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(overflow: TextOverflow.visible),
                 ),
@@ -76,11 +77,11 @@ class _PasswordResetState extends State<PasswordReset> {
                   errorText: state.emailError?.message(context),
                   controller: resetEmailController,
                   keyboardType: TextInputType.emailAddress,
-                  label: 'Email',
+                  label: AppLocalizations.of(context)!.email,
                 ),
                 const SizedBox(height: 40),
                 AuthButtonWidget(
-                  label: 'Reset Password',
+                  label: AppLocalizations.of(context)!.resetPassword,
                   onPressed: () => context.read<AuthenticationCubit>().resetPassword(resetEmailController.text.trim()),
                 ),
               ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 abstract class FormError {
   String message(BuildContext context);
@@ -7,28 +8,27 @@ abstract class FormError {
 class FieldRequiredError implements FormError {
   @override
   String message(BuildContext context) {
-    //tu se trenutno ne koristi context ali bude kad pristupamo stringovima (local)
-    return "This field is required";
+    return AppLocalizations.of(context)!.fieldRequiredError;
   }
 }
 
 class InvalidEmailError implements FormError {
   @override
   String message(BuildContext context) {
-    return "Please enter a valid email";
+    return AppLocalizations.of(context)!.enterValidEmail;
   }
 }
 
 class PasswordLengthError implements FormError {
   @override
   String message(BuildContext context) {
-    return "Password must be at least 6 characters long";
+    return AppLocalizations.of(context)!.passwordLengthError;
   }
 }
 
 class PasswordMatchError implements FormError {
   @override
   String message(BuildContext context) {
-    return "Passwords must match";
+    return AppLocalizations.of(context)!.passwordMatchError;
   }
 }

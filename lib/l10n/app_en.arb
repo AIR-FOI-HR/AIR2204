@@ -1,8 +1,4 @@
 {
-    "helloWorld": "Hello World!",
-    "@helloWorld": {
-      "description": "The conventional newborn programmer greeting"     
-    },
     "appTitle": "Deep Conference App",
     "@appTitle": {
       "description": "title of the application"     
@@ -50,7 +46,7 @@
     "@personalScheduleTitle": {
       "description": "title of the personal schedule screen"
     },
-    "enterValidEmail": "Enter a valid email",
+    "enterValidEmail": "Please enter a valid email",
     "@enterValidEmail": {
     },
     "passwordLengthErrorMsg": "Password must be at least 6 characters long.",
@@ -63,7 +59,79 @@
     "@termsOfService": {
     },
     "haveAnAccount": "Have an account?",
-    "@haveAnAccount": {
+    "@haveAnAccount": {    
+    },
+    "verificationEmailSent": "A verification email has been sent",
+    "@verificationEmailSent": {
+    },
+    "resendEmailButton": "Resend Email",
+    "@resendEmailButton": {
+    },
+    "cancelButton": "Cancel",
+    "@cancelButton": {
+    },
+    "signInWithGoogle": "Sign in with Google",
+    "@signInWithGoogle": {
     }
-    
+    ,
+    "passwordResetEmailSent": "The password reset email has been sent",
+    "@passwordResetEmailSent": {
+    },
+    "receiveEmailPassword": "Receive an email to reset your password",
+    "@receiveEmailPassword": {
+    }
+    ,
+    "resetPassword": "Reset password",
+    "@resetPassword": {
+    }
+    ,
+    "repeatPassword": "Repeat password",
+    "@repeatPassword": {
+    }  
+    ,
+    "emailAlreadyInUse": "This email is already in use",
+    "@emailAlreadyInUse": {
+    } ,
+    "noMatchingEmail": "There is no user matching that email",
+    "@noMatchingEmail": {
+    },
+    "wrongPassword": "The provided password is incorrect or the user has no password",
+    "@wrongPassword": {
+    }  ,
+    "emptyCredentialError": "You must provide an email and a password",
+    "@emptyCredentialError": {
+    } ,
+    "defaultLoginError": "Something went wrong with the log-in process",
+    "@defaultLoginError": {
+    } ,
+    "signUpValidateError": "Please check all input fields",
+    "@signUpValidateError": {
+    } ,
+    "googleCredentialError": "This account exists with a different sign in provider",
+    "@googleCredentialError": {
+    } ,
+    "operationNotAllowed": "This operation is not allowed",
+    "@operationNotAllowed": {
+    } ,
+    "userDisabledError": "The user has been disabled",
+    "@userDisabledError": {
+    } ,
+    "googleUserNotFound": "The user is not found",
+    "@googleUserNotFound": {
+    },
+    "emailValidateError": "There has been an error with email validation",
+    "@emailValidateError": {
+    }  ,
+    "tooManyRequestsError": "There have been too many requests, try again later",
+    "@tooManyRequestsError": {
+    },
+    "fieldRequiredError": "This field is required",
+    "@fieldRequiredError": {
+    },
+    "passwordLengthError": "Password must be at least 6 characters long",
+    "@passwordLengthError": {
+    },
+    "passwordMatchError": "Passwords must match",
+    "@passwordMatchError": {
+    }  
 }

@@ -9,7 +9,6 @@ import 'package:deep_conference/constants/schedule_item_categories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/models/schedule_items.dart';
-import '../logic/authentication_cubit.dart';
 import '../logic/saved_schedule_cubit.dart';
 import '../logic/schedule_cubit.dart';
 

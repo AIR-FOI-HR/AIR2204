@@ -3,6 +3,7 @@ import 'package:deep_conference/application/presentation/personal_schedule.dart'
 import 'package:deep_conference/application/presentation/schedule_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../Utilities/utils.dart';
 import '../../constants/my_colors.dart';
@@ -74,12 +75,12 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('A verification email has been sent',
+                    Text(AppLocalizations.of(context)!.verificationEmailSent,
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(overflow: TextOverflow.visible),
                         textAlign: TextAlign.center),
                     const SizedBox(height: 40),
                     AuthButtonWidget(
-                      label: 'Resend Email',
+                      label: AppLocalizations.of(context)!.resendEmailButton,
                       onPressed: authState.canResendEmail
                           ? () => context.read<AuthenticationCubit>().sendVerificationEmail()
                           : () {},
@@ -88,7 +89,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                     ),
                     TextButton(
                       child: Text(
-                        'Cancel',
+                        AppLocalizations.of(context)!.cancelButton,
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge!

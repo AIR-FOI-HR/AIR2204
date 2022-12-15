@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 abstract class AuthError {
   String message(BuildContext context);
@@ -7,90 +8,90 @@ abstract class AuthError {
 class LoginInvalidEmailError implements AuthError {
   @override
   String message(BuildContext context) {
-    return "Please enter a valid email";
+    return AppLocalizations.of(context)!.enterValidEmail;
   }
 }
 
 class EmailInUseError implements AuthError {
   @override
   String message(BuildContext context) {
-    return "This email is already in use";
+    return AppLocalizations.of(context)!.emailAlreadyInUse;
   }
 }
 
 class UserNotFoundError implements AuthError {
   @override
   String message(BuildContext context) {
-    return "There is no user matching that email";
+    return AppLocalizations.of(context)!.noMatchingEmail;
   }
 }
 
 class WrongPasswordError implements AuthError {
   @override
   String message(BuildContext context) {
-    return "The provided password is incorrect or the user has no password";
+    return AppLocalizations.of(context)!.wrongPassword;
   }
 }
 
 class EmptyCredentialError implements AuthError {
   @override
   String message(BuildContext context) {
-    return "You must provide an email and a password";
+    return AppLocalizations.of(context)!.emptyCredentialError;
   }
 }
 
 class DefaultLoginError implements AuthError {
   @override
   String message(BuildContext context) {
-    return "Something went wrong with the log-in process";
+    return AppLocalizations.of(context)!.defaultLoginError;
   }
 }
 
 class SignupValidateError implements AuthError {
   @override
   String message(BuildContext context) {
-    return "Please check all input fields";
+    return AppLocalizations.of(context)!.signUpValidateError;
   }
 }
 
 class GoogleCredentialError implements AuthError {
   @override
   String message(BuildContext context) {
-    return 'This account exists with a different sign in provider';
+    return AppLocalizations.of(context)!.googleCredentialError;
   }
 }
 
 class OperationNotAllowedError implements AuthError {
   @override
   String message(BuildContext context) {
-    return 'This operation is not allowed';
+    return AppLocalizations.of(context)!.operationNotAllowed;
   }
 }
 
 class UserDisabledError implements AuthError {
   @override
   String message(BuildContext context) {
-    return 'The user has been disabled';
+    return AppLocalizations.of(context)!.userDisabledError;
   }
 }
 
 class GoogleUserNotFoundError implements AuthError {
   @override
   String message(BuildContext context) {
-    return 'The user is not found';
+    return AppLocalizations.of(context)!.googleUserNotFound;
   }
 }
 
 class EmailValidateError implements AuthError {
   @override
   String message(BuildContext context) {
-    return 'There has been an error with email validation';
+    return AppLocalizations.of(context)!.emailValidateError;
   }
 }
 
 class TooManyRequestsError implements AuthError {
   @override
   String message(BuildContext context) {
-    return "There have been too many requests, try again later";
+    return AppLocalizations.of(context)!.tooManyRequestsError;
   }
 }
