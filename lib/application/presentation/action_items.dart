@@ -45,7 +45,6 @@ class DateButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final label = Jiffy(myDate).format("EE, MMM do").toUpperCase();
-    //final label = DateFormat('EE, d MMM').format(myDate).toUpperCase();
     return Transform(
       transform: Matrix4.skewX(0.3),
       child: MaterialButton(

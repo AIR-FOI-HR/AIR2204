@@ -15,7 +15,6 @@ class RetryButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            //imeplement text based on error type
             error.toString(),
             style: Theme.of(context).textTheme.titleMedium,
           ),
