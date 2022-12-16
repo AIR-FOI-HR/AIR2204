@@ -38,6 +38,9 @@ class MyCategoryTimeTextLabel extends StatelessWidget {
                       : MyColors.color000000,
           size: iconSize,
         ),
+        const SizedBox(
+          width: 6,
+        ),
         Text(
           "${DateFormat.Hm().format(startTime)} - ${DateFormat.Hm().format(endTime)} ",
           style: textStyle,

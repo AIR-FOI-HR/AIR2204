@@ -27,6 +27,9 @@ class MyIconTextLabel extends StatelessWidget {
           size: iconSize,
           color: iconColor,
         ),
+        const SizedBox(
+          width: 6,
+        ),
         Text(
           text,
           style: textStyle,
