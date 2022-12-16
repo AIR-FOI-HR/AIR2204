@@ -24,7 +24,7 @@ class UserCubit extends Cubit<UserState> {
           phoneNumber: user.phoneNumber,
         ));
       } else {
-        emit(UserState(error: UserDataError()));
+        emit(UserState(error: UserNoDataAvailable()));
       }
     } on Exception {
       emit(UserState(error: UserDataError()));

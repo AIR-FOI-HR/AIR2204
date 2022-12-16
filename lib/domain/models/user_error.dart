@@ -11,3 +11,10 @@ class UserDataError implements UserError {
     return AppLocalizations.of(context)!.userDataError;
   }
 }
+
+class UserNoDataAvailable implements UserError {
+  @override
+  String message(BuildContext context) {
+    return AppLocalizations.of(context)!.userNoDataAvailable;
+  }
+}

@@ -37,9 +37,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         },
         builder: (context, state) {
           if (state.userData) {
-            return Text(state.firstName);
+            return Center(child: Text(state.firstName));
           } else {
-            return Text(AppLocalizations.of(context)!.noData);
+            //give user a prompt to fill his user data
+            return Center(child: Text(AppLocalizations.of(context)!.userNoDataAvailable));
           }
         },
       ),

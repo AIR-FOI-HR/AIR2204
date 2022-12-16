@@ -156,5 +156,8 @@
     },
     "userDataError": "There has been an error while fetching your data",
     "@userDataError": {
+    },
+    "userNoDataAvailable": "There is no data available for current user",
+    "@userNoDataAvailable": {
     }
 }
