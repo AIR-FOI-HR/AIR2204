@@ -1,6 +1,6 @@
 import 'package:deep_conference/application/logic/authentication_cubit.dart';
 import 'package:deep_conference/application/presentation/action_items.dart';
-import 'package:deep_conference/application/presentation/error_widgets.dart';
+import 'package:deep_conference/application/widgets/error_widgets.dart';
 import 'package:deep_conference/application/presentation/schedule_card.dart';
 import 'package:deep_conference/constants/my_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

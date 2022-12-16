@@ -30,7 +30,7 @@ class MyTheme {
           fontWeight: FontWeight.w700), //medium title text (date filtration buttons)
       labelMedium: TextStyle(fontSize: 14, color: MyColors.color9B9A9B, fontWeight: FontWeight.w700), //medium gray text
       bodyLarge: TextStyle(
-          fontSize: 16, color: MyColors.colorFFFFFF, overflow: TextOverflow.ellipsis, fontWeight: FontWeight.w700),
+          fontSize: 16, color: MyColors.colorFFFFFF,fontWeight: FontWeight.w700),
       bodyMedium: TextStyle(fontSize: 14, color: MyColors.colorFFFFFF, fontWeight: FontWeight.w600),
     ),
   );
