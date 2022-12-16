@@ -14,6 +14,7 @@ class MyIcons {
     return categoryIcons[categoryName];
   }
 
+  static const String detailsBackground ='images/background_details.png';
   static const String googleIcon = 'images/icons/google_icon.png';
   static const String loginLogo = 'images/icons/login_logo.png';
   static const String appIcon = 'images/icons/app_icon.png';
