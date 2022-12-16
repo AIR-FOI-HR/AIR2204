@@ -1,3 +1,4 @@
+import 'package:deep_conference/domain/models/user_error.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,26 +16,33 @@ class UserCubit extends Cubit<UserState> {
       final AppUser? user = await userRepository.getUserData();
       if (user != null) {
         emit(UserState(
-            userData: true,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            companyUrl: user.companyUrl,
-            phoneNumber: user.phoneNumber));
+          userData: true,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          companyUrl: user.companyUrl,
+          phoneNumber: user.phoneNumber,
+        ));
       } else {
-        emit(const UserState());
+        emit(UserState(error: UserDataError()));
       }
     } on Exception {
-      // TODO
+      emit(UserState(error: UserDataError()));
     }
   }
+
   //FOR USER DATA EDITING SCREEN
-  // void writeUserData(String firstName) async {
-  //   try {
-  //     await userRepository.writeUserData(firstName);
-  //   } on Exception {
-  //     // TODO
-  //   }
-  //   ;
+  // Future<void> writeUserData(
+  //     String email, String firstName, String lastName, String companyUrl, String phoneNumber) async {
+  //   final AppUser user = AppUser(
+  //     email: email,
+  //     firstName: firstName,
+  //     lastName: lastName,
+  //     phoneNumber: phoneNumber,
+  //     companyUrl: companyUrl,
+  //   );
+  //   final Map<String, dynamic> json = user.toJson();
+  //   final docUser = firestore.collection(MyCollections.users).doc(auth.currentUser!.uid);
+  //   await docUser.set(json);
   // }
 }

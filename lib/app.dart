@@ -50,7 +50,6 @@ class MyApp extends StatelessWidget {
                   SavedScheduleCubit(context.read<SavedRepository>(), context.read<ScheduleRepository>())),
           BlocProvider<NavigationCubit>(create: (context) => NavigationCubit()),
           BlocProvider<AuthenticationCubit>(
-            //USER BRANCH
             create: (context) =>
                 AuthenticationCubit(context.read<AuthenticationRepository>(), context.read<UserRepository>()),
           ),

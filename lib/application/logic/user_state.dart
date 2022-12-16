@@ -7,6 +7,7 @@ class UserState extends Equatable {
   final String companyUrl;
   final String phoneNumber;
   final bool userData;
+  final dynamic error;
 
   const UserState({
     this.email = "",
@@ -15,8 +16,9 @@ class UserState extends Equatable {
     this.companyUrl = "",
     this.phoneNumber = "",
     this.userData = false,
+    this.error,
   });
 
   @override
-  List<Object> get props => [email, firstName, lastName, companyUrl, phoneNumber, userData];
+  List<Object?> get props => [email, firstName, lastName, companyUrl, phoneNumber, userData, error];
 }

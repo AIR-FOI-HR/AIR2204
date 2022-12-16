@@ -132,5 +132,29 @@
     },
     "profileScreenTitle": "My profile",
     "@profileScreenTitle": {
-    }  
+    },
+    "firstNameSignUpLabel": "First name",
+    "@firstNameSignUpLabel": {
+    },
+    "lastNameSignUpLabel": "Last name",
+    "@lastNameSignUpLabel": {
+    },
+    "companyUrlSignUpLabel": "Company URL",
+    "@companyUrlSignUpLabel": {
+    },
+    "phoneNumberSignUpLabel": "Phone Number",
+    "@phoneNumberSignUpLabel": {
+    },
+    "fieldsRequiredSignUpLabel": "Fields marked with * are required",
+    "@fieldsRequiredSignUpLabel": {
+    },
+    "validUrlError": "Please enter a valid URL",
+    "@validUrlError": {
+    },
+    "validPhoneError": "Please enter a valid phone number",
+    "@validPhoneError": {
+    },
+    "userDataError": "There has been an error while fetching your data",
+    "@userDataError": {
+    }
 }

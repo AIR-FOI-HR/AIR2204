@@ -1,6 +1,7 @@
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../Utilities/utils.dart';
 import '../logic/user_cubit.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -28,7 +29,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
-      body: BlocBuilder<UserCubit, UserState>(
+      body: BlocConsumer<UserCubit, UserState>(
+        listener: (context, state) {
+          if (state.error != null) {
+            Utils.showSnackBar(state.error?.message(context), context);
+          }
+        },
         builder: (context, state) {
           if (state.userData) {
             return Text(state.firstName);

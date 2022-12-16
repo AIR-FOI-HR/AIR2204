@@ -23,9 +23,17 @@ class UserRepository {
     return userData;
   }
 
-  //all user data strings should be nullable, so we only set the fields that user actually provided
-  Future<void> writeUserData(String firstName) async {
-    final docRef = firestore.collection(MyCollections.users).doc(auth.currentUser!.uid);
-    await docRef.set({'firstName': firstName});
+  Future<void> writeUserData(
+      String email, String firstName, String lastName, String companyUrl, String phoneNumber) async {
+    final AppUser user = AppUser(
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      phoneNumber: phoneNumber,
+      companyUrl: companyUrl,
+    );
+    final Map<String, dynamic> json = user.toJson();
+    final docUser = firestore.collection(MyCollections.users).doc(auth.currentUser!.uid);
+    await docUser.set(json);
   }
 }

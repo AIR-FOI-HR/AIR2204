@@ -15,7 +15,7 @@ part 'authentication_state.dart';
 class AuthenticationCubit extends Cubit<AuthenticationState> {
   final AuthenticationRepository authenticationRepository;
   final UserRepository userRepository;
-  //USER BRANCH
+
   AuthenticationCubit(this.authenticationRepository, this.userRepository) : super(const AuthenticationState());
 
   void initState() {
@@ -136,21 +136,55 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     emit(state.copyWith(repeatPasswordError: () => repeatPasswordValidate));
   }
 
-  //USER BRANCH
-  Future<void> signUp(String repeatPassword, String email, String password, String firstName) async {
+  FormError? _companyUrlValidate(String companyUrl) {
+    String pattern = r'(http|https)://[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?';
+    RegExp regExp = RegExp(pattern);
+    if (!regExp.hasMatch(companyUrl) && companyUrl.isNotEmpty) {
+      return CompanyUrlError();
+    }
+    return null;
+  }
+
+  void onCompanyUrlChanged(String companyUrl) {
+    FormError? companyUrlValidate = _companyUrlValidate(companyUrl);
+    emit(state.copyWith(companyUrlError: () => companyUrlValidate));
+  }
+
+  FormError? _phoneNumberValidate(String phoneNumber) {
+    String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    RegExp regExp = RegExp(pattern);
+    if (!regExp.hasMatch(phoneNumber) && phoneNumber.isNotEmpty) {
+      return PhoneNumberError();
+    }
+    return null;
+  }
+
+  void onPhoneNumberChanged(String phoneNumber) {
+    FormError? phoneNumberValidate = _phoneNumberValidate(phoneNumber);
+    emit(state.copyWith(phoneNumberError: () => phoneNumberValidate));
+  }
+
+  Future<void> signUp(String repeatPassword, String email, String password, String firstName, String lastName,
+      String companyUrl, String phoneNumber) async {
     emit(state.copyWith(loading: true));
     final passwordValidate = _passwordValidate(password);
     final emailValidate = _emailValidate(email);
     final repeatPasswordValidate = _repeatPasswordValidate(repeatPassword, password);
+    final companyUrlValidate = _companyUrlValidate(companyUrl);
+    final phoneNumberValidate = _phoneNumberValidate(phoneNumber);
 
-    if (emailValidate != null || passwordValidate != null || repeatPasswordValidate != null) {
+    if (emailValidate != null ||
+        passwordValidate != null ||
+        repeatPasswordValidate != null ||
+        companyUrlValidate != null ||
+        phoneNumberValidate != null) {
       emit(state.copyWith(error: true, signupErrorMessage: () => SignupValidateError(), loading: false));
       return;
     }
+
     try {
       await authenticationRepository.createUser(email, password);
-      //USER BRANCH
-      await userRepository.writeUserData(firstName);
+      await userRepository.writeUserData(email, firstName, lastName, companyUrl, phoneNumber);
       emit(AuthenticationState(userId: authenticationRepository.getUserId()));
     } on FirebaseAuthException catch (e) {
       final AuthError? signupError = _checkAuthError(e, email, password);

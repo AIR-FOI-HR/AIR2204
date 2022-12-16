@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../Utilities/utils.dart';
 import '../../constants/my_icons.dart';
-import '../logic/user_cubit.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({
@@ -22,6 +21,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final passwordController = TextEditingController();
   final repeatPasswordController = TextEditingController();
   final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final companyUrlController = TextEditingController();
+  final phoneNumberController = TextEditingController();
 
   @override
   void initState() {
@@ -35,6 +37,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     passwordController.dispose();
     repeatPasswordController.dispose();
     firstNameController.dispose();
+    lastNameController.dispose();
+    companyUrlController.dispose();
+    phoneNumberController.dispose();
     super.dispose();
   }
 
@@ -79,7 +84,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 30),
                   ),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
+                Text(
+                  AppLocalizations.of(context)!.fieldsRequiredSignUpLabel,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 11, color: MyColors.color9B9A9B),
+                ),
                 Column(
                   children: [
                     TextFieldWidget(
@@ -87,42 +96,65 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       errorText: state.emailError?.message(context),
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
-                      label: AppLocalizations.of(context)!.email,
+                      label: "${AppLocalizations.of(context)!.email} *",
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     TextFieldWidget(
                       onChanged: context.read<AuthenticationCubit>().onPasswordChanged,
                       errorText: state.passwordError?.message(context),
                       controller: passwordController,
                       obscure: true,
-                      label: AppLocalizations.of(context)!.password,
+                      label: "${AppLocalizations.of(context)!.password} *",
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     TextFieldWidget(
                       onChanged: context.read<AuthenticationCubit>().onRepeatPasswordChanged,
                       errorText: state.repeatPasswordError?.message(context),
-                      inputAction: TextInputAction.done,
                       controller: repeatPasswordController,
                       obscure: true,
-                      label: AppLocalizations.of(context)!.repeatPassword,
+                      label: "${AppLocalizations.of(context)!.repeatPassword} *",
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     TextFieldWidget(
-                      //onChanged: context.read<AuthenticationCubit>().onRepeatPasswordChanged,
-                      errorText: state.repeatPasswordError?.message(context),
-                      inputAction: TextInputAction.done,
                       controller: firstNameController,
-                      //obscure: true,
-                      label: "First name",
+                      label: AppLocalizations.of(context)!.firstNameSignUpLabel,
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
+                    ),
+                    TextFieldWidget(
+                      controller: lastNameController,
+                      label: AppLocalizations.of(context)!.lastNameSignUpLabel,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFieldWidget(
+                      onChanged: context.read<AuthenticationCubit>().onCompanyUrlChanged,
+                      errorText: state.companyUrlError?.message(context),
+                      controller: companyUrlController,
+                      keyboardType: TextInputType.url,
+                      label: AppLocalizations.of(context)!.companyUrlSignUpLabel,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFieldWidget(
+                      onChanged: context.read<AuthenticationCubit>().onPhoneNumberChanged,
+                      errorText: state.phoneNumberError?.message(context),
+                      inputAction: TextInputAction.done,
+                      controller: phoneNumberController,
+                      keyboardType: TextInputType.phone,
+                      label: AppLocalizations.of(context)!.phoneNumberSignUpLabel,
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -167,11 +199,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             repeatPasswordController.text.trim(),
                             emailController.text.trim(),
                             passwordController.text.trim(),
-                            firstNameController.text.trim());
+                            firstNameController.text.trim(),
+                            lastNameController.text.trim(),
+                            companyUrlController.text.trim(),
+                            phoneNumberController.text.trim());
                       },
                     ),
                     const SizedBox(
-                      height: 100,
+                      height: 40,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
