@@ -1,5 +1,6 @@
 import 'package:deep_conference/application/logic/authentication_cubit.dart';
 import 'package:deep_conference/application/presentation/personal_schedule.dart';
+import 'package:deep_conference/application/presentation/profile_screen.dart';
 import 'package:deep_conference/application/presentation/schedule_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,7 +53,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   if (state.navbarItem == NavbarItem.schedule) {
                     return const ScheduleScreen();
                   } else if (state.navbarItem == NavbarItem.profile) {
-                    return const ScheduleScreen();
+                    return const ProfileScreen();
                   } else if (state.navbarItem == NavbarItem.mySchedule) {
                     return const PersonalSchedule();
                   } else {

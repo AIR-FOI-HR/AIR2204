@@ -72,56 +72,52 @@
     },
     "signInWithGoogle": "Sign in with Google",
     "@signInWithGoogle": {
-    }
-    ,
+    },
     "passwordResetEmailSent": "The password reset email has been sent",
     "@passwordResetEmailSent": {
     },
     "receiveEmailPassword": "Receive an email to reset your password",
     "@receiveEmailPassword": {
-    }
-    ,
+    },
     "resetPassword": "Reset password",
     "@resetPassword": {
-    }
-    ,
+    },
     "repeatPassword": "Repeat password",
     "@repeatPassword": {
-    }  
-    ,
+    },
     "emailAlreadyInUse": "This email is already in use",
     "@emailAlreadyInUse": {
-    } ,
+    },
     "noMatchingEmail": "There is no user matching that email",
     "@noMatchingEmail": {
     },
     "wrongPassword": "The provided password is incorrect or the user has no password",
     "@wrongPassword": {
-    }  ,
+    },
     "emptyCredentialError": "You must provide an email and a password",
     "@emptyCredentialError": {
-    } ,
+    },
     "defaultLoginError": "Something went wrong with the log-in process",
     "@defaultLoginError": {
-    } ,
+    },
     "signUpValidateError": "Please check all input fields",
     "@signUpValidateError": {
-    } ,
+    },
     "googleCredentialError": "This account exists with a different sign in provider",
     "@googleCredentialError": {
-    } ,
+    },
     "operationNotAllowed": "This operation is not allowed",
     "@operationNotAllowed": {
-    } ,
+    },
     "userDisabledError": "The user has been disabled",
     "@userDisabledError": {
-    } ,
+    },
     "googleUserNotFound": "The user is not found",
     "@googleUserNotFound": {
     },
     "emailValidateError": "There has been an error with email validation",
     "@emailValidateError": {
-    }  ,
+    },
     "tooManyRequestsError": "There have been too many requests, try again later",
     "@tooManyRequestsError": {
     },
@@ -133,5 +129,35 @@
     },
     "passwordMatchError": "Passwords must match",
     "@passwordMatchError": {
-    }  
+    },
+    "profileScreenTitle": "My profile",
+    "@profileScreenTitle": {
+    },
+    "firstNameSignUpLabel": "First name",
+    "@firstNameSignUpLabel": {
+    },
+    "lastNameSignUpLabel": "Last name",
+    "@lastNameSignUpLabel": {
+    },
+    "companyUrlSignUpLabel": "Company URL",
+    "@companyUrlSignUpLabel": {
+    },
+    "phoneNumberSignUpLabel": "Phone Number",
+    "@phoneNumberSignUpLabel": {
+    },
+    "fieldsRequiredSignUpLabel": "Fields marked with * are required",
+    "@fieldsRequiredSignUpLabel": {
+    },
+    "validUrlError": "Please enter a valid URL",
+    "@validUrlError": {
+    },
+    "validPhoneError": "Please enter a valid phone number",
+    "@validPhoneError": {
+    },
+    "userDataError": "There has been an error while fetching your data",
+    "@userDataError": {
+    },
+    "userNoDataAvailable": "There is no data available for current user",
+    "@userNoDataAvailable": {
+    }
 }

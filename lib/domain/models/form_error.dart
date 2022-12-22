@@ -32,3 +32,17 @@ class PasswordMatchError implements FormError {
     return AppLocalizations.of(context)!.passwordMatchError;
   }
 }
+
+class CompanyUrlError implements FormError {
+  @override
+  String message(BuildContext context) {
+    return AppLocalizations.of(context)!.validUrlError;
+  }
+}
+
+class PhoneNumberError implements FormError {
+  @override
+  String message(BuildContext context) {
+    return AppLocalizations.of(context)!.validPhoneError;
+  }
+}

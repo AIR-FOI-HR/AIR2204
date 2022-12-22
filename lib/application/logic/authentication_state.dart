@@ -15,6 +15,8 @@ class AuthenticationState extends Equatable {
   final FormError? emailError;
   final FormError? passwordError;
   final FormError? repeatPasswordError;
+  final FormError? companyUrlError;
+  final FormError? phoneNumberError;
   final String? password;
   final bool resetEmail;
   final bool isChecked;
@@ -28,6 +30,8 @@ class AuthenticationState extends Equatable {
       this.emailError,
       this.passwordError,
       this.repeatPasswordError,
+      this.companyUrlError,
+      this.phoneNumberError,
       this.password,
       this.resetEmail = false,
       this.isChecked = false,
@@ -45,6 +49,8 @@ class AuthenticationState extends Equatable {
       FormError? Function()? emailError,
       FormError? Function()? passwordError,
       FormError? Function()? repeatPasswordError,
+      FormError? Function()? companyUrlError,
+      FormError? Function()? phoneNumberError,
       AuthError? Function()? loginErrorMessage,
       AuthError? Function()? signupErrorMessage,
       AuthError? Function()? resetErrorMessage,
@@ -61,6 +67,8 @@ class AuthenticationState extends Equatable {
         emailError: emailError != null ? emailError() : this.emailError,
         passwordError: passwordError != null ? passwordError() : this.passwordError,
         repeatPasswordError: repeatPasswordError != null ? repeatPasswordError() : this.repeatPasswordError,
+        companyUrlError: companyUrlError != null ? companyUrlError() : this.companyUrlError,
+        phoneNumberError: phoneNumberError != null ? phoneNumberError() : this.phoneNumberError,
         password: password ?? this.password,
         resetEmail: resetEmail ?? this.resetEmail,
         isChecked: isChecked ?? this.isChecked,
@@ -86,6 +94,8 @@ class AuthenticationState extends Equatable {
         loginErrorMessage,
         signupErrorMessage,
         resetErrorMessage,
-        validateError
+        validateError,
+        companyUrlError,
+        phoneNumberError
       ];
 }
