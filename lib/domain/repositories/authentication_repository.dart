@@ -53,13 +53,19 @@ class AuthenticationRepository {
     await auth.signInWithEmailAndPassword(email: email, password: password);
   }
 
-  Future<void> signInGoogle() async {
+  Future<String?> signInGoogle() async {
     final googleSignInAccount = await googleSignIn.signIn();
     final googleSignInAuthentication = await googleSignInAccount!.authentication;
     final credential = GoogleAuthProvider.credential(
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
-    await auth.signInWithCredential(credential);
+    final authResult = await auth.signInWithCredential(credential);
+    if (authResult.additionalUserInfo!.isNewUser) {
+      String userEmail = googleSignInAccount.email;
+      return userEmail;
+    } else {
+      return null;
+    }
   }
 }

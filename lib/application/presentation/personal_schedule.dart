@@ -4,9 +4,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../constants/my_icons.dart';
 import '../../constants/schedule_item_categories.dart';
 import '../../domain/models/schedule_items.dart';
-import '../logic/authentication_cubit.dart';
 import '../logic/saved_schedule_cubit.dart';
 import '../widgets/error_widgets.dart';
 import 'action_items.dart';
@@ -29,27 +29,32 @@ class _PersonalScheduleState extends State<PersonalSchedule> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: const Image(
+          image: AssetImage(MyIcons.appBarBackground),
+          fit: BoxFit.cover,
+        ),
         title: Text(
           AppLocalizations.of(context)!.personalScheduleTitle,
         ),
         actions: [
-          MaterialButton(
-            child: const Icon(Icons.logout, color: MyColors.colorFFFFFF),
-            onPressed: () => {
-              context.read<AuthenticationCubit>().signOut(),
-            },
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: InkWell(
+              highlightColor: MyColors.color040306,
+              splashColor: MyColors.color3A3A3A,
+              radius: 50,
+              borderRadius: BorderRadius.circular(50),
+              onTap: () => {
+                //TODO: implement notification screen
+              },
+              child: const SizedBox(width: 50, child: Icon(Icons.notifications, size: 25)),
+            ),
           ),
-          // TODO: Implement notification screen
-          // MaterialButton(
-          //   child: const Icon(Icons.notifications, color: MyColors.colorFFFFFF),
-          //   onPressed: () => {
-          //     //implement notification screen
-          //   },
-          // ),
         ],
       ),
       body: Column(
         children: [
+          const SizedBox(height: 10),
           BlocBuilder<SavedScheduleCubit, SavedScheduleState>(
             builder: (context, state) {
               return SizedBox(

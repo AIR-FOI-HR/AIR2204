@@ -8,7 +8,7 @@ class MyTheme {
     scaffoldBackgroundColor: MyColors.color040306,
     cardColor: MyColors.color040306,
     appBarTheme: const AppBarTheme(
-      backgroundColor: MyColors.color040306,
+      backgroundColor: Colors.transparent,
       iconTheme: IconThemeData(
         color: MyColors.colorFFFFFF,
       ),
@@ -29,8 +29,7 @@ class MyTheme {
           color: MyColors.colorFFFFFF,
           fontWeight: FontWeight.w700), //medium title text (date filtration buttons)
       labelMedium: TextStyle(fontSize: 14, color: MyColors.color9B9A9B, fontWeight: FontWeight.w700), //medium gray text
-      bodyLarge: TextStyle(
-          fontSize: 16, color: MyColors.colorFFFFFF,fontWeight: FontWeight.w700),
+      bodyLarge: TextStyle(fontSize: 16, color: MyColors.colorFFFFFF, fontWeight: FontWeight.w700),
       bodyMedium: TextStyle(fontSize: 14, color: MyColors.colorFFFFFF, fontWeight: FontWeight.w600),
     ),
   );

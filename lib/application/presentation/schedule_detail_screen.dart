@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../constants/my_colors.dart';
 import '../../domain/models/speaker.dart';
 import '../../domain/repositories/speaker_repository.dart';
+import '../logic/saved_schedule_cubit.dart';
 import '../logic/speaker_cubit.dart';
 import '../widgets/error_widgets.dart';
 import '../widgets/my_category_time_text_label.dart';
@@ -26,38 +27,50 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SpeakerCubit(
-          context.read<SpeakerRepository>(), [widget.scheduleItem.speakerId]),
+      create: (context) => SpeakerCubit(context.read<SpeakerRepository>(), [widget.scheduleItem.speakerId]),
       child: Scaffold(
         body: Column(
           children: [
             Stack(
               children: [
                 Image.asset(MyIcons.detailsBackground,
-                    alignment: Alignment.centerLeft,
-                    fit: BoxFit.cover,
-                    height: 240,
-                    width: double.infinity),
+                    alignment: Alignment.centerLeft, fit: BoxFit.cover, height: 240, width: double.infinity),
                 Column(
                   children: [
                     Padding(
-                      padding:
-                          const EdgeInsets.only(top: 50, left: 40, right: 40),
+                      padding: const EdgeInsets.only(top: 50, left: 40, right: 40),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.arrow_back,
-                                size: 30, color: MyColors.color9B9A9B),
+                            icon: const Icon(Icons.arrow_back, size: 30, color: MyColors.color9B9A9B),
                             onPressed: () {
                               Navigator.pop(context);
                             },
                           ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.add,
-                                size: 30, color: MyColors.color9B9A9B),
+                          BlocBuilder<SavedScheduleCubit, SavedScheduleState>(
+                            builder: (context, state) {
+                              if (state.savedItems.contains(widget.scheduleItem)) {
+                                return MaterialButton(
+                                  child: const Icon(Icons.remove, color: MyColors.colorFFFFFF),
+                                  onPressed: () => setState(() {
+                                    context
+                                        .read<SavedScheduleCubit>()
+                                        .updatePersonalSchedule(widget.scheduleItem, false);
+                                  }),
+                                );
+                              } else {
+                                return MaterialButton(
+                                  child: const Icon(Icons.add, color: MyColors.colorFFFFFF),
+                                  onPressed: () => setState(() {
+                                    context
+                                        .read<SavedScheduleCubit>()
+                                        .updatePersonalSchedule(widget.scheduleItem, true);
+                                  }),
+                                );
+                              }
+                            },
                           ),
                         ],
                       ),
@@ -66,8 +79,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding:
-                            const EdgeInsets.only(left: 40, right: 40, top: 20),
+                        padding: const EdgeInsets.only(left: 40, right: 40, top: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -76,12 +88,10 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                                 icon: Icons.circle,
                                 startTime: widget.scheduleItem.startTime,
                                 endTime: widget.scheduleItem.startTime,
-                                textStyle:
-                                    Theme.of(context).textTheme.labelMedium),
+                                textStyle: Theme.of(context).textTheme.labelMedium),
                             MyIconTextLabel(
                                 icon: Icons.location_pin,
-                                textStyle:
-                                    Theme.of(context).textTheme.labelMedium,
+                                textStyle: Theme.of(context).textTheme.labelMedium,
                                 text: widget.scheduleItem.hall.toUpperCase()),
                           ],
                         ),
@@ -90,19 +100,14 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding:
-                            const EdgeInsets.only(left: 40, right: 40, top: 20),
+                        padding: const EdgeInsets.only(left: 40, right: 40, top: 20),
                         child: RichText(
                           text: TextSpan(
-                            text:
-                                "${widget.scheduleItem.title} | .${widget.scheduleItem.category.name}",
+                            text: "${widget.scheduleItem.title} | .${widget.scheduleItem.category.name}",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge
-                                ?.copyWith(
-                                    color: MyColors.colorFFFFFF,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700),
+                                ?.copyWith(color: MyColors.colorFFFFFF, fontSize: 18, fontWeight: FontWeight.w700),
                           ),
                         ),
                       ),
@@ -117,9 +122,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                   return RetryButton(
                     error: state.error,
                     onRetry: () => {
-                      context
-                          .read<SpeakerCubit>()
-                          .readSpeakerItems([widget.scheduleItem.speakerId])
+                      context.read<SpeakerCubit>().readSpeakerItems([widget.scheduleItem.speakerId])
                     },
                   );
                 }
@@ -134,23 +137,18 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 40, right: 40, top: 10, bottom: 10),
+                        padding: const EdgeInsets.only(left: 40, right: 40, top: 10, bottom: 10),
                         child: Text("Speaker",
                             textAlign: TextAlign.left,
                             style: Theme.of(context)
                                 .textTheme
                                 .labelMedium
-                                ?.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    color: MyColors.colorFFFFFF,
-                                    fontSize: 14)),
+                                ?.copyWith(fontWeight: FontWeight.w700, color: MyColors.colorFFFFFF, fontSize: 14)),
                       ),
                     ),
                     const MyHorizontalDivider(),
                     ListView.builder(
-                      padding:
-                          const EdgeInsets.only(top: 10, right: 40, left: 40),
+                      padding: const EdgeInsets.only(top: 10, right: 40, left: 40),
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: state.speakers.length,
@@ -165,15 +163,14 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 40, right: 40, top: 20, bottom: 10),
+                padding: const EdgeInsets.only(left: 40, right: 40, top: 20, bottom: 10),
                 child: Text("Description",
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.left,
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 14,
-                        color: MyColors.colorFFFFFF)),
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelMedium
+                        ?.copyWith(fontWeight: FontWeight.w700, fontSize: 14, color: MyColors.colorFFFFFF)),
               ),
             ),
             const MyHorizontalDivider(),
@@ -185,10 +182,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                   top: false,
                   child: Text(
                     widget.scheduleItem.description,
-                    style: (Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(fontWeight: FontWeight.w400, fontSize: 14)),
+                    style: (Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w400, fontSize: 14)),
                   ),
                 ),
               ),
@@ -229,10 +223,10 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                 Text(
                   speaker.title,
                   textAlign: TextAlign.left,
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: MyColors.color9B9A9B,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500),
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelSmall
+                      ?.copyWith(color: MyColors.color9B9A9B, fontSize: 12, fontWeight: FontWeight.w500),
                 ),
               ],
             ),
