@@ -1,5 +1,6 @@
 import 'package:deep_conference/application/logic/user_cubit.dart';
-import 'package:deep_conference/application/presentation/auth_widgets.dart';
+import 'package:deep_conference/application/widgets/appbar_items.dart';
+import 'package:deep_conference/application/widgets/auth_widgets.dart';
 import 'package:deep_conference/constants/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,25 +42,12 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          "Change password",
+          AppLocalizations.of(context)!.changePassword,
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 25),
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              size: 25,
-              color: MyColors.color9B9A9B,
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ),
+        leading: backArrow(context),
       ),
       body: BlocConsumer<UserCubit, UserState>(
         listener: (context, state) {
@@ -92,70 +80,61 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.only(left: 40, right: 40, bottom: 40),
+              padding: const EdgeInsets.only(top: 40, left: 40, right: 40, bottom: 40),
               child: ListView(
                 children: [
-                  const SizedBox(height: 40),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextFieldWidget(
-                        controller: oldPasswordController,
-                        obscure: true,
-                        label: "Current password",
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFieldWidget(
-                        onChanged: context.read<UserCubit>().onPasswordChanged,
-                        errorText: state.passwordError?.message(context),
-                        controller: newPasswordController,
-                        obscure: true,
-                        label: "New password",
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFieldWidget(
-                        onChanged: context.read<UserCubit>().onRepeatPasswordChanged,
-                        errorText: state.repeatPasswordError?.message(context),
-                        controller: repeatPasswordController,
-                        obscure: true,
-                        label: "Repeat new password",
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      AuthButtonWidget(
-                        label: "Change password",
-                        onPressed: () {
-                          context.read<UserCubit>().changeUserPassword(oldPasswordController.text.trim(),
-                              newPasswordController.text.trim(), repeatPasswordController.text.trim());
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Center(
-                        child: TextButton(
-                            child: Text(
-                              AppLocalizations.of(context)!.cancelButton,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(color: MyColors.colorFFFFFF, decoration: TextDecoration.underline),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                            }),
-                      )
-                    ],
+                  TextFieldWidget(
+                    controller: oldPasswordController,
+                    obscure: true,
+                    label: AppLocalizations.of(context)!.currentPassword,
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFieldWidget(
+                    onChanged: context.read<UserCubit>().onPasswordChanged,
+                    errorText: state.passwordError?.message(context),
+                    controller: newPasswordController,
+                    obscure: true,
+                    label: AppLocalizations.of(context)!.newPassword,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFieldWidget(
+                    onChanged: context.read<UserCubit>().onRepeatPasswordChanged,
+                    errorText: state.repeatPasswordError?.message(context),
+                    controller: repeatPasswordController,
+                    obscure: true,
+                    label: AppLocalizations.of(context)!.repeatNewPassword,
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  AuthButtonWidget(
+                    label: AppLocalizations.of(context)!.changePassword,
+                    onPressed: () {
+                      context.read<UserCubit>().changeUserPassword(oldPasswordController.text.trim(),
+                          newPasswordController.text.trim(), repeatPasswordController.text.trim());
+                    },
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Center(
+                    child: TextButton(
+                        child: Text(
+                          AppLocalizations.of(context)!.cancelButton,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: MyColors.colorFFFFFF, decoration: TextDecoration.underline),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                        }),
+                  )
                 ],
               ),
             ),

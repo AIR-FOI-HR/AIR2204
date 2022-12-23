@@ -23,7 +23,6 @@ class UserCubit extends Cubit<UserState> {
   }
 
   void getUserData() async {
-    //TODO: implement loading state
     try {
       final AppUser? user = await userRepository.getUserData();
       if (user != null) {
@@ -36,7 +35,7 @@ class UserCubit extends Cubit<UserState> {
           phoneNumber: user.phoneNumber,
         ));
       } else {
-        //emit(UserState(error: UserNoDataAvailable()));
+        emit(UserState(error: UserNoDataAvailable()));
       }
     } on Exception {
       emit(UserState(error: UserDataError()));
@@ -87,7 +86,8 @@ class UserCubit extends Cubit<UserState> {
 
     try {
       await userRepository.writeUserData(email, firstName, lastName, companyUrl, phoneNumber);
-      emit(const UserState(userUpdated: true));
+      emit(
+          UserState(userUpdated: true, googleProvider: state.googleProvider, passwordProvider: state.passwordProvider));
       getUserData();
     } on Exception {
       emit(state.copyWith(error: () => FailedUpdateError()));

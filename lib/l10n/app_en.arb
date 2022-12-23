@@ -196,13 +196,26 @@
     },      
     "changePassword": "Change password",
     "@changePassword": {
+    },     
+    "currentPassword": "Current password",
+    "@currentPassword": {
+    },
+    "newPassword": "New password",
+    "@newPassword": {
     },
     "saveChanges": "Save changes" ,
     "@saveChanges": {
     },
     "editMyProfile": "Edit My Profile",
     "@editMyProfile": {
+    },
+    "repeatNewPassword": "Repeat new password",
+    "@repeatNewPassword": {
+    },
+    "descriptionLabel": "Description",
+    "@descriptionLabel": {
+    },
+    "speakerLabel": "Speaker" ,
+    "@speakerLabel": {
     }
-
-      
 }

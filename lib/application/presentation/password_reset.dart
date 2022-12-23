@@ -1,4 +1,4 @@
-import 'package:deep_conference/application/presentation/auth_widgets.dart';
+import 'package:deep_conference/application/widgets/auth_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

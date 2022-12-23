@@ -1,5 +1,5 @@
 import 'package:deep_conference/application/logic/authentication_cubit.dart';
-import 'package:deep_conference/application/presentation/auth_widgets.dart';
+import 'package:deep_conference/application/widgets/auth_widgets.dart';
 import 'package:deep_conference/constants/my_colors.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

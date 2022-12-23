@@ -26,11 +26,8 @@ class UserRepository {
   List<String> checkAuthProvider() {
     List<String> providers = [];
     User? user = auth.currentUser;
-    if (user!.providerData.length > 1) {
-      providers.add(auth.currentUser!.providerData[0].providerId);
-      providers.add(auth.currentUser!.providerData[1].providerId);
-    } else {
-      providers.add(auth.currentUser!.providerData[0].providerId);
+    for (var i = 0; i < user!.providerData.length; i++) {
+      providers.add(user.providerData[i].providerId);
     }
     return providers;
   }
@@ -44,9 +41,8 @@ class UserRepository {
       phoneNumber: phoneNumber,
       companyUrl: companyUrl,
     );
-    final Map<String, dynamic> json = user.toJson();
     final docUser = firestore.collection(MyCollections.users).doc(auth.currentUser!.uid);
-    await docUser.set(json);
+    await docUser.set(user.toJson());
   }
 
   Future<dynamic> reauthenticateUser(String currentPassword) async {

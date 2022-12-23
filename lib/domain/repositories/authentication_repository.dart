@@ -62,8 +62,7 @@ class AuthenticationRepository {
     );
     final authResult = await auth.signInWithCredential(credential);
     if (authResult.additionalUserInfo!.isNewUser) {
-      String userEmail = googleSignInAccount.email;
-      return userEmail;
+      return googleSignInAccount.email;
     } else {
       return null;
     }

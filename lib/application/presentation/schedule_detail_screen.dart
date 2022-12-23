@@ -6,6 +6,7 @@ import 'package:deep_conference/constants/my_icons.dart';
 import 'package:deep_conference/domain/models/schedule_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import '../../constants/my_colors.dart';
 import '../../domain/models/speaker.dart';
 import '../../domain/repositories/speaker_repository.dart';
@@ -13,6 +14,7 @@ import '../logic/saved_schedule_cubit.dart';
 import '../logic/speaker_cubit.dart';
 import '../widgets/error_widgets.dart';
 import '../widgets/my_category_time_text_label.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ScheduleDetailScreen extends StatefulWidget {
   const ScheduleDetailScreen({super.key, required this.scheduleItem});
@@ -138,7 +140,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                       alignment: Alignment.centerLeft,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 40, right: 40, top: 10, bottom: 10),
-                        child: Text("Speaker",
+                        child: Text(AppLocalizations.of(context)!.speakerLabel,
                             textAlign: TextAlign.left,
                             style: Theme.of(context)
                                 .textTheme
@@ -164,7 +166,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(left: 40, right: 40, top: 20, bottom: 10),
-                child: Text("Description",
+                child: Text(AppLocalizations.of(context)!.descriptionLabel,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.left,
                     style: Theme.of(context)
@@ -176,14 +178,18 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
             const MyHorizontalDivider(),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.only(left: 40, right: 40, top: 10),
+                padding: const EdgeInsets.only(left: 32, right: 32, top: 10),
                 //.horizontal
                 child: SafeArea(
                   top: false,
-                  child: Text(
-                    widget.scheduleItem.description,
-                    style: (Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w400, fontSize: 14)),
-                  ),
+                  child: Html(data: widget.scheduleItem.description, style: {
+                    "*": Style(
+                      color: MyColors.colorCACACA,
+                      fontSize: const FontSize(14, units: "px"),
+                      fontWeight: FontWeight.w400,
+                    ),
+                    "ul": Style(listStyleType: ListStyleType.NONE),
+                  }),
                 ),
               ),
             ),
