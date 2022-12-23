@@ -1,15 +1,14 @@
-import 'package:deep_conference/application/presentation/schedule_card.dart';
-import 'package:deep_conference/constants/my_colors.dart';
+import 'package:deep_conference/application/widgets/schedule_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../constants/schedule_item_categories.dart';
 import '../../domain/models/schedule_items.dart';
-import '../logic/authentication_cubit.dart';
 import '../logic/saved_schedule_cubit.dart';
+import '../widgets/appbar_items.dart';
 import '../widgets/error_widgets.dart';
-import 'action_items.dart';
+import '../widgets/filtration_widgets.dart';
 
 class PersonalSchedule extends StatefulWidget {
   const PersonalSchedule({super.key});
@@ -29,27 +28,17 @@ class _PersonalScheduleState extends State<PersonalSchedule> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: appBarGradient(),
         title: Text(
           AppLocalizations.of(context)!.personalScheduleTitle,
         ),
         actions: [
-          MaterialButton(
-            child: const Icon(Icons.logout, color: MyColors.colorFFFFFF),
-            onPressed: () => {
-              context.read<AuthenticationCubit>().signOut(),
-            },
-          ),
-          // TODO: Implement notification screen
-          // MaterialButton(
-          //   child: const Icon(Icons.notifications, color: MyColors.colorFFFFFF),
-          //   onPressed: () => {
-          //     //implement notification screen
-          //   },
-          // ),
+          notificationBell(),
         ],
       ),
       body: Column(
         children: [
+          const SizedBox(height: 10),
           BlocBuilder<SavedScheduleCubit, SavedScheduleState>(
             builder: (context, state) {
               return SizedBox(

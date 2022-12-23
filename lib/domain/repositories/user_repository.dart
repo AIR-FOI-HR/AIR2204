@@ -23,6 +23,15 @@ class UserRepository {
     return userData;
   }
 
+  List<String> checkAuthProvider() {
+    List<String> providers = [];
+    User? user = auth.currentUser;
+    for (var i = 0; i < user!.providerData.length; i++) {
+      providers.add(user.providerData[i].providerId);
+    }
+    return providers;
+  }
+
   Future<void> writeUserData(
       String email, String firstName, String lastName, String companyUrl, String phoneNumber) async {
     final AppUser user = AppUser(
@@ -32,8 +41,26 @@ class UserRepository {
       phoneNumber: phoneNumber,
       companyUrl: companyUrl,
     );
-    final Map<String, dynamic> json = user.toJson();
     final docUser = firestore.collection(MyCollections.users).doc(auth.currentUser!.uid);
-    await docUser.set(json);
+    await docUser.set(user.toJson());
+  }
+
+  Future<void> reauthenticateUser(String currentPassword) async {
+    try {
+      final User? user = auth.currentUser;
+      final cred = EmailAuthProvider.credential(email: user!.email!, password: currentPassword);
+      await user.reauthenticateWithCredential(cred);
+    } on FirebaseAuthException {
+      rethrow;
+    }
+  }
+
+  Future<void> changePassword(String newPassword) async {
+    try {
+      final User? user = auth.currentUser;
+      await user!.updatePassword(newPassword);
+    } on FirebaseAuthException {
+      rethrow;
+    }
   }
 }

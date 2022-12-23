@@ -159,5 +159,63 @@
     },
     "userNoDataAvailable": "There is no data available for current user",
     "@userNoDataAvailable": {
+    },
+    "profileFullNameLabel": "FULL NAME",
+    "@profileFullNameLabel": {
+    },
+    "profileEmailLabel": "EMAIL",
+    "@profileEmailLabel": {
+    },
+    "profilePhoneNumberLabel": "PHONE NUMBER",
+    "@profilePhoneNumberLabel": {
+    },
+    "profileCompanyUrlLabel": "COMPANY URL",
+    "@profileCompanyUrlLabel": {
+    },
+    "profileEditLabel": "Edit profile",
+    "@profileEditLabel": {
+    },
+    "profileSignOutLabel": "Sign out",
+    "@profileSignOutLabel": {
+    }
+    ,
+    "editProfileTitle": "Edit My Profile",
+    "@editProfileTitle": {
+    },
+    "failedUpdateError": "There has been an error while updating user data",
+    "@failedUpdateError": {
+    },
+    "userUpdateSuccessful": "User data successfully updated",
+    "@userUpdateSuccessful": {
+    },
+    "addNewContact": "Add new contact",
+    "@addNewContact": {
+    },    
+    "changePasswordNoPassword": "Change password  \n* this user account has no password",
+    "@changePasswordNoPassword": {
+    },      
+    "changePassword": "Change password",
+    "@changePassword": {
+    },     
+    "currentPassword": "Current password",
+    "@currentPassword": {
+    },
+    "newPassword": "New password",
+    "@newPassword": {
+    },
+    "saveChanges": "Save changes" ,
+    "@saveChanges": {
+    },
+    "editMyProfile": "Edit My Profile",
+    "@editMyProfile": {
+    },
+    "repeatNewPassword": "Repeat new password",
+    "@repeatNewPassword": {
+    },
+    "descriptionLabel": "Description",
+    "@descriptionLabel": {
+    },
+    "speakerLabel": "Speaker" ,
+    "@speakerLabel": {
     }
 }

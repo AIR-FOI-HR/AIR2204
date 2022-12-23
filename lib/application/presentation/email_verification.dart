@@ -11,7 +11,7 @@ import '../../constants/my_colors.dart';
 import '../../constants/my_icons.dart';
 import '../../constants/nav_bar_items.dart';
 import '../logic/navigation_cubit.dart';
-import 'auth_widgets.dart';
+import '../widgets/auth_widgets.dart';
 import 'bottom_navigation.dart';
 
 class EmailVerificationScreen extends StatefulWidget {

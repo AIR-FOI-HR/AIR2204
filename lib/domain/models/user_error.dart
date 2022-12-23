@@ -18,3 +18,24 @@ class UserNoDataAvailable implements UserError {
     return AppLocalizations.of(context)!.userNoDataAvailable;
   }
 }
+
+class FailedUpdateError implements UserError {
+  @override
+  String message(BuildContext context) {
+    return AppLocalizations.of(context)!.failedUpdateError;
+  }
+}
+
+class WrongCurrentPasswordError implements UserError {
+  @override
+  String message(BuildContext context) {
+    return "The current password you provided is incorrect";
+  }
+}
+
+class PasswordChangeError implements UserError {
+  @override
+  String message(BuildContext context) {
+    return "There has been an error changing your user password";
+  }
+}

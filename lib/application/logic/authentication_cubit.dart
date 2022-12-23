@@ -223,7 +223,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   Future<void> googleSignIn() async {
     emit(const AuthenticationState(loading: true));
     try {
-      await authenticationRepository.signInGoogle();
+      final String? userEmail = await authenticationRepository.signInGoogle();
+      if (userEmail != null) {
+        await userRepository.writeUserData(userEmail, "", "", "", "");
+      }
       emit(AuthenticationState(userId: authenticationRepository.getUserId()));
     } on FirebaseAuthException catch (e) {
       final AuthError? loginError = _checkGoogleAuthError(e);

@@ -1,8 +1,6 @@
-import 'package:deep_conference/application/logic/authentication_cubit.dart';
-import 'package:deep_conference/application/presentation/action_items.dart';
+import 'package:deep_conference/application/widgets/filtration_widgets.dart';
 import 'package:deep_conference/application/widgets/error_widgets.dart';
-import 'package:deep_conference/application/presentation/schedule_card.dart';
-import 'package:deep_conference/constants/my_colors.dart';
+import 'package:deep_conference/application/widgets/schedule_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:deep_conference/constants/schedule_item_categories.dart';
@@ -11,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/models/schedule_items.dart';
 import '../logic/saved_schedule_cubit.dart';
 import '../logic/schedule_cubit.dart';
+import '../widgets/appbar_items.dart';
 
 class ScheduleScreen extends StatefulWidget {
   const ScheduleScreen({super.key});
@@ -32,27 +31,17 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: appBarGradient(),
         title: Text(
           AppLocalizations.of(context)!.scheduleTitle,
         ),
         actions: [
-          MaterialButton(
-            child: const Icon(Icons.logout, color: MyColors.colorFFFFFF),
-            onPressed: () => {
-              context.read<AuthenticationCubit>().signOut(),
-            },
-          ),
-          // TODO: Implement notification screen
-          // MaterialButton(
-          //   child: const Icon(Icons.notifications, color: MyColors.colorFFFFFF),
-          //   onPressed: () => {
-          //     //implement notification screen
-          //   },
-          // ),
+          notificationBell(),
         ],
       ),
       body: Column(
         children: [
+          const SizedBox(height: 10),
           BlocBuilder<ScheduleCubit, ScheduleState>(
             builder: (context, state) {
               return SizedBox(
