@@ -11,8 +11,7 @@ class UserState extends Equatable {
   final dynamic error;
   final bool loading;
   final String currentPassword;
-  final bool passwordProvider;
-  final bool googleProvider;
+  final List<MyProvider> providers;
 
   final FormError? phoneNumberError;
   final FormError? passwordError;
@@ -32,8 +31,7 @@ class UserState extends Equatable {
       this.currentPassword = "",
       this.phoneNumberError,
       this.passwordError,
-      this.passwordProvider = false,
-      this.googleProvider = false,
+      this.providers = const [],
       this.repeatPasswordError,
       this.companyUrlError});
 
@@ -46,8 +44,7 @@ class UserState extends Equatable {
       bool? userUpdated,
       bool? userData,
       bool? loading,
-      bool? passwordProvider,
-      bool? googleProvider,
+      List<MyProvider>? providers,
       String? currentPassword,
       dynamic Function()? error,
       FormError? Function()? phoneNumberError,
@@ -59,8 +56,7 @@ class UserState extends Equatable {
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       companyUrl: companyUrl ?? this.companyUrl,
-      passwordProvider: passwordProvider ?? this.passwordProvider,
-      googleProvider: googleProvider ?? this.googleProvider,
+      providers: providers ?? this.providers,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       userUpdated: userUpdated ?? this.userUpdated,
       currentPassword: currentPassword ?? this.currentPassword,
@@ -88,9 +84,8 @@ class UserState extends Equatable {
         phoneNumberError,
         companyUrlError,
         passwordError,
-        passwordProvider,
-        googleProvider,
         repeatPasswordError,
-        userUpdated
+        userUpdated,
+        providers
       ];
 }

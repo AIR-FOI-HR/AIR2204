@@ -49,72 +49,70 @@ class _ProfileScreenState extends State<ProfileScreen> {
         },
         builder: (context, state) {
           if (state.userData) {
-            return Padding(
+            return ListView(
               padding: const EdgeInsets.only(top: 27, left: 40, right: 40),
-              child: ListView(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.only(top: 30, left: 10, right: 10, bottom: 15),
-                    width: 300,
-                    decoration: BoxDecoration(
-                      color: MyColors.color772DFF.withAlpha(15),
-                      borderRadius: BorderRadius.circular(15),
-                      image: const DecorationImage(
-                        image: AssetImage(MyIcons.profileScreenQrBackground),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: Image.asset(
-                            'images/qr_placeholder.jpg',
-                            height: 180,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Text("${state.firstName} ${state.lastName}",
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(color: MyColors.color772DFF, fontSize: 20, overflow: TextOverflow.visible)),
-                      ],
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(top: 30, left: 10, right: 10, bottom: 15),
+                  width: 300,
+                  decoration: BoxDecoration(
+                    color: MyColors.color772DFF.withAlpha(15),
+                    borderRadius: BorderRadius.circular(15),
+                    image: const DecorationImage(
+                      image: AssetImage(MyIcons.profileScreenQrBackground),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  const SizedBox(height: 35),
-                  profileScreenData(label: AppLocalizations.of(context)!.profileEmailLabel, title: true),
-                  const SizedBox(height: 5),
-                  profileScreenData(label: state.email, title: false),
-                  const SizedBox(height: 35),
-                  profileScreenData(label: AppLocalizations.of(context)!.profilePhoneNumberLabel, title: true),
-                  const SizedBox(height: 5),
-                  profileScreenData(label: state.phoneNumber, title: false),
-                  const SizedBox(height: 35),
-                  profileScreenData(label: AppLocalizations.of(context)!.profileCompanyUrlLabel, title: true),
-                  const SizedBox(height: 5),
-                  profileScreenData(label: state.companyUrl, title: false),
-                  const SizedBox(height: 35),
-                  Center(
-                    child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: MyColors.color772DFF,
-                        padding: const EdgeInsets.only(right: 10, left: 10, top: 8, bottom: 8),
+                  child: Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Image.asset(
+                          'images/qr_placeholder.jpg',
+                          height: 180,
+                        ),
                       ),
-                      onPressed: () {},
-                      icon: Image.asset(
-                        MyIcons.qrIcon,
-                        height: 24,
+                      const SizedBox(
+                        height: 20,
                       ),
-                      label: Text(AppLocalizations.of(context)!.addNewContact,
-                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 14)),
-                    ),
+                      Text("${state.firstName} ${state.lastName}",
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: MyColors.color772DFF, fontSize: 20, overflow: TextOverflow.visible)),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 35),
+                profileScreenData(label: AppLocalizations.of(context)!.profileEmailLabel, title: true),
+                const SizedBox(height: 5),
+                profileScreenData(label: state.email, title: false),
+                const SizedBox(height: 35),
+                profileScreenData(label: AppLocalizations.of(context)!.profilePhoneNumberLabel, title: true),
+                const SizedBox(height: 5),
+                profileScreenData(label: state.phoneNumber, title: false),
+                const SizedBox(height: 35),
+                profileScreenData(label: AppLocalizations.of(context)!.profileCompanyUrlLabel, title: true),
+                const SizedBox(height: 5),
+                profileScreenData(label: state.companyUrl, title: false),
+                const SizedBox(height: 35),
+                Center(
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: MyColors.color772DFF,
+                      padding: const EdgeInsets.only(right: 10, left: 10, top: 8, bottom: 8),
+                    ),
+                    onPressed: () {},
+                    icon: Image.asset(
+                      MyIcons.qrIcon,
+                      height: 24,
+                    ),
+                    label: Text(AppLocalizations.of(context)!.addNewContact,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 14)),
+                  ),
+                ),
+              ],
             );
           } else {
             return const Center(child: CircularProgressIndicator());

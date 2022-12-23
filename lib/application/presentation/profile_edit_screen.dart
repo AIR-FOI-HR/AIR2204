@@ -9,6 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../Utilities/utils.dart';
 import '../../constants/my_icons.dart';
+import '../../constants/my_providers.dart';
 
 class ProfileEditScreen extends StatefulWidget {
   const ProfileEditScreen({super.key, required this.stateData});
@@ -78,85 +79,87 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                 fit: BoxFit.cover,
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 40, left: 40, right: 40, bottom: 40),
-              child: ListView(
-                children: [
-                  TextFieldWidget(
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    label: AppLocalizations.of(context)!.email,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFieldWidget(
-                    controller: firstNameController,
-                    label: AppLocalizations.of(context)!.firstNameSignUpLabel,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFieldWidget(
-                    controller: lastNameController,
-                    label: AppLocalizations.of(context)!.lastNameSignUpLabel,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFieldWidget(
-                    onChanged: context.read<UserCubit>().onCompanyUrlChanged,
-                    errorText: state.companyUrlError?.message(context),
-                    controller: companyUrlController,
-                    keyboardType: TextInputType.url,
-                    label: AppLocalizations.of(context)!.companyUrlSignUpLabel,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFieldWidget(
-                    onChanged: context.read<UserCubit>().onPhoneNumberChanged,
-                    errorText: state.phoneNumberError?.message(context),
-                    inputAction: TextInputAction.done,
-                    controller: phoneNumberController,
-                    keyboardType: TextInputType.phone,
-                    label: AppLocalizations.of(context)!.phoneNumberSignUpLabel,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  changePasswordGesture(state),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  AuthButtonWidget(
-                    label: AppLocalizations.of(context)!.saveChanges,
-                    onPressed: () {
-                      context.read<UserCubit>().writeUserData(
-                          emailController.text.trim(),
-                          firstNameController.text.trim(),
-                          lastNameController.text.trim(),
-                          companyUrlController.text.trim(),
-                          phoneNumberController.text.trim());
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Center(
-                    child: TextButton(
-                      child: Text(
-                        AppLocalizations.of(context)!.cancelButton,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(color: MyColors.colorFFFFFF, decoration: TextDecoration.underline),
+            child: ListView(
+              padding: const EdgeInsets.only(top: 105, left: 40, right: 40, bottom: 40),
+              children: [
+                TextFieldWidget(
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  label: AppLocalizations.of(context)!.email,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFieldWidget(
+                  controller: firstNameController,
+                  label: AppLocalizations.of(context)!.firstNameSignUpLabel,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFieldWidget(
+                  controller: lastNameController,
+                  label: AppLocalizations.of(context)!.lastNameSignUpLabel,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFieldWidget(
+                  onChanged: context.read<UserCubit>().onCompanyUrlChanged,
+                  errorText: state.companyUrlError?.message(context),
+                  controller: companyUrlController,
+                  keyboardType: TextInputType.url,
+                  label: AppLocalizations.of(context)!.companyUrlSignUpLabel,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFieldWidget(
+                  onChanged: context.read<UserCubit>().onPhoneNumberChanged,
+                  errorText: state.phoneNumberError?.message(context),
+                  inputAction: TextInputAction.done,
+                  controller: phoneNumberController,
+                  keyboardType: TextInputType.phone,
+                  label: AppLocalizations.of(context)!.phoneNumberSignUpLabel,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                state.providers.contains(MyProvider.email)
+                    ? changePasswordGesture(state)
+                    : const SizedBox(
+                        height: 0,
                       ),
-                      onPressed: () => Navigator.of(context).pop(),
+                const SizedBox(
+                  height: 20,
+                ),
+                AuthButtonWidget(
+                  label: AppLocalizations.of(context)!.saveChanges,
+                  onPressed: () {
+                    context.read<UserCubit>().writeUserData(
+                        emailController.text.trim(),
+                        firstNameController.text.trim(),
+                        lastNameController.text.trim(),
+                        companyUrlController.text.trim(),
+                        phoneNumberController.text.trim());
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: TextButton(
+                    child: Text(
+                      AppLocalizations.of(context)!.cancelButton,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(color: MyColors.colorFFFFFF, decoration: TextDecoration.underline),
                     ),
+                    onPressed: () => Navigator.of(context).pop(),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },
@@ -167,27 +170,18 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   Widget changePasswordGesture(UserState state) {
     return GestureDetector(
       child: Text(
-        !state.passwordProvider
-            ? AppLocalizations.of(context)!.changePasswordNoPassword
-            : AppLocalizations.of(context)!.changePassword,
-        style: !state.passwordProvider
-            ? Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .copyWith(color: MyColors.color9B9A9B, decoration: TextDecoration.underline)
-            : Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .copyWith(color: MyColors.colorFB65BA, decoration: TextDecoration.underline),
+        AppLocalizations.of(context)!.changePassword,
+        style: (Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .copyWith(color: MyColors.colorFB65BA, decoration: TextDecoration.underline)),
       ),
-      onTap: () => !state.passwordProvider
-          ? {}
-          : Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const PasswordChangeScreen(),
-              ),
-            ),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const PasswordChangeScreen(),
+        ),
+      ),
     );
   }
 }

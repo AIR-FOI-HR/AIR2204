@@ -45,24 +45,22 @@ class UserRepository {
     await docUser.set(user.toJson());
   }
 
-  Future<dynamic> reauthenticateUser(String currentPassword) async {
+  Future<void> reauthenticateUser(String currentPassword) async {
     try {
       final User? user = auth.currentUser;
       final cred = EmailAuthProvider.credential(email: user!.email!, password: currentPassword);
       await user.reauthenticateWithCredential(cred);
-      return null;
-    } on FirebaseAuthException catch (e) {
-      return e;
+    } on FirebaseAuthException {
+      rethrow;
     }
   }
 
-  Future<dynamic> changePassword(String newPassword) async {
+  Future<void> changePassword(String newPassword) async {
     try {
       final User? user = auth.currentUser;
       await user!.updatePassword(newPassword);
-      return null;
-    } on FirebaseAuthException catch (e) {
-      return e;
+    } on FirebaseAuthException {
+      rethrow;
     }
   }
 }

@@ -1,7 +1,9 @@
 import 'package:deep_conference/domain/models/user_error.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../constants/my_providers.dart';
 import '../../domain/models/auth_error.dart';
 import '../../domain/models/form_error.dart';
 import '../../domain/models/users.dart';
@@ -86,8 +88,7 @@ class UserCubit extends Cubit<UserState> {
 
     try {
       await userRepository.writeUserData(email, firstName, lastName, companyUrl, phoneNumber);
-      emit(
-          UserState(userUpdated: true, googleProvider: state.googleProvider, passwordProvider: state.passwordProvider));
+      emit(UserState(userUpdated: true, providers: state.providers));
       getUserData();
     } on Exception {
       emit(state.copyWith(error: () => FailedUpdateError()));
@@ -135,31 +136,22 @@ class UserCubit extends Cubit<UserState> {
     }
 
     try {
-      dynamic e;
-      e = await userRepository.reauthenticateUser(currentPassword);
-      if (e != null) {
-        emit(state.copyWith(error: () => WrongCurrentPasswordError(), loading: false));
-        return;
-      }
-      e = await userRepository.changePassword(newPassword);
-      if (e != null) {
-        emit(state.copyWith(error: () => PasswordChangeError(), loading: false));
-        return;
-      }
+      await userRepository.reauthenticateUser(currentPassword);
+      await userRepository.changePassword(newPassword);
       emit(const UserState(userUpdated: true));
       getUserData();
-    } on Exception {
-      emit(state.copyWith(error: () => PasswordChangeError(), loading: false));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "wrong-password") {
+        emit(state.copyWith(error: () => WrongCurrentPasswordError(), loading: false));
+      } else {
+        emit(state.copyWith(error: () => PasswordChangeError(), loading: false));
+      }
     }
   }
 
   void checkAuthProvider() {
     List<String> providers = userRepository.checkAuthProvider();
-    if (providers.contains('google.com')) {
-      emit(state.copyWith(googleProvider: true));
-    }
-    if (providers.contains('password')) {
-      emit(state.copyWith(passwordProvider: true));
-    }
+    List<MyProvider> myProviders = providers.map((provider) => MyProviderX.fromString(provider)).toList();
+    emit(state.copyWith(providers: myProviders));
   }
 }
