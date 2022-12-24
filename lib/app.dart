@@ -10,6 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:deep_conference/domain/repositories/speaker_repository.dart';
 import 'application/logic/authentication_cubit.dart';
+import 'application/logic/contacts_cubit.dart';
 import 'application/logic/navigation_cubit.dart';
 import 'application/logic/schedule_cubit.dart';
 import 'application/logic/user_cubit.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
         ),
         RepositoryProvider<SpeakerRepository>(
           create: (context) => SpeakerRepository(firestore: firestore),
-        )
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -58,6 +59,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<UserCubit>(
             create: (context) => UserCubit(context.read<UserRepository>()),
+          ),
+          BlocProvider<ContactsCubit>(
+            create: (context) => ContactsCubit(),
           )
         ],
         child: MaterialApp(

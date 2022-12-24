@@ -1,9 +1,11 @@
+import 'package:deep_conference/application/presentation/qr_scan_screen.dart';
 import 'package:deep_conference/application/widgets/appbar_items.dart';
 import 'package:deep_conference/application/widgets/more_menu_widget.dart';
 import 'package:deep_conference/constants/my_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import '../../Utilities/utils.dart';
 import '../../constants/my_icons.dart';
 import '../logic/user_cubit.dart';
@@ -67,9 +69,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(15),
-                        child: Image.asset(
-                          'images/qr_placeholder.jpg',
-                          height: 180,
+                        child: QrImage(
+                          size: 180,
+                          backgroundColor: MyColors.colorFFFFFF,
+                          data: 'BEGIN:VCARD\n'
+                              'VERSION:3.0\n'
+                              'N:${state.lastName};${state.firstName};;;\n'
+                              'TEL;TYPE=HOME:${state.phoneNumber}\n'
+                              'END:VCARD',
                         ),
                       ),
                       const SizedBox(
@@ -103,7 +110,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       backgroundColor: MyColors.color772DFF,
                       padding: const EdgeInsets.only(right: 10, left: 10, top: 8, bottom: 8),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const QRScanScreen(),
+                        ),
+                      );
+                    },
                     icon: Image.asset(
                       MyIcons.qrIcon,
                       height: 24,
