@@ -12,13 +12,11 @@ class QRScannerOverlay extends StatelessWidget {
         (MediaQuery.of(context).size.width < 400 || MediaQuery.of(context).size.height < 400) ? 200.0 : 330.0;
     return Stack(children: [
       ColorFiltered(
-        colorFilter: ColorFilter.mode(overlayColour, BlendMode.srcOut), // This one will create the magic
+        colorFilter: ColorFilter.mode(overlayColour, BlendMode.srcOut),
         child: Stack(
           children: [
             Container(
-              decoration: const BoxDecoration(
-                  color: MyColors.color772DFF,
-                  backgroundBlendMode: BlendMode.dstOut), // This one will handle background + difference out
+              decoration: const BoxDecoration(color: MyColors.color772DFF, backgroundBlendMode: BlendMode.dstOut),
             ),
             Align(
               alignment: Alignment.center,
@@ -48,7 +46,6 @@ class QRScannerOverlay extends StatelessWidget {
   }
 }
 
-// Creates the white borders
 class BorderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
