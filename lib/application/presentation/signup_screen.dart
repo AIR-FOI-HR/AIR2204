@@ -51,7 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           if (state.error) {
             context.read<AuthenticationCubit>().initState();
             Navigator.of(context).pop(true);
-            Utils.showSnackBar(state.signupErrorMessage?.message(context), context);
+            Utils.showSnackBar(text: state.signupErrorMessage?.message(context), context: context, warning: true);
           }
           if (state.loading == true) {
             showDialog(

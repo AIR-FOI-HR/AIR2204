@@ -1,18 +1,11 @@
 part of 'contacts_cubit.dart';
 
 class ContactsState extends Equatable {
-  final String? firstName;
-  final String? lastName;
-  final String? phoneNumber;
   final bool contactAdded;
+  final dynamic error;
 
-  const ContactsState({
-    this.firstName = "",
-    this.lastName = "",
-    this.phoneNumber = "",
-    this.contactAdded = false,
-  });
+  const ContactsState({this.contactAdded = false, this.error});
 
   @override
-  List<Object?> get props => [firstName, lastName, phoneNumber, contactAdded];
+  List<Object?> get props => [contactAdded, error];
 }

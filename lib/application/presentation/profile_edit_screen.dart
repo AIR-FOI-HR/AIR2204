@@ -64,7 +64,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       body: BlocConsumer<UserCubit, UserState>(
         listener: (context, state) {
           if (state.error != null) {
-            Utils.showSnackBar(state.error?.message(context), context);
+            Utils.showSnackBar(text: state.error?.message(context), context: context, warning: true);
           }
           if (state.userUpdated) {
             Navigator.of(context).pop();

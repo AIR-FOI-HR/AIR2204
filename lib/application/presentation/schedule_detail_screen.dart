@@ -7,6 +7,7 @@ import 'package:deep_conference/domain/models/schedule_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
+import '../../Utilities/utils.dart';
 import '../../constants/my_colors.dart';
 import '../../domain/models/speaker.dart';
 import '../../domain/repositories/speaker_repository.dart';
@@ -60,6 +61,8 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                                     context
                                         .read<SavedScheduleCubit>()
                                         .updatePersonalSchedule(widget.scheduleItem, false);
+                                    Utils.showSnackBar(
+                                        text: "Item removed from your schedule!", context: context, itemDetail: true);
                                   }),
                                 );
                               } else {
@@ -69,6 +72,8 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                                     context
                                         .read<SavedScheduleCubit>()
                                         .updatePersonalSchedule(widget.scheduleItem, true);
+                                    Utils.showSnackBar(
+                                        text: "Item added to your schedule!", context: context, itemDetail: true);
                                   }),
                                 );
                               }

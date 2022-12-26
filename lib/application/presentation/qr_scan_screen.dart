@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:deep_conference/Utilities/utils.dart';
+import 'package:deep_conference/application/presentation/qr_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../constants/my_colors.dart';
 import '../logic/contacts_cubit.dart';
@@ -28,76 +32,91 @@ class _QRScanScreenState extends State<QRScanScreen> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
-        title: const Text('Scan a QR code'),
+        automaticallyImplyLeading: false,
         actions: [
-          IconButton(
-            color: Colors.white,
-            icon: ValueListenableBuilder(
-              valueListenable: cameraController.torchState,
-              builder: (context, state, child) {
-                switch (state) {
-                  case TorchState.off:
-                    return const Icon(Icons.flash_off_rounded, color: MyColors.color9B9A9B);
-                  case TorchState.on:
-                    return const Icon(Icons.flash_on_rounded, color: MyColors.colorFFFFFF);
-                }
-              },
+          Padding(
+            padding: const EdgeInsets.only(right: 20, top: 20),
+            child: Row(
+              children: [
+                IconButton(
+                  color: Colors.white,
+                  icon: ValueListenableBuilder(
+                    valueListenable: cameraController.torchState,
+                    builder: (context, state, child) {
+                      switch (state) {
+                        case TorchState.off:
+                          return const Icon(Icons.flash_off_rounded, color: MyColors.color9B9A9B);
+                        case TorchState.on:
+                          return const Icon(Icons.flash_on_rounded, color: MyColors.colorFFFFFF);
+                      }
+                    },
+                  ),
+                  iconSize: 32,
+                  onPressed: () => cameraController.toggleTorch(),
+                ),
+                IconButton(
+                  color: Colors.white,
+                  icon: const Icon(Icons.switch_camera),
+                  iconSize: 32,
+                  onPressed: () => cameraController.switchCamera(),
+                ),
+              ],
             ),
-            iconSize: 24,
-            onPressed: () => cameraController.toggleTorch(),
-          ),
-          IconButton(
-            color: Colors.white,
-            icon: const Icon(Icons.switch_camera),
-            iconSize: 24,
-            onPressed: () => cameraController.switchCamera(),
           ),
         ],
       ),
       body: BlocConsumer<ContactsCubit, ContactsState>(
         listener: (context, state) {
           if (state.contactAdded) {
-            if (state.firstName != "" || state.lastName != "") {
-              Utils.showSnackBar("${state.firstName} ${state.lastName} added to your contacts!", context);
-            } else {
-              Utils.showSnackBar("successfully added to your contacts!", context);
+            if (state.error != null) {
+              Utils.showSnackBar(text: state.error.message, context: context);
             }
-            Navigator.of(context).pop();
+            if (state.contactAdded) {
+              if (Platform.isIOS) {
+                Utils.showSnackBar(text: AppLocalizations.of(context)!.addedToContacts, context: context);
+              }
+              Navigator.of(context).pop();
+            }
           }
         },
         builder: (context, state) {
-          return MobileScanner(
-            allowDuplicates: false,
-            controller: cameraController,
-            onDetect: (barcode, args) async {
-              if (barcode.rawValue == null) {
-                Utils.showSnackBar("Failed to scan a barcode", context);
-              } else {
-                final String? firstName = barcode.contactInfo?.name?.first;
-                final String? lastName = barcode.contactInfo?.name?.last;
-                final String? phoneNumber = barcode.contactInfo?.phones?[0].number;
-                //await context.read<ContactsCubit>().addContact(firstName, lastName, phoneNumber);
-                await context.read<ContactsCubit>().addContact(firstName, lastName, phoneNumber);
-              }
-            },
+          return Stack(
+            children: [
+              MobileScanner(
+                allowDuplicates: false,
+                controller: cameraController,
+                onDetect: (barcode, args) async {
+                  if (barcode.rawValue == null) {
+                    Utils.showSnackBar(text: AppLocalizations.of(context)!.failQrScanned, context: context);
+                  } else {
+                    if (barcode.contactInfo != null) {
+                      final String? firstName = barcode.contactInfo?.name?.first;
+                      final String? lastName = barcode.contactInfo?.name?.last;
+                      String? phoneNumber = "";
+                      String? email = "";
+                      if (barcode.contactInfo!.phones!.isNotEmpty) {
+                        phoneNumber = barcode.contactInfo?.phones?[0].number;
+                      }
+                      if (barcode.contactInfo!.emails.isNotEmpty) {
+                        email = barcode.contactInfo?.emails[0].address;
+                      }
+                      if (Platform.isAndroid) {
+                        await context.read<ContactsCubit>().addContactAndroid(firstName, lastName, phoneNumber, email);
+                      } else if (Platform.isIOS) {
+                        await context.read<ContactsCubit>().addContactIOS(firstName, lastName, phoneNumber, email);
+                      }
+                    } else {
+                      Utils.showSnackBar(
+                          text: AppLocalizations.of(context)!.invalidQrScanned, context: context, warning: true);
+                    }
+                  }
+                },
+              ),
+              QRScannerOverlay(overlayColour: MyColors.color000000.withOpacity(0.5))
+            ],
           );
         },
       ),
     );
   }
-
-  // Future<void> addContact(String? firstName, String? lastName, String? phoneNumber) async {
-  //   final PermissionStatus permissionStatus = await Permission.contacts.request();
-  //   if (permissionStatus.isGranted) {
-  //     final Contact contact = Contact.fromVCard(
-  //       'BEGIN:VCARD\n'
-  //       'VERSION:3.0\n'
-  //       'N:$lastName;$firstName;;;\n'
-  //       'TEL;TYPE=HOME:$phoneNumber\n'
-  //       'END:VCARD',
-  //     );
-
-  //     await FlutterContacts.insertContact(contact);
-  //   }
-  // }
 }

@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../../Utilities/utils.dart';
 import '../../constants/my_icons.dart';
+import '../logic/contacts_cubit.dart';
 import '../logic/user_cubit.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -43,10 +44,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: BlocConsumer<UserCubit, UserState>(
         listener: (context, state) {
           if (state.error != null) {
-            Utils.showSnackBar(state.error?.message(context), context);
+            Utils.showSnackBar(text: state.error?.message(context), context: context, warning: true);
           }
           if (state.userUpdated) {
-            Utils.showSnackBar(AppLocalizations.of(context)!.userUpdateSuccessful, context);
+            Utils.showSnackBar(text: AppLocalizations.of(context)!.userUpdateSuccessful, context: context);
           }
         },
         builder: (context, state) {
@@ -72,11 +73,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: QrImage(
                           size: 180,
                           backgroundColor: MyColors.colorFFFFFF,
-                          data: 'BEGIN:VCARD\n'
-                              'VERSION:3.0\n'
-                              'N:${state.lastName};${state.firstName};;;\n'
-                              'TEL;TYPE=HOME:${state.phoneNumber}\n'
-                              'END:VCARD',
+                          data: context
+                              .read<ContactsCubit>()
+                              .userDataToVCard(state.firstName, state.lastName, state.phoneNumber, state.email),
                         ),
                       ),
                       const SizedBox(

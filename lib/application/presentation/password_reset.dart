@@ -37,7 +37,7 @@ class _PasswordResetState extends State<PasswordReset> {
           if (state.error) {
             context.read<AuthenticationCubit>().initState();
             Navigator.of(context).pop(true);
-            Utils.showSnackBar(state.resetErrorMessage?.message(context), context);
+            Utils.showSnackBar(text: state.resetErrorMessage?.message(context), context: context, warning: true);
           }
           if (state.loading == true) {
             showDialog(
@@ -49,7 +49,7 @@ class _PasswordResetState extends State<PasswordReset> {
             );
           }
           if (state.resetEmail == true) {
-            Utils.showSnackBar(AppLocalizations.of(context)!.passwordResetEmailSent, context);
+            Utils.showSnackBar(text: AppLocalizations.of(context)!.passwordResetEmailSent, context: context);
             Navigator.of(context).popUntil((route) => route.isFirst);
           }
         },

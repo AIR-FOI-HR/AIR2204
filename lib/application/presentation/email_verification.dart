@@ -40,7 +40,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       body: BlocConsumer<AuthenticationCubit, AuthenticationState>(
         listener: (context, state) {
           if (state.error) {
-            Utils.showSnackBar(state.validateError?.message(context), context);
+            Utils.showSnackBar(text: state.validateError?.message(context), context: context, warning: true);
           }
         },
         builder: (context, authState) {
