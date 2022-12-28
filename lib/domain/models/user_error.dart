@@ -29,7 +29,7 @@ class FailedUpdateError implements UserError {
 class WrongCurrentPasswordError implements UserError {
   @override
   String message(BuildContext context) {
-    return "The current password you provided is incorrect";
+    return AppLocalizations.of(context)!.wrongCurrentPassword;
   }
 }
 

@@ -235,5 +235,11 @@
     },
     "contactPermissionError": "Please grant contact permission to add contacts",
     "@contactPermissionError": {
+    },
+    "itemAddedLabel": "Item added to your schedule!",
+    "@itemAddedLabel": {
+    },
+    "itemRemovedLabel": "Item removed from your schedule!",
+    "@itemRemovedLabel": {
     }
 }

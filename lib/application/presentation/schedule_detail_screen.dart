@@ -62,7 +62,9 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                                         .read<SavedScheduleCubit>()
                                         .updatePersonalSchedule(widget.scheduleItem, false);
                                     Utils.showSnackBar(
-                                        text: "Item removed from your schedule!", context: context, itemDetail: true);
+                                        text: AppLocalizations.of(context)!.itemRemovedLabel,
+                                        context: context,
+                                        itemDetail: true);
                                   }),
                                 );
                               } else {
@@ -73,7 +75,9 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                                         .read<SavedScheduleCubit>()
                                         .updatePersonalSchedule(widget.scheduleItem, true);
                                     Utils.showSnackBar(
-                                        text: "Item added to your schedule!", context: context, itemDetail: true);
+                                        text: AppLocalizations.of(context)!.itemAddedLabel,
+                                        context: context,
+                                        itemDetail: true);
                                   }),
                                 );
                               }
@@ -184,7 +188,6 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.only(left: 32, right: 32, top: 10),
-                //.horizontal
                 child: SafeArea(
                   top: false,
                   child: Html(data: widget.scheduleItem.description, style: {
