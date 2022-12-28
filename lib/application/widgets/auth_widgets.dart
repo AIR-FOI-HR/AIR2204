@@ -10,9 +10,11 @@ class TextFieldWidget extends StatelessWidget {
   final TextInputType? keyboardType;
   final String? errorText;
   final void Function(String)? onChanged;
+  final bool enabled;
 
   const TextFieldWidget(
       {super.key,
+      this.enabled = true,
       this.keyboardType,
       this.controller,
       this.label,
@@ -24,6 +26,7 @@ class TextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      enabled: enabled,
       onChanged: onChanged,
       keyboardType: keyboardType,
       controller: controller,

@@ -83,6 +83,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
               padding: const EdgeInsets.only(top: 105, left: 40, right: 40, bottom: 40),
               children: [
                 TextFieldWidget(
+                  enabled: false,
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   label: AppLocalizations.of(context)!.email,
