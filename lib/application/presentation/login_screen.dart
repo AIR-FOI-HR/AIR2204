@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
             if (state.error) {
               context.read<AuthenticationCubit>().initState();
               Navigator.of(context).pop(true);
-              Utils.showSnackBar(state.loginErrorMessage?.message(context), context);
+              Utils.showSnackBar(text: state.loginErrorMessage?.message(context), context: context, warning: true);
             }
             if (state.loading == true) {
               showDialog(

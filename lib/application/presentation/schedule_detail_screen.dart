@@ -7,6 +7,7 @@ import 'package:deep_conference/domain/models/schedule_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
+import '../../Utilities/utils.dart';
 import '../../constants/my_colors.dart';
 import '../../domain/models/speaker.dart';
 import '../../domain/repositories/speaker_repository.dart';
@@ -60,6 +61,10 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                                     context
                                         .read<SavedScheduleCubit>()
                                         .updatePersonalSchedule(widget.scheduleItem, false);
+                                    Utils.showSnackBar(
+                                        text: AppLocalizations.of(context)!.itemRemovedLabel,
+                                        context: context,
+                                        itemDetail: true);
                                   }),
                                 );
                               } else {
@@ -69,6 +74,10 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                                     context
                                         .read<SavedScheduleCubit>()
                                         .updatePersonalSchedule(widget.scheduleItem, true);
+                                    Utils.showSnackBar(
+                                        text: AppLocalizations.of(context)!.itemAddedLabel,
+                                        context: context,
+                                        itemDetail: true);
                                   }),
                                 );
                               }
@@ -179,7 +188,6 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.only(left: 32, right: 32, top: 10),
-                //.horizontal
                 child: SafeArea(
                   top: false,
                   child: Html(data: widget.scheduleItem.description, style: {

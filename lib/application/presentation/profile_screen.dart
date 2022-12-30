@@ -1,11 +1,14 @@
+import 'package:deep_conference/application/presentation/qr_scan_screen.dart';
 import 'package:deep_conference/application/widgets/appbar_items.dart';
 import 'package:deep_conference/application/widgets/more_menu_widget.dart';
 import 'package:deep_conference/constants/my_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import '../../Utilities/utils.dart';
 import '../../constants/my_icons.dart';
+import '../logic/contacts_cubit.dart';
 import '../logic/user_cubit.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -41,10 +44,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: BlocConsumer<UserCubit, UserState>(
         listener: (context, state) {
           if (state.error != null) {
-            Utils.showSnackBar(state.error?.message(context), context);
+            Utils.showSnackBar(text: state.error?.message(context), context: context, warning: true);
           }
           if (state.userUpdated) {
-            Utils.showSnackBar(AppLocalizations.of(context)!.userUpdateSuccessful, context);
+            Utils.showSnackBar(text: AppLocalizations.of(context)!.userUpdateSuccessful, context: context);
           }
         },
         builder: (context, state) {
@@ -67,9 +70,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(15),
-                        child: Image.asset(
-                          'images/qr_placeholder.jpg',
-                          height: 180,
+                        child: QrImage(
+                          size: 180,
+                          backgroundColor: MyColors.colorFFFFFF,
+                          data: context
+                              .read<ContactsCubit>()
+                              .userDataToVCard(state.firstName, state.lastName, state.phoneNumber, state.email),
                         ),
                       ),
                       const SizedBox(
@@ -103,7 +109,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       backgroundColor: MyColors.color772DFF,
                       padding: const EdgeInsets.only(right: 10, left: 10, top: 8, bottom: 8),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const QRScanScreen(),
+                        ),
+                      );
+                    },
                     icon: Image.asset(
                       MyIcons.qrIcon,
                       height: 24,

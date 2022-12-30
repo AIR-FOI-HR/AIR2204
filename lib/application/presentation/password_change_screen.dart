@@ -63,7 +63,7 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
           if (state.error != null) {
             context.read<UserCubit>().initState();
             Navigator.of(context).pop();
-            Utils.showSnackBar(state.error?.message(context), context);
+            Utils.showSnackBar(text: state.error?.message(context), context: context, warning: true);
           }
           if (state.userUpdated) {
             Navigator.of(context).pop();

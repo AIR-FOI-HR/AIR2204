@@ -64,7 +64,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       body: BlocConsumer<UserCubit, UserState>(
         listener: (context, state) {
           if (state.error != null) {
-            Utils.showSnackBar(state.error?.message(context), context);
+            Utils.showSnackBar(text: state.error?.message(context), context: context, warning: true);
           }
           if (state.userUpdated) {
             Navigator.of(context).pop();
@@ -83,6 +83,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
               padding: const EdgeInsets.only(top: 105, left: 40, right: 40, bottom: 40),
               children: [
                 TextFieldWidget(
+                  enabled: false,
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   label: AppLocalizations.of(context)!.email,

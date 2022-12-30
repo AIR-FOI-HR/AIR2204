@@ -217,5 +217,29 @@
     },
     "speakerLabel": "Speaker" ,
     "@speakerLabel": {
+    },
+    "addedToContacts": "Successfully added to your contacts!" ,
+    "@addedToContacts": {
+    },
+    "wrongCurrentPassword": "The current password you provided is incorrect",
+    "@wrongCurrentPassword": {
+    },
+    "failQrScanned": "Failed to scan a barcode!" ,
+    "@failQrScanned": {
+    },
+    "invalidQrScanned": "Please scan a barcode containing contact information!" ,
+    "@invalidQrScanned": {
+    },
+    "addContactError": "There has been an error adding the contact.",
+    "@addContactError": {
+    },
+    "contactPermissionError": "Please grant contact permission to add contacts",
+    "@contactPermissionError": {
+    },
+    "itemAddedLabel": "Item added to your schedule!",
+    "@itemAddedLabel": {
+    },
+    "itemRemovedLabel": "Item removed from your schedule!",
+    "@itemRemovedLabel": {
     }
 }

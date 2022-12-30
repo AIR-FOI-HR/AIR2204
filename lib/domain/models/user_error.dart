@@ -29,13 +29,27 @@ class FailedUpdateError implements UserError {
 class WrongCurrentPasswordError implements UserError {
   @override
   String message(BuildContext context) {
-    return "The current password you provided is incorrect";
+    return AppLocalizations.of(context)!.wrongCurrentPassword;
   }
 }
 
 class PasswordChangeError implements UserError {
   @override
   String message(BuildContext context) {
-    return "There has been an error changing your user password";
+    return AppLocalizations.of(context)!.wrongCurrentPassword;
+  }
+}
+
+class AddContactError implements UserError {
+  @override
+  String message(BuildContext context) {
+    return AppLocalizations.of(context)!.addContactError;
+  }
+}
+
+class ContactPermissionError implements UserError {
+  @override
+  String message(BuildContext context) {
+    return AppLocalizations.of(context)!.contactPermissionError;
   }
 }
