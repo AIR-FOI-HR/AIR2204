@@ -12,16 +12,18 @@ import 'package:deep_conference/domain/repositories/speaker_repository.dart';
 import 'application/logic/authentication_cubit.dart';
 import 'application/logic/contacts_cubit.dart';
 import 'application/logic/navigation_cubit.dart';
+import 'application/logic/notification_cubit.dart';
 import 'application/logic/schedule_cubit.dart';
 import 'application/logic/user_cubit.dart';
 import 'application/presentation/root_screen.dart';
 import 'constants/theme_data.dart';
 import 'domain/repositories/authentication_repository.dart';
+import 'domain/repositories/local_storage_repository.dart';
+import 'domain/repositories/notification_repository.dart';
 import 'domain/repositories/user_repository.dart';
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-
   final firestore = FirebaseFirestore.instance;
   final googleSignIn = GoogleSignIn(scopes: ['email']);
   final auth = FirebaseAuth.instance;
@@ -45,6 +47,12 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<SpeakerRepository>(
           create: (context) => SpeakerRepository(firestore: firestore),
         ),
+        RepositoryProvider<NotificationRepository>(
+          create: (context) => NotificationRepository(),
+        ),
+        RepositoryProvider<LocalStorageRepository>(
+          create: (context) => LocalStorageRepository(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -62,7 +70,11 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<ContactsCubit>(
             create: (context) => ContactsCubit(),
-          )
+          ),
+          BlocProvider<NotificationCubit>(
+            create: (context) => NotificationCubit(context.read<AuthenticationRepository>(),
+                context.read<NotificationRepository>(), context.read<LocalStorageRepository>()),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

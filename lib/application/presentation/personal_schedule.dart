@@ -33,7 +33,7 @@ class _PersonalScheduleState extends State<PersonalSchedule> {
           AppLocalizations.of(context)!.personalScheduleTitle,
         ),
         actions: [
-          notificationBell(),
+          notificationBell(context),
         ],
       ),
       body: Column(

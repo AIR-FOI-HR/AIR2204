@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/my_colors.dart';
+import '../presentation/notification_screen.dart';
 
-Widget notificationBell() {
+Widget notificationBell(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.only(right: 8),
     child: InkWell(
@@ -11,7 +12,11 @@ Widget notificationBell() {
       radius: 50,
       borderRadius: BorderRadius.circular(50),
       onTap: () => {
-        // implement notification screen
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const NotificationScreen(),
+          ),
+        ),
       },
       child: const SizedBox(width: 50, child: Icon(Icons.notifications, size: 25)),
     ),

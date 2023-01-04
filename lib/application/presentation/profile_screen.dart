@@ -38,7 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         leading: const MoreMenuWidget(),
         actions: [
-          notificationBell(),
+          notificationBell(context),
         ],
       ),
       body: BlocConsumer<UserCubit, UserState>(
