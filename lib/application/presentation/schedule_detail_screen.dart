@@ -11,11 +11,13 @@ import '../../Utilities/utils.dart';
 import '../../constants/my_colors.dart';
 import '../../domain/models/speaker.dart';
 import '../../domain/repositories/speaker_repository.dart';
+import '../logic/notification_cubit.dart';
 import '../logic/saved_schedule_cubit.dart';
 import '../logic/speaker_cubit.dart';
 import '../widgets/error_widgets.dart';
 import '../widgets/my_category_time_text_label.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 class ScheduleDetailScreen extends StatefulWidget {
   const ScheduleDetailScreen({super.key, required this.scheduleItem});
@@ -27,6 +29,12 @@ class ScheduleDetailScreen extends StatefulWidget {
 }
 
 class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
+  @override
+  void initState() {
+    tz.initializeTimeZones();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -61,6 +69,9 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                                     context
                                         .read<SavedScheduleCubit>()
                                         .updatePersonalSchedule(widget.scheduleItem, false);
+                                    context
+                                        .read<NotificationCubit>()
+                                        .removeNotification(itemId: widget.scheduleItem.id);
                                     Utils.showSnackBar(
                                         text: AppLocalizations.of(context)!.itemRemovedLabel,
                                         context: context,
@@ -74,6 +85,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                                     context
                                         .read<SavedScheduleCubit>()
                                         .updatePersonalSchedule(widget.scheduleItem, true);
+                                    context.read<NotificationCubit>().createNotification(widget.scheduleItem);
                                     Utils.showSnackBar(
                                         text: AppLocalizations.of(context)!.itemAddedLabel,
                                         context: context,

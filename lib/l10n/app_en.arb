@@ -241,5 +241,35 @@
     },
     "itemRemovedLabel": "Item removed from your schedule!",
     "@itemRemovedLabel": {
+    },
+    "notificationsScreenTitle": "Notifications",
+    "@notificationsScreenTitle": {
+    },
+    "notifLabelStartOneHour": "Starts in one hour!\n",
+    "@notifLabelStartOneHour": {
+    },
+    "notifLabelSecond": " second ago",
+    "@notifLabelSecond": {
+    },
+    "notifLabelSeconds": " seconds ago",
+    "@notifLabelSeconds": {
+    },
+    "notifLabelMinute": " minute ago",
+    "@notifLabelMinute": {
+    },
+    "notifLabelMinutes": " minutes ago",
+    "@notifLabelMinutes": {
+    },
+    "notifLabelHour": " hour ago",
+    "@notifLabelHour": {
+    },
+    "notifLabelHours": " hours ago",
+    "@notifLabelHours": {
+    },
+    "notifLabelDay": " day ago",
+    "@notifLabelDay": {
+    },
+    "notifLabelDays": " days ago",
+    "@notifLabelDays": {
     }
 }

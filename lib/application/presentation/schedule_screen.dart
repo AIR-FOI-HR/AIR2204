@@ -36,7 +36,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           AppLocalizations.of(context)!.scheduleTitle,
         ),
         actions: [
-          notificationBell(),
+          notificationBell(context),
         ],
       ),
       body: Column(

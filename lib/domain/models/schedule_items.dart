@@ -24,6 +24,32 @@ class ScheduleItem extends Equatable {
       required this.hall,
       required this.category});
 
+  static ScheduleItem fromNotifJson(Map<String, dynamic> json) {
+    return ScheduleItem(
+      id: json['id'],
+      title: json['title'],
+      speaker: json['speaker'],
+      startTime: DateTime.parse(json['startTime']),
+      endTime: DateTime.parse(json['endTime']),
+      speakerId: json['speakerId'],
+      description: json['description'],
+      hall: json['hall'],
+      category: ScheduleItemCategoryX.fromString(json['category']),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "speaker": speaker,
+        "startTime": startTime.toString(),
+        "endTime": endTime.toString(),
+        "speakerId": speakerId,
+        "description": description,
+        "hall": hall,
+        "category": category.name,
+      };
+
   static ScheduleItem fromJson(Map<String, dynamic> json, String id) {
     return ScheduleItem(
       id: id,
