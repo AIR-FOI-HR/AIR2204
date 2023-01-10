@@ -271,5 +271,11 @@
     },
     "notifLabelDays": " days ago",
     "@notifLabelDays": {
+    },    
+    "shareWithNFC": "Share with NFC",
+    "@shareWithNFC": {
+    },    
+    "shareContactInfoLabel": "Please keep your devices close to share contact information.",
+    "@shareContactInfoLabel": {
     }
 }
