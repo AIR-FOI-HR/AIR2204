@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,13 +22,21 @@ class ContactsCubit extends Cubit<ContactsState> {
         'END:VCARD';
   }
 
-  Future<void> addContactIOS(String? firstName, String? lastName, String? phoneNumber, String? email) async {
+  Future<void> addContact(String vCard) async {
+    if (Platform.isAndroid) {
+      await _addContactAndroid(vCard);
+    } else if (Platform.isIOS) {
+      await _addContactIOS(vCard);
+    }
+  }
+
+  Future<void> _addContactIOS(String vCard) async {
     emit(const ContactsState());
 
     final PermissionStatus permissionStatus = await Permission.contacts.request();
 
     if (permissionStatus.isGranted) {
-      final Contact contact = Contact.fromVCard(userDataToVCard(firstName, lastName, phoneNumber, email));
+      final Contact contact = Contact.fromVCard(vCard);
       try {
         await FlutterContacts.insertContact(contact);
         emit(const ContactsState(contactAdded: true));
@@ -38,19 +48,29 @@ class ContactsCubit extends Cubit<ContactsState> {
     }
   }
 
-  Future<void> addContactAndroid(String? firstName, String? lastName, String? phoneNumber, String? email) async {
+  Future<void> _addContactAndroid(String vCard) async {
     emit(const ContactsState());
 
     final PermissionStatus permissionStatus = await Permission.contacts.request();
+    final Contact contact = Contact.fromVCard(vCard);
+
+    String phoneNumber = "";
+    String email = "";
+    if (contact.phones.isNotEmpty) {
+      phoneNumber = contact.phones[0].number;
+    }
+    if (contact.emails.isNotEmpty) {
+      email = contact.emails[0].address;
+    }
 
     if (permissionStatus.isGranted) {
       AndroidIntent intent = AndroidIntent(
         action: 'android.intent.action.INSERT',
         type: 'vnd.android.cursor.dir/contact',
         arguments: <String, dynamic>{
-          'name': '$firstName $lastName',
-          'email': '$email',
-          'phone': '$phoneNumber',
+          'name': '${contact.name.first} ${contact.name.last}',
+          'email': email,
+          'phone': phoneNumber,
         },
       );
 

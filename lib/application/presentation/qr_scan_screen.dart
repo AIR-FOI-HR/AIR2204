@@ -90,21 +90,7 @@ class _QRScanScreenState extends State<QRScanScreen> {
                     Utils.showSnackBar(text: AppLocalizations.of(context)!.failQrScanned, context: context);
                   } else {
                     if (barcode.contactInfo != null) {
-                      final String? firstName = barcode.contactInfo?.name?.first;
-                      final String? lastName = barcode.contactInfo?.name?.last;
-                      String? phoneNumber = "";
-                      String? email = "";
-                      if (barcode.contactInfo!.phones!.isNotEmpty) {
-                        phoneNumber = barcode.contactInfo?.phones?[0].number;
-                      }
-                      if (barcode.contactInfo!.emails.isNotEmpty) {
-                        email = barcode.contactInfo?.emails[0].address;
-                      }
-                      if (Platform.isAndroid) {
-                        await context.read<ContactsCubit>().addContactAndroid(firstName, lastName, phoneNumber, email);
-                      } else if (Platform.isIOS) {
-                        await context.read<ContactsCubit>().addContactIOS(firstName, lastName, phoneNumber, email);
-                      }
+                      context.read<ContactsCubit>().addContact(barcode.rawValue!);
                     } else {
                       Utils.showSnackBar(
                           text: AppLocalizations.of(context)!.invalidQrScanned, context: context, warning: true);
