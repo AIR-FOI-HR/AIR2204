@@ -14,6 +14,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "35499122175-05tblvu1eifomddoqr161nogsl16jqj1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.deep.conference.deep_conference",
+            "certificate_hash": "e776ed9e36f5ff9466f973066dab706fc4e6d1c6"
+          }
+        },
+        {
+          "client_id": "35499122175-mdu4otr74m7i8jo584r27np0b5dio80h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.deep.conference.deep_conference",
+            "certificate_hash": "f11a1e01e70e047ef28b2f2f26454d2736e25445"
+          }
+        },
+        {
+          "client_id": "35499122175-mrhqut2g8mseil5jq1rfb46rggb2euds.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.deep.conference.deep_conference",
+            "certificate_hash": "df8b41f6e537b270567ddc054ec95cecaff96f2f"
+          }
+        },
+        {
           "client_id": "35499122175-nq9e0jukmn9tqck4p4rred0jls050c97.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +53,13 @@
             {
               "client_id": "35499122175-nq9e0jukmn9tqck4p4rred0jls050c97.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "35499122175-uladmafqni4f27qok0q0bncaer2rte5t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.deep.conference.deepConference"
+              }
             }
           ]
         }
