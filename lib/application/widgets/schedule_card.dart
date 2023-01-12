@@ -14,7 +14,7 @@ class ScheduleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: const EdgeInsets.fromLTRB(40, 0, 10, 0),
+      contentPadding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       title: Column(children: [
         MyCategoryTimeTextLabel(
             category: scheduleItem.category,
