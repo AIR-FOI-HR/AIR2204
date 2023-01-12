@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,48 +22,74 @@ class ContactsCubit extends Cubit<ContactsState> {
         'END:VCARD';
   }
 
-  Future<void> addContactIOS(String? firstName, String? lastName, String? phoneNumber, String? email) async {
-    emit(const ContactsState());
+  bool isValidVcard(String vCard) {
+    bool isValid = false;
+    if (vCard.substring(0, 11) == "BEGIN:VCARD" && vCard.substring(vCard.length - 9, vCard.length) == "END:VCARD") {
+      isValid = true;
+    }
+    return isValid;
+  }
 
-    final PermissionStatus permissionStatus = await Permission.contacts.request();
-
-    if (permissionStatus.isGranted) {
-      final Contact contact = Contact.fromVCard(userDataToVCard(firstName, lastName, phoneNumber, email));
-      try {
-        await FlutterContacts.insertContact(contact);
-        emit(const ContactsState(contactAdded: true));
-      } on Exception {
-        emit(const ContactsState(error: AddContactError));
+  Future<void> addContact(String vCard) async {
+    try {
+      if (!isValidVcard(vCard)) {
+        emit(ContactsState(error: InvalidVcardError()));
+        return;
       }
-    } else {
-      emit(const ContactsState(error: ContactPermissionError));
+      Contact contact = Contact.fromVCard(vCard);
+      final PermissionStatus permissionStatus = await Permission.contacts.request();
+      if (permissionStatus.isGranted) {
+        if (Platform.isAndroid) {
+          await _addContactAndroid(contact);
+        } else if (Platform.isIOS) {
+          await _addContactIOS(contact);
+        } else {
+          emit(const ContactsState(error: ContactPermissionError));
+        }
+      }
+    } on Exception {
+      emit(ContactsState(error: AddContactError()));
     }
   }
 
-  Future<void> addContactAndroid(String? firstName, String? lastName, String? phoneNumber, String? email) async {
+  Future<void> _addContactIOS(Contact contact) async {
     emit(const ContactsState());
 
-    final PermissionStatus permissionStatus = await Permission.contacts.request();
+    try {
+      await FlutterContacts.insertContact(contact);
+      emit(const ContactsState(contactAddedIOS: true));
+    } on Exception {
+      emit(ContactsState(error: AddContactError()));
+    }
+  }
 
-    if (permissionStatus.isGranted) {
-      AndroidIntent intent = AndroidIntent(
-        action: 'android.intent.action.INSERT',
-        type: 'vnd.android.cursor.dir/contact',
-        arguments: <String, dynamic>{
-          'name': '$firstName $lastName',
-          'email': '$email',
-          'phone': '$phoneNumber',
-        },
-      );
+  Future<void> _addContactAndroid(Contact contact) async {
+    emit(const ContactsState());
 
-      try {
-        await intent.launch();
-        emit(const ContactsState(contactAdded: true));
-      } on Exception {
-        emit(const ContactsState(error: AddContactError));
-      }
-    } else {
-      emit(const ContactsState(error: ContactPermissionError));
+    String phoneNumber = "";
+    String email = "";
+    if (contact.phones.isNotEmpty) {
+      phoneNumber = contact.phones[0].number;
+    }
+    if (contact.emails.isNotEmpty) {
+      email = contact.emails[0].address;
+    }
+
+    AndroidIntent intent = AndroidIntent(
+      action: 'android.intent.action.INSERT',
+      type: 'vnd.android.cursor.dir/contact',
+      arguments: <String, dynamic>{
+        'name': '${contact.name.first} ${contact.name.last}',
+        'email': email,
+        'phone': phoneNumber,
+      },
+    );
+
+    try {
+      await intent.launch();
+      emit(const ContactsState(contactAddedAndroid: true));
+    } on Exception {
+      emit(ContactsState(error: AddContactError()));
     }
   }
 }

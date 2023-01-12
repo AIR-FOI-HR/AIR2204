@@ -188,7 +188,7 @@
     "userUpdateSuccessful": "User data successfully updated",
     "@userUpdateSuccessful": {
     },
-    "addNewContact": "Add new contact",
+    "addNewContact": "Add contact with QR",
     "@addNewContact": {
     },    
     "changePasswordNoPassword": "Change password  \n* this user account has no password",
@@ -271,5 +271,18 @@
     },
     "notifLabelDays": " days ago",
     "@notifLabelDays": {
+    },    
+    "shareWithNFC": "Add contact with NFC",
+    "@shareWithNFC": {
+    },    
+    "shareContactInfoLabel": "Please keep your devices close to share contact information.",
+    "@shareContactInfoLabel": {
+    },    
+    "invalidNFCTagError": "Please scan a tag containing contact information.",
+    "@invalidNFCTagError": {
+    },    
+    "invalidNDEFTagFormatError": "The tag must be in NDEF format!",
+    "@invalidNDEFTagFormatError": {
     }
+    
 }

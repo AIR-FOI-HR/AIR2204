@@ -47,6 +47,13 @@ class AddContactError implements UserError {
   }
 }
 
+class InvalidVcardError implements UserError {
+  @override
+  String message(BuildContext context) {
+    return AppLocalizations.of(context)!.invalidNFCTagError;
+  }
+}
+
 class ContactPermissionError implements UserError {
   @override
   String message(BuildContext context) {

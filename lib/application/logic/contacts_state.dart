@@ -1,11 +1,13 @@
 part of 'contacts_cubit.dart';
 
 class ContactsState extends Equatable {
-  final bool contactAdded;
+  final bool contactAddedAndroid;
+  final bool contactAddedIOS;
+
   final dynamic error;
 
-  const ContactsState({this.contactAdded = false, this.error});
+  const ContactsState({this.contactAddedAndroid = false, this.contactAddedIOS = false, this.error});
 
   @override
-  List<Object?> get props => [contactAdded, error];
+  List<Object?> get props => [contactAddedAndroid, contactAddedIOS, error];
 }

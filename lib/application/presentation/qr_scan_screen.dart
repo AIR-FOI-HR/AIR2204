@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:deep_conference/Utilities/utils.dart';
 import 'package:deep_conference/application/presentation/qr_overlay.dart';
 import 'package:flutter/material.dart';
@@ -67,16 +65,13 @@ class _QRScanScreenState extends State<QRScanScreen> {
       ),
       body: BlocConsumer<ContactsCubit, ContactsState>(
         listener: (context, state) {
-          if (state.contactAdded) {
-            if (state.error != null) {
-              Utils.showSnackBar(text: state.error.message, context: context);
+          if (state.error != null) {
+            Utils.showSnackBar(text: state.error?.message(context), context: context);
+          } else if (state.contactAddedAndroid || state.contactAddedIOS) {
+            if (state.contactAddedIOS) {
+              Utils.showSnackBar(text: AppLocalizations.of(context)!.addedToContacts, context: context);
             }
-            if (state.contactAdded) {
-              if (Platform.isIOS) {
-                Utils.showSnackBar(text: AppLocalizations.of(context)!.addedToContacts, context: context);
-              }
-              Navigator.of(context).pop();
-            }
+            Navigator.of(context).pop();
           }
         },
         builder: (context, state) {
@@ -90,21 +85,7 @@ class _QRScanScreenState extends State<QRScanScreen> {
                     Utils.showSnackBar(text: AppLocalizations.of(context)!.failQrScanned, context: context);
                   } else {
                     if (barcode.contactInfo != null) {
-                      final String? firstName = barcode.contactInfo?.name?.first;
-                      final String? lastName = barcode.contactInfo?.name?.last;
-                      String? phoneNumber = "";
-                      String? email = "";
-                      if (barcode.contactInfo!.phones!.isNotEmpty) {
-                        phoneNumber = barcode.contactInfo?.phones?[0].number;
-                      }
-                      if (barcode.contactInfo!.emails.isNotEmpty) {
-                        email = barcode.contactInfo?.emails[0].address;
-                      }
-                      if (Platform.isAndroid) {
-                        await context.read<ContactsCubit>().addContactAndroid(firstName, lastName, phoneNumber, email);
-                      } else if (Platform.isIOS) {
-                        await context.read<ContactsCubit>().addContactIOS(firstName, lastName, phoneNumber, email);
-                      }
+                      context.read<ContactsCubit>().addContact(barcode.rawValue!);
                     } else {
                       Utils.showSnackBar(
                           text: AppLocalizations.of(context)!.invalidQrScanned, context: context, warning: true);

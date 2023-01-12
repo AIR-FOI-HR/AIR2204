@@ -1,3 +1,4 @@
+import 'package:deep_conference/application/presentation/nfc_screen.dart';
 import 'package:deep_conference/application/presentation/qr_scan_screen.dart';
 import 'package:deep_conference/application/widgets/appbar_items.dart';
 import 'package:deep_conference/application/widgets/more_menu_widget.dart';
@@ -86,7 +87,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge!
-                              .copyWith(color: MyColors.color772DFF, fontSize: 20, overflow: TextOverflow.visible)),
+                              .copyWith(color: MyColors.color9B9A9B, fontSize: 20, overflow: TextOverflow.visible)),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: MyColors.color772DFF,
+                          padding: const EdgeInsets.only(right: 10, left: 10, top: 8, bottom: 8),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const NFCScreen(),
+                            ),
+                          );
+                        },
+                        icon: Image.asset(
+                          MyIcons.nfcIcon,
+                          height: 24,
+                        ),
+                        label: Text(AppLocalizations.of(context)!.shareWithNFC,
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 14)),
+                      ),
                     ],
                   ),
                 ),
