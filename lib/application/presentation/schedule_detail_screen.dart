@@ -64,7 +64,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                             builder: (context, state) {
                               if (state.savedItems.contains(widget.scheduleItem)) {
                                 return MaterialButton(
-                                  child: const Icon(Icons.remove, color: MyColors.colorFFFFFF),
+                                  child: const Icon(Icons.remove, color: MyColors.color9B9A9B),
                                   onPressed: () => setState(() {
                                     context
                                         .read<SavedScheduleCubit>()
@@ -80,7 +80,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                                 );
                               } else {
                                 return MaterialButton(
-                                  child: const Icon(Icons.add, color: MyColors.colorFFFFFF),
+                                  child: const Icon(Icons.add, color: MyColors.color9B9A9B),
                                   onPressed: () => setState(() {
                                     context
                                         .read<SavedScheduleCubit>()
@@ -110,7 +110,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                                 category: widget.scheduleItem.category,
                                 icon: Icons.circle,
                                 startTime: widget.scheduleItem.startTime,
-                                endTime: widget.scheduleItem.startTime,
+                                endTime: widget.scheduleItem.endTime,
                                 textStyle: Theme.of(context).textTheme.labelMedium),
                             MyIconTextLabel(
                                 icon: Icons.location_pin,

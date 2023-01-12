@@ -43,7 +43,8 @@ Widget appBarGradient() {
   return Container(
     decoration: const BoxDecoration(
         gradient: LinearGradient(
-            colors: <Color>[Color.fromARGB(120, 119, 45, 255), Color.fromARGB(80, 0, 0, 0)],
+            colors: <Color>[Color.fromARGB(51, 119, 45, 255), Color.fromARGB(
+                26, 4, 3, 6)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter)),
   );

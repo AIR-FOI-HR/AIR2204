@@ -48,12 +48,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 height: 35,
                 child: Center(
                   child: ListView.separated(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 20, 0),
                       shrinkWrap: true,
                       itemCount: state.allDates.length,
                       scrollDirection: Axis.horizontal,
                       separatorBuilder: (context, index) {
                         return const SizedBox(
-                          width: 24,
+                          width: 20,
                         );
                       },
                       itemBuilder: (context, index) {
