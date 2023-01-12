@@ -8,7 +8,7 @@ class MyIconTextLabel extends StatelessWidget {
     required this.textStyle,
     required this.text,
     this.iconColor = MyColors.color9B9A9B,
-    this.spacing = 5,
+    this.spacing = 5.0,
     this.iconSize = 12,
   });
 
@@ -21,14 +21,15 @@ class MyIconTextLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Icon(
           icon,
           size: iconSize,
           color: iconColor,
         ),
-        const SizedBox(
-          width: 6,
+        SizedBox(
+          width: spacing,
         ),
         Text(
           text,

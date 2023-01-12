@@ -42,7 +42,7 @@
     "@forgotPassword": {
       "description": "forgot your password label"
     },
-    "personalScheduleTitle": "Personal Schedule",
+    "personalScheduleTitle": "Personal schedule",
     "@personalScheduleTitle": {
       "description": "title of the personal schedule screen"
     },
@@ -129,6 +129,8 @@
     },
     "passwordMatchError": "Passwords must match",
     "@passwordMatchError": {
+    }, "myScheduleTitle": "My schedule",
+    "@myScheduleTitle": {
     },
     "profileScreenTitle": "My profile",
     "@profileScreenTitle": {

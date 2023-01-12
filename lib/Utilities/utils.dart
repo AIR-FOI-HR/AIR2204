@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../application/logic/navigation_cubit.dart';
 import '../constants/my_colors.dart';
 import '../constants/nav_bar_items.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Utils {
   static showSnackBar({required String? text, required BuildContext context, bool? itemDetail, bool? warning}) {
@@ -29,7 +30,7 @@ class Utils {
           : const EdgeInsets.only(bottom: 60, left: 20, right: 20),
       action: itemDetail != null
           ? SnackBarAction(
-              label: 'My Schedule',
+              label: AppLocalizations.of(context)!.myScheduleTitle,
               textColor: MyColors.colorFB65BA,
               onPressed: () {
                 Navigator.of(context).pop();
