@@ -22,37 +22,49 @@ class ContactsCubit extends Cubit<ContactsState> {
         'END:VCARD';
   }
 
+  bool isValidVcard(String vCard) {
+    bool isValid = false;
+    if (vCard.substring(0, 11) == "BEGIN:VCARD" && vCard.substring(vCard.length - 9, vCard.length) == "END:VCARD") {
+      isValid = true;
+    }
+    return isValid;
+  }
+
   Future<void> addContact(String vCard) async {
-    if (Platform.isAndroid) {
-      await _addContactAndroid(vCard);
-    } else if (Platform.isIOS) {
-      await _addContactIOS(vCard);
-    }
-  }
-
-  Future<void> _addContactIOS(String vCard) async {
-    emit(const ContactsState());
-
-    final PermissionStatus permissionStatus = await Permission.contacts.request();
-
-    if (permissionStatus.isGranted) {
-      final Contact contact = Contact.fromVCard(vCard);
-      try {
-        await FlutterContacts.insertContact(contact);
-        emit(const ContactsState(contactAdded: true));
-      } on Exception {
-        emit(const ContactsState(error: AddContactError));
+    try {
+      if (!isValidVcard(vCard)) {
+        emit(ContactsState(error: InvalidVcardError()));
+        return;
       }
-    } else {
-      emit(const ContactsState(error: ContactPermissionError));
+      Contact contact = Contact.fromVCard(vCard);
+      final PermissionStatus permissionStatus = await Permission.contacts.request();
+      if (permissionStatus.isGranted) {
+        if (Platform.isAndroid) {
+          await _addContactAndroid(contact);
+        } else if (Platform.isIOS) {
+          await _addContactIOS(contact);
+        } else {
+          emit(const ContactsState(error: ContactPermissionError));
+        }
+      }
+    } on Exception {
+      emit(ContactsState(error: AddContactError()));
     }
   }
 
-  Future<void> _addContactAndroid(String vCard) async {
+  Future<void> _addContactIOS(Contact contact) async {
     emit(const ContactsState());
 
-    final PermissionStatus permissionStatus = await Permission.contacts.request();
-    final Contact contact = Contact.fromVCard(vCard);
+    try {
+      await FlutterContacts.insertContact(contact);
+      emit(const ContactsState(contactAddedIOS: true));
+    } on Exception {
+      emit(ContactsState(error: AddContactError()));
+    }
+  }
+
+  Future<void> _addContactAndroid(Contact contact) async {
+    emit(const ContactsState());
 
     String phoneNumber = "";
     String email = "";
@@ -63,25 +75,21 @@ class ContactsCubit extends Cubit<ContactsState> {
       email = contact.emails[0].address;
     }
 
-    if (permissionStatus.isGranted) {
-      AndroidIntent intent = AndroidIntent(
-        action: 'android.intent.action.INSERT',
-        type: 'vnd.android.cursor.dir/contact',
-        arguments: <String, dynamic>{
-          'name': '${contact.name.first} ${contact.name.last}',
-          'email': email,
-          'phone': phoneNumber,
-        },
-      );
+    AndroidIntent intent = AndroidIntent(
+      action: 'android.intent.action.INSERT',
+      type: 'vnd.android.cursor.dir/contact',
+      arguments: <String, dynamic>{
+        'name': '${contact.name.first} ${contact.name.last}',
+        'email': email,
+        'phone': phoneNumber,
+      },
+    );
 
-      try {
-        await intent.launch();
-        emit(const ContactsState(contactAdded: true));
-      } on Exception {
-        emit(const ContactsState(error: AddContactError));
-      }
-    } else {
-      emit(const ContactsState(error: ContactPermissionError));
+    try {
+      await intent.launch();
+      emit(const ContactsState(contactAddedAndroid: true));
+    } on Exception {
+      emit(ContactsState(error: AddContactError()));
     }
   }
 }

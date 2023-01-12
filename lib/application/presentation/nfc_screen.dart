@@ -20,13 +20,12 @@ class _NFCScreenState extends State<NFCScreen> {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       Ndef? ndef = Ndef.from(tag);
       if (ndef == null) {
-        Utils.showSnackBar(text: "The tag must be in NDEF format", context: context);
+        Utils.showSnackBar(text: AppLocalizations.of(context)!.invalidNDEFTagFormatError, context: context);
         return;
       } else {
         final payload = ndef.cachedMessage!.records.first.payload;
         String payloadAsString = String.fromCharCodes(payload).substring(3);
         context.read<ContactsCubit>().addContact(payloadAsString);
-        Utils.showSnackBar(text: "Tag: $payloadAsString", context: context);
         return;
       }
     });
@@ -41,29 +40,43 @@ class _NFCScreenState extends State<NFCScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        elevation: 0,
-        leading: backArrow(context),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 30, right: 30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              MyIcons.nfcSharing,
-              width: 300,
+    return BlocConsumer<ContactsCubit, ContactsState>(
+      listener: (context, state) {
+        if (state.error != null) {
+          Utils.showSnackBar(text: state.error?.message(context), context: context);
+        } else if (state.contactAddedAndroid || state.contactAddedIOS) {
+          if (state.contactAddedIOS) {
+            Utils.showSnackBar(text: AppLocalizations.of(context)!.addedToContacts, context: context);
+          }
+          Navigator.of(context).pop();
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            elevation: 0,
+            leading: backArrow(context),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.only(left: 30, right: 30),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  MyIcons.nfcSharing,
+                  width: 300,
+                ),
+                Text(
+                  AppLocalizations.of(context)!.shareContactInfoLabel,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
+              ],
             ),
-            Text(
-              AppLocalizations.of(context)!.shareContactInfoLabel,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.labelMedium,
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

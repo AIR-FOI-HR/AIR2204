@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:deep_conference/Utilities/utils.dart';
 import 'package:deep_conference/application/presentation/qr_overlay.dart';
 import 'package:flutter/material.dart';
@@ -67,16 +65,13 @@ class _QRScanScreenState extends State<QRScanScreen> {
       ),
       body: BlocConsumer<ContactsCubit, ContactsState>(
         listener: (context, state) {
-          if (state.contactAdded) {
-            if (state.error != null) {
-              Utils.showSnackBar(text: state.error.message, context: context);
+          if (state.error != null) {
+            Utils.showSnackBar(text: state.error?.message(context), context: context);
+          } else if (state.contactAddedAndroid || state.contactAddedIOS) {
+            if (state.contactAddedIOS) {
+              Utils.showSnackBar(text: AppLocalizations.of(context)!.addedToContacts, context: context);
             }
-            if (state.contactAdded) {
-              if (Platform.isIOS) {
-                Utils.showSnackBar(text: AppLocalizations.of(context)!.addedToContacts, context: context);
-              }
-              Navigator.of(context).pop();
-            }
+            Navigator.of(context).pop();
           }
         },
         builder: (context, state) {
